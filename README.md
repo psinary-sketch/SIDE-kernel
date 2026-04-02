@@ -1,15 +1,3 @@
-git tag -a v1.0 -m "Day 1 release: accompanies arXiv submission"
-
-git push origin v1.0
-
-```
-
-
-
-Then replace the README. Open `D:\\MY-Downloads\\SIDE-kernel\\README.md` in Notepad (or any text editor) and replace everything in it with this:
-
-```
-
 \# SIDE Kernel
 
 
