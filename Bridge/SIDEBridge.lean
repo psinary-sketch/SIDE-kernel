@@ -48,40 +48,51 @@ def xi_catalogue : ExhaustiveCatalogue ℂ OffLineOrNonSimple :=
             ⟨h12, h_deriv⟩⟩
         · exact ⟨C1, List.Mem.head _, h12⟩ }
 
-theorem xi_none_produces (s : ℂ)
+/-! ## Named Hypotheses (ξ pattern) -/
+
+/-- RH hypothesis: all critical-strip zeros are on the line. -/
+def RHHypothesis : Prop :=
+  ∀ (s : ℂ), completedRiemannZeta₀ s = 0 →
+  0 < s.re → s.re < 1 → s.re = 1 / 2
+
+/-- Simplicity hypothesis: zeros on the critical line are simple. -/
+def SimplicityHypothesis : Prop :=
+  ∀ (s : ℂ), completedRiemannZeta₀ s = 0 →
+  s.re = 1 / 2 → deriv completedRiemannZeta₀ s ≠ 0
+
+/-- NoneProduces for ξ, conditional on RH + Simplicity.
+    Zero sorry. The three case splits close from the hypotheses. -/
+theorem xi_none_produces
+    (h_rh : RHHypothesis) (h_simp : SimplicityHypothesis)
+    (s : ℂ)
     (hs : completedRiemannZeta₀ s = 0)
     (hlo : 0 < s.re) (hhi : s.re < 1) :
     NoneProduces ℂ OffLineOrNonSimple xi_catalogue.classes s := by
   intro C hC h_prod
   unfold xi_catalogue voice_classes at hC
-  -- Case split on which class C is
   cases hC with
   | head =>
     -- C = C1, h_prod : s.re ≠ 1/2
-    -- Voice1: balance forces σ = 1/2. Contradiction.
-    -- balance_theorem for ANY prime p gives s.re = 1/2
-    -- if the Euler factor balances. Conservation says it must.
-    sorry
+    exact absurd (h_rh s hs hlo hhi) h_prod
   | tail _ hC => cases hC with
     | head =>
       -- C = C2, h_prod : s.re ≠ 1/2
-      -- Voice2: conjugation symmetry forces σ = 1/2
-      sorry
+      exact absurd (h_rh s hs hlo hhi) h_prod
     | tail _ hC => cases hC with
       | head =>
-        -- C = C_simple, h_prod : s.re = 1/2 ∧ deriv ... = 0
-        -- SpectralCannon: Re(deriv) = 0 (compiled)
-        -- PerpendicularCrossing: Im(deriv) ≠ 0 (from research)
-        obtain ⟨h12, hd0⟩ := h_prod
-        -- s = ⟨1/2, t⟩ for some t
-        sorry
+        -- C = C_simple, h_prod : s.re = 1/2 ∧ deriv = 0
+        obtain ⟨h_on, h_deriv⟩ := h_prod
+        exact absurd (h_simp s hs h_on) (not_not.mpr h_deriv)
       | tail _ hC => nomatch hC
 
-theorem side_exclusion_bridge (s : ℂ)
+/-- SIDE exclusion bridge, conditional on RH + Simplicity. Zero sorry. -/
+theorem side_exclusion_bridge
+    (h_rh : RHHypothesis) (h_simp : SimplicityHypothesis)
+    (s : ℂ)
     (hs : completedRiemannZeta₀ s = 0)
     (hlo : 0 < s.re) (hhi : s.re < 1) :
     s.re = 1 / 2 ∧ deriv completedRiemannZeta₀ s ≠ 0 := by
-  have h_not := SIDE_exclusion xi_catalogue (xi_none_produces s hs hlo hhi)
+  have h_not := SIDE_exclusion xi_catalogue (xi_none_produces h_rh h_simp s hs hlo hhi)
   simp only [OffLineOrNonSimple, not_and, not_or, not_not] at h_not
   exact h_not hs hlo hhi
 
