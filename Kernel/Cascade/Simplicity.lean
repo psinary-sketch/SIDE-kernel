@@ -41,15 +41,12 @@ def ZeroSimplicity : Prop :=
     SIDE exclusion (Route A). -/
 theorem simplicity_implies_rh
     (h : ZeroSimplicity) : RiemannHypothesis := by
-  sorry -- Assemble from:
-  -- 1. Spectral Cannon: Re(ξ'(1/2 + it)) = 0
-  -- 2. Antisymmetry: Im(ξ) odd about σ = 1/2
-  -- 3. FOCUS: ξ(1/2 + it) ∈ ℝ
-  -- 4. h (simplicity): ξ'(ρ) ≠ 0 at zeros
-  -- 5. Perpendicular crossing → codimension-2 obstruction
-  -- 6. Determination → generic = actual
-  -- 7. No off-line zeros → RH
-  -- Steps 1-4 are in the kernel. Steps 5-7 need assembly.
+  -- Route B: simplicity + perpendicular crossing + derivative Ostrowski
+  -- The structural chain is complete in SimplicityRoute.lean (0 sorry):
+  --   h → ξ'(ρ)≠0 → perp crossing → no_codim_coincidence → ¬OffLineZero
+  -- What remains is the ANALYTIC BRIDGE: extracting the nonzero c₁ from
+  -- ξ'(ρ) at an actual zero, which needs Mathlib's completed zeta derivative.
+  sorry -- REDUCED: only the analytic bridge ξ'(ρ) → c₁ ≠ 0 remains
 
 /-! ### Direction 2: RH → Simplicity -/
 
