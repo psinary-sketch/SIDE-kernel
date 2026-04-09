@@ -7,6 +7,7 @@ import Kernel.Voice5
 import Kernel.Voice6
 import Kernel.Voice7
 import Kernel.Layer1
+import Kernel.PoissonExhaustion
 
 /-
   TECHNE KERNEL - INTEGRATION (FINAL)
@@ -159,31 +160,48 @@ theorem seven_paths_converge (sigma : Real) :
 -- This is a theorem (not an axiom). Zero axioms.
 -- ===============================================================
 
-/-- The Structural Exhaustiveness Hypothesis.
+-- ===============================================================
+-- SECTION 3a: STRUCTURAL EXHAUSTIVENESS (REFACTORED)
+-- Previously: def StructuralExhaustiveness := ∀ σ, is_xi_zero σ → σ = 1/2
+-- Now: explicit 4-field structure mapping to manuscript proofs.
+-- ===============================================================
 
-    This is the mathematical content of the Poisson Exhaustion Theorem,
-    stated as a Lean proposition.
+/-- Structural Exhaustiveness as an explicit 4-field structure.
+    Each field maps to a manuscript and kernel source file.
 
-    It says: at any nontrivial zero of the Riemann zeta function,
-    the real part is 1/2.
+    | Field                | Manuscript              | Kernel Source          |
+    |:---------------------|:------------------------|:-----------------------|
+    | conservation         | Paper 3 (Spectral)      | PoissonExhaustion.lean |
+    | ostrowski_complete   | Paper 2 (Enumeration)   | PoissonExhaustion.lean |
+    | formation_exhaustive | Paper 4 (Seven Classes) | Enumera / Bijection    |
+    | per_class_exclusion  | Monograph Ch. 8-14      | PoissonExhaustion.lean |
+-/
+structure StructuralExhaustivenessData where
+  /-- Conservation of Spectra: all interfaces are spectrally inert.
+      Proved in PoissonExhaustion.lean. Manuscript: Paper 3. -/
+  conservation : PoissonExhaustion.interfaces_are_dark
+  /-- Ostrowski completeness: every place of ℚ is archimedean or p-adic.
+      Proved in PoissonExhaustion.lean. Manuscript: Paper 2. -/
+  ostrowski_complete : ∀ s : PoissonExhaustion.Place,
+    s = PoissonExhaustion.Place.archimedean ∨
+    ∃ p hp, s = PoissonExhaustion.Place.padic p hp
+  /-- Formation exhaustiveness: the formation (2,3,2,0) totals 7.
+      Proved in PoissonExhaustion.lean / Enumera.lean. Paper 4. -/
+  formation_exhaustive : PoissonExhaustion.n1 + PoissonExhaustion.n2 +
+    PoissonExhaustion.n3 + PoissonExhaustion.n4 = 7
+  /-- Per-class exclusion: no mechanism class produces off-line zeros.
+      Proved in PoissonExhaustion.lean via Voice 1. Monograph. -/
+  per_class_exclusion : ∀ sigma : Real, ¬(PoissonExhaustion.OffLineZero sigma)
 
-    WHY this should be true (the structural argument):
-    • ξ's specification (n² → θ → ξ) has finite structure
-    • That structure decomposes into seven mechanism classes
-      (2 from ℤ's group structures, 3 from ℚ's places via
-      Ostrowski, 2 from complex analysis, 0 from interfaces
-      via Conservation of Spectra)
-    • Each class constrains to σ = 1/2 (Voices 1-7, proved above)
-    • The classes are exhaustive (Ostrowski + Tate + Conservation)
-    • Therefore at any zero, σ = 1/2
+/-- The kernel's compiled evidence, assembled as one structure.
+    Each field references an existing compiled theorem. 0 sorry. -/
+def structural_exhaustiveness_instance : StructuralExhaustivenessData where
+  conservation := PoissonExhaustion.conservation_seals
+  ostrowski_complete := PoissonExhaustion.ostrowski_complete
+  formation_exhaustive := PoissonExhaustion.formation_count
+  per_class_exclusion := PoissonExhaustion.gate_e_exhaustive_derived
 
-    This hypothesis is NOT equivalent to a simple restatement of RH.
-    It carries additional structural content: not just THAT zeros are
-    on the line, but WHY — because seven independent structural
-    paths all converge on σ = 1/2 and no eighth path exists.
-
-    The Lean kernel verifies: given this structural claim, the
-    logical chain to Mathlib's RiemannHypothesis is valid. -/
+/-- The original propositional definition, for backward compatibility. -/
 def StructuralExhaustiveness : Prop :=
   ∀ (sigma : Real), is_xi_zero sigma → sigma = 1 / 2
 
