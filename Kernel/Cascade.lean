@@ -4,6 +4,7 @@ import Kernel.Cascade.Simplicity
 import Kernel.Cascade.DAG
 import Kernel.Cascade.DerivativeExclusion
 import Kernel.Cascade.SimplicityRoute
+import Kernel.Trivium
 
 /-!
 # Cascade — The Equivalence Cascade
