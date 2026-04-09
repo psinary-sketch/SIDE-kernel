@@ -180,10 +180,13 @@ theorem seven_not_smooth : ¬is_two_three_smooth 7 := by
   have := h 7 h7 (dvd_refl 7)
   omega
 
-/-- T.4: Størmer bound - if n and n+1 are both {2,3}-smooth, then n ≤ 8. -/
+/-- T.4: Størmer bound - if n and n+1 are both {2,3}-smooth, then n ≤ 8.
+    Proof requires: (1) bounding n from smoothness (n = 2^a·3^b),
+    (2) finite check on bounded range. Both need Nat.factorization
+    infrastructure not available without heavier Mathlib imports. -/
 theorem stormer_bound : ∀ n : Nat,
     is_two_three_smooth n → is_two_three_smooth (n + 1) → n ≤ 8 := by
-  sorry -- Størmer: finite verification that consecutive {2,3}-smooth pairs stop at (8,9)
+  sorry
 
 -- ============================================================
 -- SECTION 4: FANO PLANE STRUCTURE
