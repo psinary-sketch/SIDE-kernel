@@ -181,9 +181,8 @@ theorem seven_not_smooth : ¬is_two_three_smooth 7 := by
   omega
 
 /-- T.4: Størmer bound - if n and n+1 are both {2,3}-smooth, then n ≤ 8.
-    Proof requires: (1) bounding n from smoothness (n = 2^a·3^b),
-    (2) finite check on bounded range. Both need Nat.factorization
-    infrastructure not available without heavier Mathlib imports. -/
+    Requires Nat.factorization to derive n = 2^a·3^b from smoothness,
+    then computational check on the bounded range. -/
 theorem stormer_bound : ∀ n : Nat,
     is_two_three_smooth n → is_two_three_smooth (n + 1) → n ≤ 8 := by
   sorry
