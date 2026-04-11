@@ -5,21 +5,8 @@ open techne_kernel
 
 namespace Formation
 
-/-
-  FORMATION: CATALOGOS Definitions 2.2-2.4 in Lean
-
-  A ForwardCatalogue reverses the ExhaustiveCatalogue logic.
-  Instead of: bad outcome → which class produced it?
-  It asks:    every element → some class governs it ∧ every class forces P.
-
-  CATALOGOS Chapter 19: SIDE operates across all identity levels
-  simultaneously. It asks what all structures TOGETHER permit.
-
-  The composition theorem (forward_exclusion) is TRIVIALLY VALID LOGIC.
-  The mathematical content lives in the INSTANTIATION:
-  - each_forces: each Voice proves its mechanism forces  = 1/2
-  - exhaustive: Conservation + Formation proves every zero is governed
--/
+/-! Proves `forward_exclusion`: if every forward mechanism class forces property P
+    and the classes exhaustively cover X, then P holds everywhere. -/
 
 /-- A forward mechanism class: a structural channel that, when active,
     forces property P. (Contrast with MechanismClass which says what
