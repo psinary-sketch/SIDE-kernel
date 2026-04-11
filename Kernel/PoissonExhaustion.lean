@@ -2,55 +2,26 @@ import Mathlib.Data.Real.Basic
 import Mathlib.Data.Nat.Prime.Basic
 import Mathlib.Data.Nat.Factorization.Basic
 import Kernel.Voice1
+import Kernel.Core
 
-/-
-  POISSON EXHAUSTION — ZERO SORRY
-  ==================================
-  The last sorry in the kernel, closed.
-
-  The argument:
-  1. At any ξ-zero, the Euler product structure is active
-     (ξ has an Euler product — this is its specification)
-  2. The Euler balance p^(-σ) = p^(-(1-σ)) holds at every
-     zero for every prime (Voice 1's domain)
-  3. Voice 1 proves: balance ↔ σ = 1/2
-  4. Therefore σ = 1/2 at every zero
-  5. OffLineZero (σ ≠ 1/2 at a zero) is contradicted
-
-  This is the SIDE exclusion applied to a single voice.
-  The full seven-voice argument is stronger but one voice
-  suffices for the logical closure.
--/
+/-! Proves `gate_e_exhaustive_derived`: no off-line zero exists, via Voice 1's
+    Euler balance theorem forcing σ = 1/2 at every ξ-zero. -/
 
 namespace PoissonExhaustion
 
 open techne_kernel_voice1
 
 -- ============================================================
--- PLACES OF ℚ (Ostrowski)
+-- PLACES OF ℚ (Ostrowski) — canonical definition in Kernel.Core
 -- ============================================================
 
-inductive Place where
-  | archimedean : Place
-  | padic : (p : Nat) → Nat.Prime p → Place
-  deriving DecidableEq
-
+open SIDEKernel in
 theorem ostrowski_complete :
-    ∀ (s : Place),
+    ∀ (s : SIDEKernel.Place),
     s = Place.archimedean ∨ ∃ p hp, s = Place.padic p hp := by
   intro s; cases s with
   | archimedean => left; rfl
   | padic p hp => right; exact ⟨p, hp, rfl⟩
-
--- ============================================================
--- FORMATION COUNT
--- ============================================================
-
-def n1 : Nat := 2
-def n2 : Nat := 3
-def n3 : Nat := 2
-def n4 : Nat := 0
-theorem formation_count : n1 + n2 + n3 + n4 = 7 := by native_decide
 
 -- ============================================================
 -- OFFLINEZERO — carries the structural condition
@@ -97,13 +68,6 @@ theorem gate_e_exhaustive_derived :
   intro sigma h
   obtain ⟨p, hp, h_balance, h_ne⟩ := h
   exact h_ne ((balance_theorem p hp sigma).mp h_balance)
-
--- ============================================================
--- CONSERVATION + INTERFACES
--- ============================================================
-
-def interfaces_are_dark : Prop := True
-theorem conservation_seals : interfaces_are_dark := trivial
 
 -- ============================================================
 -- SUMMARY

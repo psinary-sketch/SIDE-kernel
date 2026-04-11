@@ -1,4 +1,5 @@
 import Mathlib.Tactic
+import Kernel.Core
 
 namespace Bijection
 
@@ -22,6 +23,6 @@ theorem bij_bijective : Function.Bijective bij :=
 
 theorem mech_card : Fintype.card MechClass = 7 := by native_decide
 theorem id_card : Fintype.card IdElem = 7 := by native_decide
-theorem formation : 2 + 3 + 2 + 0 = 7 := by native_decide
+theorem formation : 2 + 3 + 2 + 0 = 7 := SIDEKernel.formation
 
 end Bijection

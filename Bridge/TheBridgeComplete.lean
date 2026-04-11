@@ -1,5 +1,6 @@
 import Mathlib.NumberTheory.Ostrowski
 import Mathlib.NumberTheory.LSeries.RiemannZeta
+import Kernel.Core
 
 /-! THE BRIDGE (Complete): Connecting abstract SIDE logic
     to Mathlib's riemannZeta.
@@ -97,7 +98,7 @@ theorem none_produce :
 -- THE BRIDGE
 -- ============================================================
 
-theorem formation : 2 + 3 + 2 + 0 = 7 := by native_decide
+theorem formation : 2 + 3 + 2 + 0 = 7 := SIDEKernel.formation
 
 def StructuralExhaustiveness : Prop :=
   (Fintype.card MechanismClass = 7) ∧

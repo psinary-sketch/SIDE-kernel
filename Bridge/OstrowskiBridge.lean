@@ -1,4 +1,5 @@
 import Mathlib.NumberTheory.Ostrowski
+import Kernel.Core
 /-!
 # OstrowskiBridge: Connecting Mathlib's Ostrowski to the SIDE Kernel
 
@@ -73,7 +74,7 @@ inductive TransformationStage where
 theorem formation_n2 : Fintype.card TransformationStage = 3 := by native_decide
 
 /-- (2, 3, 2, 0) = 7. -/
-theorem formation_count : 2 + 3 + 2 + 0 = 7 := by native_decide
+theorem formation_count : 2 + 3 + 2 + 0 = 7 := SIDEKernel.formation
 
 /-!
 ### Part 3: Product formula

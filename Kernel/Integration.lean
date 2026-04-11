@@ -8,6 +8,7 @@ import Kernel.Voice6
 import Kernel.Voice7
 import Kernel.Layer1
 import Kernel.PoissonExhaustion
+import Kernel.Core
 
 /-
   TECHNE KERNEL - INTEGRATION (FINAL)
@@ -171,24 +172,20 @@ theorem seven_paths_converge (sigma : Real) :
 
     | Field                | Manuscript              | Kernel Source          |
     |:---------------------|:------------------------|:-----------------------|
-    | conservation         | Paper 3 (Spectral)      | PoissonExhaustion.lean |
     | ostrowski_complete   | Paper 2 (Enumeration)   | PoissonExhaustion.lean |
-    | formation_exhaustive | Paper 4 (Seven Classes) | Enumera / Bijection    |
+    | formation_exhaustive | Paper 4 (Seven Classes) | Kernel.Core            |
     | per_class_exclusion  | Monograph Ch. 8-14      | PoissonExhaustion.lean |
 -/
 structure StructuralExhaustivenessData where
-  /-- Conservation of Spectra: all interfaces are spectrally inert.
-      Proved in PoissonExhaustion.lean. Manuscript: Paper 3. -/
-  conservation : PoissonExhaustion.interfaces_are_dark
   /-- Ostrowski completeness: every place of ℚ is archimedean or p-adic.
       Proved in PoissonExhaustion.lean. Manuscript: Paper 2. -/
-  ostrowski_complete : ∀ s : PoissonExhaustion.Place,
-    s = PoissonExhaustion.Place.archimedean ∨
-    ∃ p hp, s = PoissonExhaustion.Place.padic p hp
+  ostrowski_complete : ∀ s : SIDEKernel.Place,
+    s = SIDEKernel.Place.archimedean ∨
+    ∃ p hp, s = SIDEKernel.Place.padic p hp
   /-- Formation exhaustiveness: the formation (2,3,2,0) totals 7.
-      Proved in PoissonExhaustion.lean / Enumera.lean. Paper 4. -/
-  formation_exhaustive : PoissonExhaustion.n1 + PoissonExhaustion.n2 +
-    PoissonExhaustion.n3 + PoissonExhaustion.n4 = 7
+      Canonical in Kernel.Core. Paper 4. -/
+  formation_exhaustive : SIDEKernel.n1 + SIDEKernel.n2 +
+    SIDEKernel.n3 + SIDEKernel.n4 = 7
   /-- Per-class exclusion: no mechanism class produces off-line zeros.
       Proved in PoissonExhaustion.lean via Voice 1. Monograph. -/
   per_class_exclusion : ∀ sigma : Real, ¬(PoissonExhaustion.OffLineZero sigma)
@@ -196,9 +193,8 @@ structure StructuralExhaustivenessData where
 /-- The kernel's compiled evidence, assembled as one structure.
     Each field references an existing compiled theorem. 0 sorry. -/
 def structural_exhaustiveness_instance : StructuralExhaustivenessData where
-  conservation := PoissonExhaustion.conservation_seals
   ostrowski_complete := PoissonExhaustion.ostrowski_complete
-  formation_exhaustive := PoissonExhaustion.formation_count
+  formation_exhaustive := SIDEKernel.formation_count
   per_class_exclusion := PoissonExhaustion.gate_e_exhaustive_derived
 
 /-- The original propositional definition, for backward compatibility. -/

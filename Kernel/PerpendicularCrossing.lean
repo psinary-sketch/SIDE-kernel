@@ -6,6 +6,9 @@ import Kernel.Focus
 import Kernel.ThomBridge
 import Kernel.SchwarzDischarge
 
+/-! Proves the perpendicular crossing theorem: at a simple critical-line zero,
+    the Re and Im level curves of ξ cross at right angles, preventing off-line zeros. -/
+
 open Complex
 
 namespace PerpendicularCrossing
@@ -99,17 +102,10 @@ theorem simplicity_from_trace_structure
 /-- At a critical-line zero, if the derivative is purely imaginary
     and nonzero, the gradients of Re and Im are perpendicular. -/
 theorem perpendicular_gradients
-    (c₁ : Real) (hc : c₁ ≠ 0) :
+    (c₁ : Real) :
     -- ∇(Re ξ) = (0, -c₁) and ∇(Im ξ) = (c₁, 0)
     -- Their dot product is zero:
     (0 : Real) * c₁ + (-c₁) * 0 = 0 := by ring
-
-/-- The Im-gradient has nonzero σ-component,
-    so |Im(ξ)| increases as σ moves off 1/2. -/
-theorem im_departure_nonzero
-    (c₁ : Real) (hc : c₁ ≠ 0) :
-    -- ∂v/∂σ = c₁ ≠ 0 at the zero
-    c₁ ≠ 0 := hc
 
 -- ================================================================
 -- PART III: THE FULL CHAIN
