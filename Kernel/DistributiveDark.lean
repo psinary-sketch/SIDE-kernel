@@ -15,7 +15,6 @@ carries no spectral parameter, so it cannot conspire to produce
 off-line zeros from combinations of classes that individually
 produce none.
 
-AI disclosure: Written with Claude (Anthropic) assistance.
 Mathematical content is original.
 -/
 
