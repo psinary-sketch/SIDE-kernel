@@ -5,6 +5,8 @@ import Mathlib.Tactic.NormNum
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.IntervalCases
 import Mathlib.Tactic.DeriveFintype
+import Mathlib.Tactic.Zify
+import Mathlib.Tactic.Ring
 
 /-!
   TRIVIUM — The Third Identity Element of Arithmetic
@@ -180,12 +182,207 @@ theorem seven_not_smooth : ¬is_two_three_smooth 7 := by
   have := h 7 h7 (dvd_refl 7)
   omega
 
+-- Helper: odd smooth number is a power of 3
+private theorem odd_smooth_pow3 (n : Nat) :
+    n > 0 → ¬(2 ∣ n) → (∀ p, Nat.Prime p → p ∣ n → p ≤ 3) → ∃ k, n = 3 ^ k := by
+  induction n using Nat.strongRecOn with
+  | ind n ih =>
+    intro hn hodd hsmooth
+    by_cases h1 : n = 1
+    · exact ⟨0, by omega⟩
+    · obtain ⟨p, hp, hpd⟩ := Nat.exists_prime_and_dvd (show n ≠ 1 by omega)
+      have : p = 3 := by
+        have := hp.two_le; have := hsmooth p hp hpd
+        have : p ≠ 2 := fun h => hodd (h ▸ hpd); omega
+      subst this; obtain ⟨m, hm⟩ := hpd
+      obtain ⟨j, hj⟩ := ih m (by omega) (by omega)
+        (by intro ⟨q, hq⟩; exact hodd ⟨3*q, by omega⟩)
+        (fun q hq hqm => hsmooth q hq (dvd_trans hqm ⟨3, by omega⟩))
+      exact ⟨j + 1, by omega⟩
+
+-- Helper: smooth number not divisible by 3 is a power of 2
+private theorem smooth_no3_pow2 (n : Nat) :
+    n > 0 → ¬(3 ∣ n) → (∀ p, Nat.Prime p → p ∣ n → p ≤ 3) → ∃ k, n = 2 ^ k := by
+  induction n using Nat.strongRecOn with
+  | ind n ih =>
+    intro hn hno3 hsmooth
+    by_cases h1 : n = 1
+    · exact ⟨0, by omega⟩
+    · obtain ⟨p, hp, hpd⟩ := Nat.exists_prime_and_dvd (show n ≠ 1 by omega)
+      have : p = 2 := by
+        have := hp.two_le; have := hsmooth p hp hpd
+        have : p ≠ 3 := fun h => hno3 (h ▸ hpd); omega
+      subst this; obtain ⟨m, hm⟩ := hpd
+      obtain ⟨j, hj⟩ := ih m (by omega) (by omega)
+        (by intro ⟨q, hq⟩; exact hno3 ⟨2*q, by omega⟩)
+        (fun q hq hqm => hsmooth q hq (dvd_trans hqm ⟨2, by omega⟩))
+      exact ⟨j + 1, by omega⟩
+
+-- Helper: odd divisor of a power of 2 must be 1
+private lemma odd_dvd_pow2_eq_one (v k : Nat) (hv_odd : ¬(2 ∣ v)) (hdvd : v ∣ 2^k) : v = 1 := by
+  by_contra h1
+  obtain ⟨p, hp, hpv⟩ := Nat.exists_prime_and_dvd (show v ≠ 1 by omega)
+  have : p = 2 := by
+    have h1 : p ∣ 2 := hp.dvd_of_dvd_pow (dvd_trans hpv hdvd)
+    have := Nat.le_of_dvd (by omega) h1; have := hp.two_le; omega
+  exact hv_odd (this ▸ hpv)
+
+-- Modular arithmetic helpers for powers of 3
+private lemma pow3_odd_mod4 (j : Nat) : 3 ^ (2 * j + 1) % 4 = 3 := by
+  induction j with
+  | zero => norm_num
+  | succ j ih =>
+    rw [show 2 * (j + 1) + 1 = (2 * j + 1) + 2 from by omega, pow_add, Nat.mul_mod, ih]; norm_num
+
+private lemma pow3_even_mod4 (j : Nat) : 3 ^ (2 * j) % 4 = 1 := by
+  induction j with
+  | zero => norm_num
+  | succ j ih =>
+    rw [show 2 * (j + 1) = 2 * j + 2 from by omega, pow_add, Nat.mul_mod, ih]; norm_num
+
+private lemma pow3_odd_mod8 (j : Nat) : 3 ^ (2 * j + 1) % 8 = 3 := by
+  induction j with
+  | zero => norm_num
+  | succ j ih =>
+    rw [show 2 * (j + 1) + 1 = (2 * j + 1) + 2 from by omega, pow_add, Nat.mul_mod, ih]; norm_num
+
+private lemma pow3_mod2 (j : Nat) : 3 ^ j % 2 = 1 := by
+  induction j with
+  | zero => norm_num
+  | succ j ih => rw [pow_succ, Nat.mul_mod, ih]
+
+-- Helper: any divisor of 2^k is a power of 2
+private theorem dvd_pow2_is_pow2 (n k : Nat) (hn : n > 0) (hdvd : n ∣ 2^k) : ∃ m, n = 2^m := by
+  apply smooth_no3_pow2 n hn
+  · intro h3n
+    have : (3 : Nat).Prime := by norm_num
+    have := this.dvd_of_dvd_pow (dvd_trans h3n hdvd)
+    omega
+  · intro p hp hpn
+    have := Nat.le_of_dvd (by omega) (hp.dvd_of_dvd_pow (dvd_trans hpn hdvd))
+    omega
+
 /-- T.4: Størmer bound - if n and n+1 are both {2,3}-smooth, then n ≤ 8.
-    Requires Nat.factorization to derive n = 2^a·3^b from smoothness,
-    then computational check on the bounded range. -/
+    Proof: the odd member of (n, n+1) must be a power of 3, the even member
+    (not divisible by 3) must be a power of 2, and 3^k ± 1 = 2^a has no
+    solutions for k ≥ 3 (mod 4/8) or k even ≥ 4 (coprime factoring). -/
 theorem stormer_bound : ∀ n : Nat,
     is_two_three_smooth n → is_two_three_smooth (n + 1) → n ≤ 8 := by
-  sorry
+  intro n ⟨hn_pos, hn⟩ ⟨hn1_pos, hn1⟩
+  by_contra h_gt
+  push_neg at h_gt
+  -- Helper: 3 does not divide n when n+1 = 3^k (and vice versa)
+  have h_ndvd3 : ∀ x : Nat, (∃ k, k ≥ 1 ∧ x + 1 = 3^k) → ¬(3 ∣ x) := by
+    intro x ⟨k, hk1, hxk⟩ ⟨q, hq⟩
+    have : 3 ∣ 3^k := dvd_pow_self 3 (by omega : k ≠ 0)
+    obtain ⟨r, hr⟩ := this; omega
+  -- Helper: 4 ∣ 2^a for a ≥ 2
+  have h_4dvd : ∀ a : Nat, a ≥ 2 → 4 ∣ 2^a := by
+    intro a ha
+    show 2^2 ∣ 2^a
+    exact Nat.pow_dvd_pow 2 ha
+  -- Helper: 8 ∣ 2^a for a ≥ 3
+  have h_8dvd : ∀ a : Nat, a ≥ 3 → 8 ∣ 2^a := by
+    intro a ha
+    show 2^3 ∣ 2^a
+    exact Nat.pow_dvd_pow 2 ha
+  rcases Nat.even_or_odd n with ⟨m, hm⟩ | ⟨m, hm⟩
+  · -- CASE 1: n even, n+1 odd → n+1 = 3^k
+    obtain ⟨k, hk⟩ := odd_smooth_pow3 (n+1) hn1_pos (by omega) hn1
+    have hk3 : k ≥ 3 := by
+      by_contra h; push_neg at h; interval_cases k <;> omega
+    obtain ⟨a, ha⟩ := smooth_no3_pow2 n hn_pos (h_ndvd3 n ⟨k, by omega, hk⟩) hn
+    have ha4 : a ≥ 4 := by
+      by_contra h; push_neg at h; interval_cases a <;> omega
+    -- 2^a + 1 = 3^k, k ≥ 3, a ≥ 4
+    rcases Nat.even_or_odd k with ⟨j, hjk⟩ | ⟨j, hjk⟩
+    · -- k = 2j, j ≥ 2: 3^(2j) - 1 = (3^j-1)(3^j+1) = 2^a
+      -- Both factors divide 2^a, so both are powers of 2.
+      -- But they differ by 2, so {3^j-1, 3^j+1} = {2, 4} → j = 1. Contradicts j ≥ 2.
+      have hj2 : j ≥ 2 := by omega
+      have h3j_ge : 3^j ≥ 9 :=
+        le_trans (by norm_num : 9 ≤ 3^2) (Nat.pow_le_pow_right (by omega) hj2)
+      -- (3^j - 1) * (3^j + 1) = 3^(2j) - 1 = 2^a
+      have h_prod : (3^j - 1) * (3^j + 1) = 2^a := by
+        have h1 : 3^j ≥ 1 := Nat.one_le_pow j 3 (by omega)
+        have h2 : 3^(2*j) ≥ 1 := Nat.one_le_pow (2*j) 3 (by omega)
+        have hds : (3^j - 1) * (3^j + 1) = 3^(2*j) - 1 := by zify [h1, h2]; ring
+        have h3k : 3^k = 3^(2*j) := by congr 1; omega
+        rw [hds]; omega
+      -- 3^j - 1 divides 2^a, is positive, hence is a power of 2
+      have hf1_dvd : (3^j - 1) ∣ 2^a := ⟨3^j + 1, h_prod.symm⟩
+      obtain ⟨b, hb⟩ := dvd_pow2_is_pow2 (3^j - 1) a (by omega) hf1_dvd
+      -- 3^j + 1 also divides 2^a, hence is a power of 2
+      have hf2_dvd : (3^j + 1) ∣ 2^a := ⟨3^j - 1, by rw [mul_comm]; exact h_prod.symm⟩
+      obtain ⟨d, hd⟩ := dvd_pow2_is_pow2 (3^j + 1) a (by omega) hf2_dvd
+      -- Two powers of 2 differ by 2: 2^d - 2^b = 2
+      -- This means b = 1, d = 2 (i.e., 2 and 4)
+      have hdiff : 2^d - 2^b = 2 := by omega
+      have hb1 : b ≤ 1 := by
+        by_contra h; push_neg at h
+        have hb2 : b ≥ 2 := by omega
+        -- 2^b ≥ 4, 2^d ≥ 2^b + 2 ≥ 6. But 2^d - 2^b = 2 and 2^b ≥ 4 means
+        -- 2^b * (2^(d-b) - 1) = 2. Since 2^b ≥ 4 > 2, impossible.
+        have hb4 : 2^b ≥ 4 := le_trans (by norm_num : 4 ≤ 2^2) (Nat.pow_le_pow_right (by omega) hb2)
+        -- 2^d = 2^b + 2 < 2^b + 2^b = 2^(b+1), so d ≤ b. But 2^d > 2^b, so d > b.
+        have hd_lt : 2^d < 2^(b+1) := by
+          have : 2^d = 2^b + 2 := by omega
+          have : 2^(b+1) = 2 * 2^b := by ring
+          omega
+        have hd_le_b : d ≤ b := by
+          by_contra h; push_neg at h
+          have := Nat.pow_le_pow_right (by omega : 2 ≥ 1) h
+          omega
+        have hd_gt_b : d > b := by
+          by_contra h; push_neg at h
+          have := Nat.pow_le_pow_right (by omega : 2 ≥ 1) h
+          omega
+        omega
+      -- 3^j - 1 = 2^b ≤ 2 (since b ≤ 1), so 3^j ≤ 3, j ≤ 1. Contradicts j ≥ 2.
+      have : 2^b ≤ 2 := by interval_cases b <;> norm_num
+      have : 3^j ≤ 3 := by omega
+      have : j ≤ 1 := by
+        by_contra h; push_neg at h; have := h3j_ge; omega
+      omega
+    · -- k = 2j+1 odd: 3^k mod 4 = 3, but 4 | 2^a → contradiction
+      have h1 : 3^k % 4 = 3 := hjk ▸ pow3_odd_mod4 j
+      obtain ⟨q, hq⟩ := h_4dvd a (by omega)
+      -- 2^a = 4q, n = 4q, n + 1 = 3^k = 4q + 1
+      -- (4q + 1) % 4 = 1, but 3^k % 4 = 3. Contradiction.
+      omega
+  · -- CASE 2: n odd, n+1 even → n = 3^k
+    obtain ⟨k, hk⟩ := odd_smooth_pow3 n hn_pos (by omega) hn
+    have hk2 : k ≥ 2 := by
+      by_contra h; push_neg at h; interval_cases k <;> omega
+    have h_no3 : ¬(3 ∣ (n + 1)) := by
+      have : 3 ∣ 3^k := dvd_pow_self 3 (by omega : k ≠ 0)
+      obtain ⟨r, hr⟩ := this; intro ⟨q, hq⟩; omega
+    obtain ⟨a, ha⟩ := smooth_no3_pow2 (n+1) hn1_pos h_no3 hn1
+    -- 3^k + 1 = 2^a
+    rcases Nat.even_or_odd k with ⟨j, hjk⟩ | ⟨j, hjk⟩
+    · -- k even: 3^k mod 4 = 1, so (3^k+1) mod 4 = 2, a ≤ 1, n+1 ≤ 2
+      have h1 : 3^k % 4 = 1 := by rw [show k = 2 * j from by omega]; exact pow3_even_mod4 j
+      have h3 : a ≤ 1 := by
+        by_contra h; push_neg at h
+        obtain ⟨q, hq⟩ := h_4dvd a (by omega)
+        -- 2^a = 4*q, n+1 = 2^a, n = 3^k. So 3^k + 1 = 4*q. But 3^k % 4 = 1.
+        have : 3^k + 1 = 4 * q := by omega
+        have : (3^k + 1) % 4 = 0 := by omega
+        omega
+      -- a ≤ 1, so 2^a ≤ 2, n+1 ≤ 2, n ≤ 1, contradicts n ≥ 9
+      have : 2^a ≤ 2 := by interval_cases a <;> norm_num
+      omega
+    · -- k odd, k ≥ 3: 3^k mod 8 = 3, so (3^k+1) mod 8 = 4, a ≤ 2, n+1 ≤ 4
+      have h1 : 3^k % 8 = 3 := by rw [show k = 2 * j + 1 from by omega]; exact pow3_odd_mod8 j
+      have h3 : a ≤ 2 := by
+        by_contra h; push_neg at h
+        obtain ⟨q, hq⟩ := h_8dvd a (by omega)
+        have : 3^k + 1 = 8 * q := by omega
+        have : (3^k + 1) % 8 = 0 := by omega
+        omega
+      -- a ≤ 2, so 2^a ≤ 4, n+1 ≤ 4, n ≤ 3, contradicts n ≥ 9
+      have : 2^a ≤ 4 := by interval_cases a <;> norm_num
+      omega
 
 -- ============================================================
 -- SECTION 4: FANO PLANE STRUCTURE
