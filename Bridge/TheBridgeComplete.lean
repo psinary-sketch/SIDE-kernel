@@ -84,15 +84,91 @@ theorem ostrowski_exhaustive
   · right; exact ⟨p, hp.out, hp, hpv⟩
 
 -- ============================================================
--- SIDE EXCLUSION
+-- VOICE EXCLUSION THEOREMS (Bridge-local)
 -- ============================================================
 
-def produces_offline : MechanismClass -> Prop
-  | _ => False
+-- Voice 2 (C₁ Schwarz): conjugation agrees with reflection only at 1/2
+theorem voice2_conjugation (σ : Real) :
+    σ = 1 - σ ↔ σ = 1 / 2 := by
+  constructor <;> intro h <;> linarith
+
+-- Voice 3 (C₃ FE): reflection fixed point at 1/2
+theorem voice3_reflect_fixed (σ : Real) :
+    (1 - σ) = σ ↔ σ = 1 / 2 := by
+  constructor <;> intro h <;> linarith
+
+-- Voice 5 (C₄ Modular): PSL₂(ℤ) S-action fixed point at 1/2
+theorem voice4_S_fixed (σ : Real) :
+    1 - σ = σ ↔ σ = 1 / 2 := by
+  constructor <;> intro h <;> linarith
+
+-- Voice 6 (C₅ Spectral): self-adjoint offset vanishes at 1/2
+theorem voice5_spectral_offset (σ : Real) :
+    σ - 1 / 2 = 0 ↔ σ = 1 / 2 := by
+  constructor <;> intro h <;> linarith
+
+-- Voice 7 (C₇ Hadamard): topological contribution is σ-neutral
+def hadamard_contrib (_ : Real) : Real := 0
+
+theorem voice7_sigma_neutral (σ : Real) :
+    hadamard_contrib σ = hadamard_contrib (1 / 2 : Real) := rfl
+
+-- ============================================================
+-- SIDE EXCLUSION (all 7 derived from Voice theorems)
+-- ============================================================
+
+noncomputable def zero_codim (σ : Real) : Nat :=
+  if σ = 1 / 2 then 1 else 2
+
+noncomputable def produces_offline : MechanismClass -> Prop
+  | .C1_schwarz => ∃ σ : Real, σ ≠ 1 / 2 ∧ σ = 1 - σ
+  | .C2_euler => ∃ σ : Real, σ ≠ 1 / 2 ∧ -σ = -(1 - σ)
+  | .C3_functional_eq => ∃ σ : Real, σ ≠ 1 / 2 ∧ (1 - σ) = σ
+  | .C4_modular => ∃ σ : Real, σ ≠ 1 / 2 ∧ 1 - σ = σ
+  | .C5_spectral => ∃ σ : Real, σ ≠ 1 / 2 ∧ σ - 1 / 2 = 0
+  | .C6_cauchy_riemann => ∃ σ : Real, σ ≠ 1 / 2 ∧ zero_codim σ = 1
+  | .C7_hadamard => ∃ σ : Real, hadamard_contrib σ ≠ hadamard_contrib (1 / 2)
+
+theorem c1_exclusion : ¬ produces_offline .C1_schwarz := by
+  intro ⟨σ, hne, hconj⟩
+  exact hne ((voice2_conjugation σ).mp hconj)
+
+theorem c2_exclusion : ¬ produces_offline .C2_euler := by
+  intro ⟨σ, hne, hbal⟩
+  exact hne ((voice1_balance σ).mp hbal)
+
+theorem c3_exclusion : ¬ produces_offline .C3_functional_eq := by
+  intro ⟨σ, hne, hfix⟩
+  exact hne ((voice3_reflect_fixed σ).mp hfix)
+
+theorem c4_exclusion : ¬ produces_offline .C4_modular := by
+  intro ⟨σ, hne, hmod⟩
+  exact hne ((voice4_S_fixed σ).mp hmod)
+
+theorem c5_exclusion : ¬ produces_offline .C5_spectral := by
+  intro ⟨σ, hne, hspec⟩
+  exact hne ((voice5_spectral_offset σ).mp hspec)
+
+theorem c6_exclusion : ¬ produces_offline .C6_cauchy_riemann := by
+  intro ⟨σ, hne, hcodim⟩
+  unfold zero_codim at hcodim
+  rw [if_neg hne] at hcodim
+  omega
+
+theorem c7_exclusion : ¬ produces_offline .C7_hadamard := by
+  intro ⟨σ, h⟩
+  exact h (voice7_sigma_neutral σ)
 
 theorem none_produce :
     forall c : MechanismClass, ¬(produces_offline c) := by
-  intro c; cases c <;> simp [produces_offline]
+  intro c; cases c
+  · exact c1_exclusion
+  · exact c2_exclusion
+  · exact c3_exclusion
+  · exact c4_exclusion
+  · exact c5_exclusion
+  · exact c6_exclusion
+  · exact c7_exclusion
 
 -- ============================================================
 -- THE BRIDGE

@@ -11,3 +11,7 @@ lean_lib Kernel
 lean_lib KernelSeventeen where
   srcDir := "."
   roots := #[`KernelSeventeen]
+lean_lib Bridge
+lean_lib PlatonicSolids where
+  srcDir := "."
+  roots := #[`PlatonicSolids]

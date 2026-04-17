@@ -25,17 +25,17 @@ theorem F3_stormer_3 : Stormer.consecSmooth 3 = true := Stormer.pair_3_4
 theorem F3_stormer_4 : Stormer.consecSmooth 8 = true := Stormer.pair_8_9
 
 -- F4: Norm squared = 12
-theorem F4_norm : 3 + 2 + 1 + 0 + 1 + 2 + 3 = 12 := Trivium.norm_squared
+theorem F4_norm : 3 + 2 + 1 + 0 + 1 + 2 + 3 = 12 := by native_decide
 
 -- F5: Eigenvalue spectrum {0^6, 12}
-theorem F5_bright : 3 + 2 + 1 + 0 + 1 + 2 + 3 = 12 := Trivium.bright_eigenvalue
-theorem F5_dark : 7 - 1 = 6 := Trivium.dark_multiplicity
+theorem F5_bright : 3 + 2 + 1 + 0 + 1 + 2 + 3 = 12 := by native_decide
+theorem F5_dark : 7 - 1 = 6 := by native_decide
 
 -- F6: Aperture = 1/7
 theorem F6_aperture_denom : 7 = 7 := rfl
 
 -- F7: Spinor T^4 = I, T^2 = -I
-theorem F7_720 : Complex.I ^ 4 = 1 := Trivium.is_720_return
+theorem F7_720 : Complex.I ^ 4 = 1 := by norm_num [Complex.ext_iff, Complex.I_re, Complex.I_im]
 
 -- F8: PSL2 generators have orders 2 and 3
 -- S^2 = -I (order 2 in PSL2), (ST)^3 = -I (order 3 in PSL2)

@@ -15,7 +15,7 @@ namespace GUECondition
 -- GSE (Gaussian Symplectic Ensemble): T^2 = -I with quaternionic structure
 
 -- The Trivium has T^2 = -I (proved in Trivium.lean):
-theorem time_reversal_broken : I ^ 2 = (-1 : Complex) := Trivium.quarter_twist_sq
+theorem time_reversal_broken : I ^ 2 = (-1 : Complex) := by norm_num [Complex.ext_iff, Complex.I_re, Complex.I_im]
 
 -- This is EXACTLY the GUE condition.
 -- T^2 = -I means the system lacks time-reversal symmetry,
@@ -34,6 +34,6 @@ theorem dyson_index : 2 = (2 : Nat) := rfl
 theorem z4_not_z2 : 4 > 2 := by native_decide
 
 -- Full 720 return (not 360) confirms GUE
-theorem full_return : I ^ 4 = (1 : Complex) := Trivium.is_720_return
+theorem full_return : I ^ 4 = (1 : Complex) := by norm_num [Complex.ext_iff, Complex.I_re, Complex.I_im]
 
 end GUECondition

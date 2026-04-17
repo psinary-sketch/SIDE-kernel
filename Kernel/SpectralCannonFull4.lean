@@ -15,7 +15,6 @@ theorem conj_hasDerivAt (f : ℝ → ℂ) (f' : ℂ) (x : ℝ) (hf : HasDerivAt 
   have h := conjCLE.toContinuousLinearMap.hasFDerivAt.comp x hf.hasFDerivAt
   convert h.hasDerivAt using 1
   simp [ContinuousLinearMap.comp_apply, ContinuousLinearMap.toSpanSingleton_apply]
-  rfl
 
 theorem hasDerivAt_zeta_line (t σ : ℝ) :
     HasDerivAt (fun x : ℝ => completedRiemannZeta₀ ⟨x, t⟩)
