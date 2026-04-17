@@ -1,6 +1,7 @@
 import Mathlib.NumberTheory.Ostrowski
 import Mathlib.NumberTheory.LSeries.RiemannZeta
 import Kernel.Core
+import Bridge.OstrowskiBridge
 
 /-! THE BRIDGE (Complete): Connecting abstract SIDE logic
     to Mathlib's riemannZeta.
@@ -74,7 +75,7 @@ theorem voice7_zero_symmetry (s : Complex)
 -- EXHAUSTIVENESS FROM OSTROWSKI
 -- ============================================================
 
-theorem ostrowski_exhaustive
+theorem ostrowski_exhaustive_prime
     (f : AbsoluteValue Rat Real) (hf : f.IsNontrivial) :
     f.IsEquiv Rat.AbsoluteValue.real ∨
     ∃ p : Nat, Nat.Prime p ∧ ∃ _ : Fact (Nat.Prime p),
@@ -186,4 +187,22 @@ def StructuralExhaustiveness : Prop :=
 
 theorem structural_exhaustiveness_proved :
     StructuralExhaustiveness :=
-  ⟨seven_classes, none_produce, ostrowski_exhaustive⟩
+  ⟨seven_classes, none_produce, ostrowski_exhaustive_prime⟩
+
+-- ============================================================
+-- TRANSFORMATION STAGE → MECHANISM CLASS (explicit map)
+-- ============================================================
+
+def transformation_class : TransformationStage → MechanismClass
+  | .archimedean_sqrt => .C3_functional_eq
+  | .multiplicative_euler => .C5_spectral
+  | .functional_equation => .C4_modular
+
+theorem transformation_injective :
+    Function.Injective transformation_class := by
+  intro a b h; cases a <;> cases b <;> simp_all [transformation_class]
+
+theorem transformation_classes_are_three :
+    Fintype.card TransformationStage = 3 ∧
+    Function.Injective transformation_class :=
+  ⟨formation_n2, transformation_injective⟩
