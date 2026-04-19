@@ -26,12 +26,13 @@ lake build Kernel.SilenceTheorem
 lake build Bridge.EulerBalance
 lake build Bridge.CrossClassExclusion
 lake build Bridge.TheBridgeComplete
+lake build MetaKernel
 ```
 
 Or build all ship modules in one invocation:
 
 ```bash
-lake build Kernel.Voice1 Kernel.Kappa Kernel.SilenceTheorem Bridge.EulerBalance Bridge.CrossClassExclusion Bridge.TheBridgeComplete
+lake build Kernel.Voice1 Kernel.Kappa Kernel.SilenceTheorem Bridge.EulerBalance Bridge.CrossClassExclusion Bridge.TheBridgeComplete MetaKernel
 ```
 
 To build the full active kernel (import manifest for every shipped module), use the `Kernel.Root` target:
