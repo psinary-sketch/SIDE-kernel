@@ -15,6 +15,33 @@ lake build Kernel.Root
 Build time: ~5 minutes with cached Mathlib.
 Expected output: 3580 jobs, 0 errors.
 
+## Building
+
+The kernel uses per-module builds. The default `lake build` target is not configured for the ship build; build specific modules instead:
+
+```bash
+lake build Kernel.Voice1
+lake build Kernel.Kappa
+lake build Kernel.SilenceTheorem
+lake build Bridge.EulerBalance
+lake build Bridge.CrossClassExclusion
+lake build Bridge.TheBridgeComplete
+```
+
+Or build all ship modules in one invocation:
+
+```bash
+lake build Kernel.Voice1 Kernel.Kappa Kernel.SilenceTheorem Bridge.EulerBalance Bridge.CrossClassExclusion Bridge.TheBridgeComplete
+```
+
+To build the full active kernel (import manifest for every shipped module), use the `Kernel.Root` target:
+
+```bash
+lake build Kernel.Root
+```
+
+The `Kernel/archive/` directory contains historical probe files with `sorry` tactics in them; these are explicitly out of scope for the ship build and are not imported by any compiled module. Do not build targets under `Kernel/archive/`.
+
 ## What it proves
 
 TheBridgeComplete.lean proves `StructuralExhaustiveness` unconditionally. Integration.lean derives `RiemannHypothesis` (Mathlib's definition). The full chain compiles end-to-end.
