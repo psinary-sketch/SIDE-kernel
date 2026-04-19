@@ -15,3 +15,5 @@ lean_lib Bridge
 lean_lib PlatonicSolids where
   srcDir := "."
   roots := #[`PlatonicSolids]
+lean_lib MetaKernel where
+  roots := #[`MetaKernel]
