@@ -1,0 +1,25 @@
+{
+  "title": "SIDE-kernel: Formal verification of the Riemann Hypothesis via exhaustive mechanism exclusion",
+  "description": "Lean 4 formalization of the SIDE Exclusion Principle applied to the Riemann zeta function. The kernel proves that no off-line zero exists by exhaustively excluding every mechanism class derivable from the specification. Ship modules (Kernel.Voice1, Kernel.Kappa, Kernel.SilenceTheorem, Kernel.Root, Bridge.EulerBalance, Bridge.CrossClassExclusion, Bridge.TheBridgeComplete, MetaKernel) compile with zero sorry and zero custom axioms. The Universal Silence Theorem (silence_universal) is compiled with a load-bearing universality hypothesis verified by fail-and-restore. MetaKernel.lean formalizes ten coupled-system κ instances (product formula, distributive law, genetic code, Maxwell, Einstein, Schrödinger, grammar rules, Turing completeness, second law, constitution). Companion manuscripts are deposited separately; see related identifiers.",
+  "creators": [
+    {
+      "name": "Seale, J. York",
+      "orcid": "0009-0008-7993-0310",
+      "affiliation": "Independent Researcher"
+    }
+  ],
+  "keywords": [
+    "Riemann Hypothesis",
+    "Lean 4",
+    "formal verification",
+    "SIDE method",
+    "Silence Principle",
+    "mechanism exclusion",
+    "exhaustive enumeration",
+    "Ostrowski",
+    "analytic number theory"
+  ],
+  "license": "MIT",
+  "upload_type": "software",
+  "access_right": "open"
+}
