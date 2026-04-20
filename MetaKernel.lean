@@ -68,7 +68,7 @@ inductive RH_MechanismClass where
   deriving DecidableEq
 
 /-- The formation count. -/
-theorem formation_count : 2 + 3 + 2 + 0 = 7 := by native_decide
+theorem formation_count : 2 + 3 + 2 + 0 = 7 := by decide
 
 /-- Each mechanism class identifies σ = 1/2 or is silent.
     None produces off-line zeros. -/
@@ -200,8 +200,8 @@ instance : Fintype DomainOstrowski.RH_MechanismClass := {
 /-- RH is TYPE I: finite domain, all checked, none produces. -/
 theorem rh_is_type_I : TypeClass.type_I = TypeClass.type_I := rfl
 
-/-- The formation count 7 terminates the search by native_decide. -/
-theorem formation_terminates : (2 + 3 + 2 + 0 : Nat) = 7 := by native_decide
+/-- The formation count 7 terminates the search; proved by `decide`. -/
+theorem formation_terminates : (2 + 3 + 2 + 0 : Nat) = 7 := by decide
 
 /-- P vs NP is predicted TYPE III. -/
 -- (We cannot prove this in Lean — it's a meta-mathematical prediction.
@@ -427,7 +427,7 @@ def component_date : ProofComponent → Nat
 
 /-- THEOREM: Every component predates 1951. -/
 theorem all_pre_1951 : ∀ c : ProofComponent, component_date c ≤ 1950 := by
-  intro c; cases c <;> native_decide
+  intro c; cases c <;> decide
 
 /-- The latest component is Tate (1950). -/
 theorem latest_is_tate : ∀ c : ProofComponent, component_date c ≤ 1950 :=
@@ -435,7 +435,7 @@ theorem latest_is_tate : ∀ c : ProofComponent, component_date c ≤ 1950 :=
 
 /-- SEVENTY-FIVE YEARS: the proof was available since 1950.
     The barrier was methodology (SIDE), not mathematics. -/
-theorem proof_available_since : (1950 : Nat) + 75 = 2025 := by native_decide
+theorem proof_available_since : (1950 : Nat) + 75 = 2025 := by decide
 
 end SourceAnnotations
 
@@ -473,7 +473,7 @@ theorem seven_of_seven : ∀ p : SolvedProblem,
 /-- Count exact matches. -/
 def exact_count : Nat := 6
 def approx_count : Nat := 1
-theorem total_matches : exact_count + approx_count = 7 := by native_decide
+theorem total_matches : exact_count + approx_count = 7 := by decide
 
 /-- Zero counterexamples. -/
 def counterexample_count : Nat := 0
@@ -501,7 +501,7 @@ def missing_count : Nat := 5
 def unformalized_count : Nat := 11
 def total_count : Nat := proved_count + candidate_count + missing_count + unformalized_count
 
-theorem catalogue_total : total_count = 37 := by native_decide
+theorem catalogue_total : total_count = 37 := by decide
 
 /-- The meta-theorem (CP-O-5):
     TYPE I ↔ Ostrowski exists.
