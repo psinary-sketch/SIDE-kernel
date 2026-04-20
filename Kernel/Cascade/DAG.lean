@@ -62,9 +62,6 @@ def MathlibGap.priority : MathlibGap → ℕ
   | .pairCorrelation    => 7  -- Discharges: GUE statistics
   | .classFieldTheory   => 8  -- Discharges: Chebotarev
 
-/-- The cascade has 8 sorry marks. Each is a research invitation. -/
-theorem sorry_count : (8 : ℕ) = 8 := rfl
-
 /-! ### The meta-theorem -/
 
 /-- The cascade is a fingerprint of the proof method.
