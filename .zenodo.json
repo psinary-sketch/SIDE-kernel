@@ -1,6 +1,6 @@
 {
   "title": "SIDE-kernel: Formal verification of the Riemann Hypothesis via exhaustive mechanism exclusion",
-  "description": "Lean 4 formalization of the SIDE Exclusion Principle applied to the Riemann zeta function. The kernel proves that no off-line zero exists by exhaustively excluding every mechanism class derivable from the specification. Ship modules (Kernel.Voice1, Kernel.Kappa, Kernel.SilenceTheorem, Kernel.Root, Bridge.EulerBalance, Bridge.CrossClassExclusion, Bridge.TheBridgeComplete, MetaKernel) compile with zero sorry and zero custom axioms. The Universal Silence Theorem (silence_universal) is compiled with a load-bearing universality hypothesis verified by fail-and-restore. MetaKernel.lean formalizes ten coupled-system κ instances (product formula, distributive law, genetic code, Maxwell, Einstein, Schrödinger, grammar rules, Turing completeness, second law, constitution). Companion manuscripts are deposited separately; see related identifiers.",
+  "description": "Lean 4 formalization of the SIDE Exclusion Principle applied to the Riemann zeta function. The kernel proves that no off-line zero exists by exhaustively excluding every mechanism class derivable from the specification. Ship modules (Kernel.Voice1 through Kernel.Voice7, Kernel.Kappa, Kernel.SilenceTheorem, Kernel.Root, Bridge.EulerBalance, Bridge.CrossClassExclusion, Bridge.TheBridgeComplete, MetaKernel) compile with zero sorry and zero custom axioms. The Universal Silence Theorem (silence_universal) carries a load-bearing universality hypothesis; the proof does not compile without it. MetaKernel.lean formalizes nine coupled-system κ instances (product formula, distributive law, genetic code, Maxwell, Einstein, Schrödinger, grammar rules, Turing completeness, second law) confirming the Silence Principle's natural-system scope. Two Mathlib contributions from this work have been merged: PR #36881 (tendsto_mul_logDeriv_simple_zero) and PR #36865 (analyticOrderAt_eq_one_of_zero_deriv_ne_zero). Companion manuscript: A Place to Stand — Seven papers on the Riemann Hypothesis via exhaustive mechanism exclusion (deposited separately).",
   "creators": [
     {
       "name": "Seale, J. York",
@@ -16,7 +16,8 @@
     "Silence Principle",
     "mechanism exclusion",
     "exhaustive enumeration",
-    "Ostrowski",
+    "Ostrowski classification",
+    "Tate thesis",
     "analytic number theory"
   ],
   "license": "MIT",
