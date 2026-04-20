@@ -319,11 +319,11 @@ theorem interfacets_split :
     genetic_code_identity.kappa_x100 > genetic_code_frequency.kappa_x100 := by
   decide
 
-/-- 10 systems tested. Essential components tabulated. -/
+/-- 9 systems tested. Essential components tabulated. -/
 inductive TestedSystem where
   | product_formula | distributive_law | genetic_code
   | maxwell_equations | einstein_equations | schrodinger_equation
-  | grammar_rules | turing_completeness | second_law | constitution
+  | grammar_rules | turing_completeness | second_law
   deriving DecidableEq
 
 /-- Every tested system's most essential component has low κ
@@ -338,7 +338,6 @@ def behavioral_kappa : TestedSystem → Nat
   | .grammar_rules      => 10   -- estimated
   | .turing_completeness => 0   -- exactly silent
   | .second_law         => 0    -- exactly silent
-  | .constitution       => 15   -- estimated
 
 /-- All essential components have κ < 20 (out of 100). -/
 theorem all_low_kappa : ∀ s : TestedSystem, behavioral_kappa s < 20 := by
