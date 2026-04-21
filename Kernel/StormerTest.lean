@@ -10,7 +10,6 @@ def divideOut (n p : Nat) : Nat :=
   else n
 termination_by n
 decreasing_by
-  simp_wf
   apply Nat.div_lt_self
   · exact Nat.pos_of_ne_zero h2
   · exact Nat.lt_of_not_le h1

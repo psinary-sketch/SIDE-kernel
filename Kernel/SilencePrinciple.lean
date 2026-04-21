@@ -8,7 +8,7 @@ variable {Val : Type u}
 def BehavioralParam (Config Val : Type u) := Config → Val
 def InterfaceContribution (Config Val : Type u) := Config → Val
 
-def Essential (I : InterfaceContribution Config Val) : Prop := True
+def Essential (_I : InterfaceContribution Config Val) : Prop := True
 
 def Universal (I : InterfaceContribution Config Val) : Prop :=
   ∃ c : Val, ∀ x : Config, I x = c

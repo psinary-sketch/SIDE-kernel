@@ -48,7 +48,7 @@ theorem multiplicity_from_identity
     and the RHS is always independent of the claimed multiplicity,
     then the multiplicity is uniquely determined. -/
 theorem simplicity_from_trace_structure
-    (m : Nat) (hm : m ≥ 1)
+    (m : Nat) (_hm : m ≥ 1)
     (R : Nat → Nat)  -- RHS as function of test parameter
     (h_identity : ∀ n, m * n = R n)  -- exact identity for all test functions
     (h_at_one : R 1 = 1) :           -- RHS gives 1 for the delta test

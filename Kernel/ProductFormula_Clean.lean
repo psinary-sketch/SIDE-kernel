@@ -64,7 +64,7 @@ theorem product_formula_finsupp (n : Nat) (hn : n ≠ 0) :
 
 theorem nat_eq_factorization_prod (n : Nat) (hn : n ≠ 0) :
     (n : Nat) = n.factorization.prod (fun p k => p ^ k) :=
-  (Nat.factorization_prod_pow_eq_self hn).symm
+  (Nat.prod_factorization_pow_eq_self hn).symm
 
 -- ============================================================
 -- COPRIME NORMS

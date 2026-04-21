@@ -106,7 +106,7 @@ theorem modular_forces_half (sigma : Real) :
     NOT two (one from S, one from R) -- just one. -/
 theorem modular_one_axis (sigma : Real)
     (hS : S_action sigma = sigma)
-    (hR : R_action sigma = sigma) :
+    (_hR : R_action sigma = sigma) :
     sigma = 1 / 2 :=
   modular_forces_half sigma hS
 

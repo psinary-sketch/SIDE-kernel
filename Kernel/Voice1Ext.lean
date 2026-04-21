@@ -6,7 +6,7 @@ import Kernel.SpectralCannonFull4
 
 open Complex
 
-private def ist2 : IsScalarTower ℝ ℂ ℂ := inferInstance
+@[reducible] private def ist2 : IsScalarTower ℝ ℂ ℂ := inferInstance
 
 namespace Voice1Ext
 

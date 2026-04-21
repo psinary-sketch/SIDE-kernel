@@ -55,7 +55,7 @@ namespace techne_kernel_voice7
 
     We model this as a constant function: the topological
     mechanism contributes the same constraint at every sigma. -/
-def topological_contribution (sigma : Real) : Real := 0
+def topological_contribution (_sigma : Real) : Real := 0
 
 /-- The topological contribution is sigma-independent. -/
 theorem topological_constant (sigma1 sigma2 : Real) :

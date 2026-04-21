@@ -201,7 +201,7 @@ theorem conservation_of_spectra :
 
 /-- Does mechanism class C rest at sigma = 1/2?
     This is the property we need for each class. -/
-def rests_at_half (C : MechClass) : Prop := True
+def rests_at_half (_C : MechClass) : Prop := True
 -- Note: this definition is a placeholder for the TYPE.
 -- The actual content is in the per-class theorems below.
 -- In the real proof, "rests_at_half C" means
@@ -269,7 +269,7 @@ theorem all_rest_at_half : forall C : MechClass, rests_at_half C := by
 /-- A mechanism class produces an off-line zero if it actively
     forces a zero at some sigma != 1/2.
     Since all classes rest at 1/2, none does this. -/
-def produces_offline (C : MechClass) : Prop := False
+def produces_offline (_C : MechClass) : Prop := False
 
 /-- No class produces off-line zeros.
     This follows from all classes resting at 1/2.

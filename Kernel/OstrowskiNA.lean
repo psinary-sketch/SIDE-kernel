@@ -14,17 +14,17 @@ theorem padic_norm_mul (p : Nat) [hp : Fact (Nat.Prime p)] (a b : Rat) :
   padicNorm.mul a b
 
 -- p-adic norm is nonneg
-theorem padic_norm_nonneg (p : Nat) [hp : Fact (Nat.Prime p)] (a : Rat) :
+theorem padic_norm_nonneg (p : Nat) [_hp : Fact (Nat.Prime p)] (a : Rat) :
     0 <= padicNorm p a :=
   padicNorm.nonneg a
 
 -- p-adic norm of zero
-theorem padic_norm_zero (p : Nat) [hp : Fact (Nat.Prime p)] :
+theorem padic_norm_zero (p : Nat) [_hp : Fact (Nat.Prime p)] :
     padicNorm p 0 = 0 :=
   padicNorm.zero
 
 -- p-adic norm of one
-theorem padic_norm_one (p : Nat) [hp : Fact (Nat.Prime p)] :
+theorem padic_norm_one (p : Nat) [_hp : Fact (Nat.Prime p)] :
     padicNorm p 1 = 1 :=
   padicNorm.one
 

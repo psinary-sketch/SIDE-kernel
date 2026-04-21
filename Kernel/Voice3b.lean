@@ -131,7 +131,7 @@ theorem cr_not_minimal_off_line (sigma : Real)
     "codim 2 does not occur." It's the D in SIDE. -/
 theorem determination_bridge (sigma : Real)
     (h_codim2 : zero_codimension sigma = 2)
-    (h_determined : True) :
+    (_h_determined : True) :
     Not (sigma = 1 / 2) := by
   intro h_half
   rw [h_half] at h_codim2

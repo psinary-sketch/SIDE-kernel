@@ -259,9 +259,9 @@ theorem side_pattern_verified :
     -- SIDE exclusion is valid propositional logic
     ∀ (X : Type) (P : X → Prop) (x : X)
       (cat : techne_kernel.ExhaustiveCatalogue X P)
-      (h_none : techne_kernel.NoneProduces X P cat.classes x),
+      (_h_none : techne_kernel.NoneProduces X P cat.classes x),
     ¬(P x) :=
-  fun X P x cat h_none => techne_kernel.SIDE_exclusion cat h_none
+  fun _X _P _x cat _h_none => techne_kernel.SIDE_exclusion cat _h_none
 
 -- ===============================================================
 -- AXIOM INVENTORY

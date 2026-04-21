@@ -41,7 +41,7 @@ theorem c1_closing : ∀ t : Real,
   focus_from_antisymmetry
 
 theorem c4_closing : ∀ s : ℂ, 1 ≤ s.re → riemannZeta s ≠ 0 :=
-  fun s hs => riemannZeta_ne_zero_of_one_le_re hs
+  fun _ hs => riemannZeta_ne_zero_of_one_le_re hs
 
 -- gate_e_from_codim2 and rh_statement REMOVED in v65.
 -- They used SIDEAxiom.rh which was vacuously true

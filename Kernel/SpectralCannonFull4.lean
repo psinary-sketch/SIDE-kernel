@@ -6,7 +6,7 @@ import Kernel.SchwarzDischarge
 import Kernel.SpectralCannon
 open Complex
 
-private def ist : IsScalarTower ℝ ℂ ℂ := inferInstance
+@[reducible] private def ist : IsScalarTower ℝ ℂ ℂ := inferInstance
 
 namespace SpectralCannonFull
 
