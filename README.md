@@ -17,31 +17,38 @@ Expected output: 3580 jobs, 0 errors.
 
 ## Building
 
-The kernel uses per-module builds. The default `lake build` target is not configured for the ship build; build specific modules instead:
+Requires Lean 4 with Mathlib. Toolchain is pinned in `lean-toolchain`
+(currently `leanprover/lean4:v4.29.0-rc8`).
+
+### Quick build (recommended)
+
+First-time build uses Mathlib's pre-built olean cache to skip the
+~2-hour cold compilation of Mathlib itself:
 
 ```bash
-lake build Kernel.Voice1
-lake build Kernel.Kappa
-lake build Kernel.SilenceTheorem
-lake build Bridge.EulerBalance
-lake build Bridge.CrossClassExclusion
-lake build Bridge.TheBridgeComplete
-lake build MetaKernel
+lake exe cache get    # downloads pre-built Mathlib oleans (~1.3 GB)
+lake build            # builds the active kernel (Kernel/, Bridge/, MetaKernel)
 ```
 
-Or build all ship modules in one invocation:
+Subsequent builds are incremental and fast.
+
+### Full cold build (no cache)
+
+If `lake exe cache get` is unavailable or you prefer to build Mathlib
+from source, plain `lake build` will do so — expect approximately two
+hours on first build. Subsequent builds are fast.
+
+### Per-module builds
+
+For targeted verification of individual ship modules:
 
 ```bash
-lake build Kernel.Voice1 Kernel.Kappa Kernel.SilenceTheorem Bridge.EulerBalance Bridge.CrossClassExclusion Bridge.TheBridgeComplete MetaKernel
+lake build Kernel.Root                 # full active kernel chain
+lake build Bridge.TheBridgeComplete    # seven mechanism classes, structural exhaustiveness
+lake build MetaKernel                  # nine coupled-system κ instances
 ```
 
-To build the full active kernel (import manifest for every shipped module), use the `Kernel.Root` target:
-
-```bash
-lake build Kernel.Root
-```
-
-The `Kernel/archive/` directory contains historical probe files with `sorry` tactics in them; these are explicitly out of scope for the ship build and are not imported by any compiled module. Do not build targets under `Kernel/archive/`.
+The `legacy/` directory contains historical probe files from earlier kernel development states (v1 through v66.1), retained as a record of the axiom-elimination journey described in the monograph (Chapter 26). These files may contain `sorry` tactics and are not part of the ship build. See `legacy/README.md` for details.
 
 ## What it proves
 
@@ -70,9 +77,9 @@ Bridge files:
 
 ## Structure
 
-- `Kernel/` — Core formalization (63 files)
+- `Kernel/` — Core formalization (69 files)
 - `Bridge/` — Files compiling against Mathlib, grounding abstract types in Mathlib API
-- `Kernel/archive/` — Development history (probe files, earlier iterations)
+- `legacy/` — Historical snapshots (probe files from v1 through v66.1, not part of ship build)
 
 ## Mathlib contributions
 
