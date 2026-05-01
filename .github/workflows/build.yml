@@ -1,0 +1,112 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180  # SIDE-kernel may need 2+ hours cold-cache
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install elan
+        run: |
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+      - name: Cache Mathlib
+        uses: actions/cache@v4
+        with:
+          path: .lake
+          key: lake-${{ runner.os }}-${{ hashFiles('lake-manifest.json', 'lean-toolchain') }}
+          restore-keys: |
+            lake-${{ runner.os }}-
+
+      - name: Get Mathlib cache
+        run: |
+          lake exe cache get || true
+
+      - name: Build all three libraries (capturing output)
+        run: |
+          set -o pipefail
+          lake build Kernel Bridge MetaKernel 2>&1 | tee build.log
+
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log-${{ github.sha }}
+          path: build.log
+          retention-days: 90
+
+  audit:
+    runs-on: ubuntu-latest
+    needs: build
+    if: success()
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download build log
+        uses: actions/download-artifact@v4
+        with:
+          name: build-log-${{ github.sha }}
+
+      - name: Count real sorrys (from Lean warnings)
+        id: sorry_count
+        run: |
+          SORRY_COUNT=$(grep -c 'declaration uses .sorry.' build.log) || SORRY_COUNT=0
+          echo "count=${SORRY_COUNT}" >> $GITHUB_OUTPUT
+          echo "Real sorry count (from Lean warnings): ${SORRY_COUNT}"
+
+      - name: List sorry warnings (with locations)
+        run: |
+          echo "=== Sorry warnings from Lean build ==="
+          grep 'declaration uses .sorry.' build.log || echo "(none)"
+
+      - name: Count axioms (in active kernel only, excluding legacy)
+        id: axiom_count
+        run: |
+          # Search Kernel/, Bridge/, MetaKernel.lean — the shipping code.
+          # legacy/ excluded per README ("not part of the ship build").
+          AXIOM_COUNT=$(grep -rn "^axiom " --include="*.lean" \
+                        Kernel/ Bridge/ MetaKernel.lean \
+                        | wc -l)
+          echo "count=${AXIOM_COUNT}" >> $GITHUB_OUTPUT
+          echo "Axiom count: ${AXIOM_COUNT}"
+
+      - name: List axiom locations
+        run: |
+          echo "=== Axiom locations (active kernel) ==="
+          grep -rn "^axiom " --include="*.lean" \
+               Kernel/ Bridge/ MetaKernel.lean \
+               || echo "(none)"
+
+      - name: Generate audit.json
+        run: |
+          cat > audit.json << JSON
+          {
+            "repo": "${{ github.repository }}",
+            "ref": "${{ github.ref }}",
+            "sha": "${{ github.sha }}",
+            "sha_short": "${GITHUB_SHA:0:7}",
+            "run_id": "${{ github.run_id }}",
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "sorry_count": ${{ steps.sorry_count.outputs.count }},
+            "axiom_count": ${{ steps.axiom_count.outputs.count }},
+            "sorry_count_method": "lean-warning-grep",
+            "axiom_count_method": "source-line-grep-active-only",
+            "build_targets": "Kernel Bridge MetaKernel"
+          }
+          JSON
+          cat audit.json
+
+      - name: Upload audit artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-${{ github.sha }}
+          path: audit.json
+          retention-days: 90
