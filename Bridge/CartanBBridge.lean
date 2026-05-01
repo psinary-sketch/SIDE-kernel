@@ -191,9 +191,8 @@ structure OutputStageExhaustiveness : Prop where
 /-- The exhaustiveness certificate is unconditional. -/
 theorem output_stage_exhaustiveness_proved : OutputStageExhaustiveness :=
   { card_two       := output_stage_card
-  , local_collapse := fun hU hf => elliptic_regularity_collapse hU hf
-  , bridge_unique  := fun hU hUc hf hg hz₀ hfg =>
-      identity_theorem_unique_bridge hU hUc hf hg hz₀ hfg
+  , local_collapse := elliptic_regularity_collapse
+  , bridge_unique  := identity_theorem_unique_bridge
   , no_intermediate := cartan_B_consequence
   }
 
