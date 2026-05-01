@@ -50,6 +50,8 @@
 -/
 
 import Mathlib.Analysis.Analytic.IsolatedZeros
+import Mathlib.Analysis.Analytic.Uniqueness
+import Mathlib.Analysis.Analytic.Within
 import Mathlib.Analysis.Complex.RemovableSingularity
 import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
 import Mathlib.Topology.Algebra.InfiniteSum.Basic
@@ -104,26 +106,29 @@ no finer local distinction (Cᵏ vs C^∞ vs C^ω) survives the ∂̄ = 0
 condition. -/
 theorem elliptic_regularity_collapse
     {f : ℂ → ℂ} {U : Set ℂ} (hU : IsOpen U) (hf : AnalyticOn ℂ f U) :
-    ContDiffOn ℂ ⊤ f U := by
-  exact hf.contDiffOn
+    ContDiffOn ℂ ⊤ f U :=
+  hf.contDiffOn hU.uniqueDiffOn
 
 /-- T2. The Identity Theorem.
 
 If two analytic functions on a connected open set agree on a set
 with an accumulation point, they agree everywhere.
 
-This is `AnalyticOn.eqOn_of_preconnected_of_eventuallyEq` in Mathlib.
-The structural meaning for the kernel: the germ of an entire function
-at any single point determines the function globally. Therefore the
-local-to-global bridge is unique — analytic continuation is the only
-such bridge — and no alternative could constitute a third class. -/
+This is `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq` in Mathlib.
+On open sets, `AnalyticOn` and `AnalyticOnNhd` coincide via
+`IsOpen.analyticOn_iff_analyticOnNhd`. The structural meaning for the
+kernel: the germ of an entire function at any single point determines
+the function globally. Therefore the local-to-global bridge is unique
+— analytic continuation is the only such bridge — and no alternative
+could constitute a third class. -/
 theorem identity_theorem_unique_bridge
     {f g : ℂ → ℂ} {U : Set ℂ}
     (hU : IsOpen U) (hUc : IsPreconnected U)
     (hf : AnalyticOn ℂ f U) (hg : AnalyticOn ℂ g U)
     {z₀ : ℂ} (hz₀ : z₀ ∈ U) (hfg : f =ᶠ[𝓝 z₀] g) :
     Set.EqOn f g U :=
-  hf.eqOn_of_preconnected_of_eventuallyEq hg hUc hz₀ hfg
+  ((hU.analyticOn_iff_analyticOnNhd).mp hf).eqOn_of_preconnected_of_eventuallyEq
+    ((hU.analyticOn_iff_analyticOnNhd).mp hg) hUc hz₀ hfg
 
 /-- T3. The Stein property of ℂ (Cartan B applied to ℂ).
 
