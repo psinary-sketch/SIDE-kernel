@@ -70,7 +70,7 @@ The seven Voices (each forces σ = 1/2 in its mechanism class):
 - `Voice6.lean` — C₅ spectral: `self_adjoint_forces_half`
 - `Voice7.lean` — C₇ topological (Hadamard): `topological_no_sigma_preference`
 
-Conservation and product formula (`Kernel/ProductFormula/*.lean`, 3 files, 33 theorems): `conservation_of_spectra : ∀ s, 1^s = 1`, ProductFormula chain `∏ᵥ |x|ᵥ = 1`.
+Conservation and product formula (`Kernel/ProductFormula/*.lean`): `conservation_of_spectra : ∀ s, 1^s = 1`, ProductFormula chain `∏ᵥ |x|ᵥ = 1`.
 
 Place-classification bridge (`Kernel/PoissonExhaustion.lean`): Ostrowski as `Place` type, formation count (2, 3, 2, 0) = 7 by `native_decide`.
 
