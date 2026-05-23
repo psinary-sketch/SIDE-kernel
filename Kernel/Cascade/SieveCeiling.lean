@@ -18,7 +18,7 @@
   STATUS (honest):
   - 0 sorry
   - 0 axioms
-  - Style matches KernelSeventeen / InFormation: no Mathlib
+  - Style matches InFormation: no Mathlib
     dependency, vanilla Lean 4 core only.
   - Abstract formalization of the structural content. The full
     first-order formalization (with explicit FirstOrder.Language

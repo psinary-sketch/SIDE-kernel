@@ -13,7 +13,7 @@ import Mathlib.Data.Fintype.Basic
 
   TARGETS IMPLEMENTED:
     LT-3.1: DomainOstrowski structure
-    LT-3.2: RH and KernelSeventeen as DomainOstrowski instances
+    LT-3.2: RH and Yang-Mills as DomainOstrowski instances
     LT-7.1: ECondition predicate + TypeClassification
     LT-7.2: RH satisfies ECondition
     LT-5.1: SpectralSilence predicate
