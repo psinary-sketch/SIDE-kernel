@@ -464,19 +464,6 @@ def retroactive_match : SolvedProblem → MatchQuality
   | .catalan        => .approximate -- cyclotomic ≈ E closure
   | .rh             => .exact       -- formation sealed, per-class checked
 
-/-- All 7 problems match. -/
-theorem seven_of_seven : ∀ p : SolvedProblem,
-    retroactive_match p = .exact ∨ retroactive_match p = .approximate := by
-  intro p; cases p <;> simp [retroactive_match] <;> (try left; rfl) <;> (try right; rfl)
-
-/-- Count exact matches. -/
-def exact_count : Nat := 6
-def approx_count : Nat := 1
-theorem total_matches : exact_count + approx_count = 7 := by decide
-
-/-- Zero counterexamples. -/
-def counterexample_count : Nat := 0
-theorem zero_counterexamples : counterexample_count = 0 := rfl
 
 end EDifficulty
 
@@ -493,14 +480,6 @@ inductive OstrowskiStatus where
   | missing       -- Domain identified but no candidate
   | unformalized  -- Theorem exists but not recognized as Ostrowski
 
-/-- Catalogue counts. -/
-def proved_count : Nat := 18
-def candidate_count : Nat := 3
-def missing_count : Nat := 5
-def unformalized_count : Nat := 11
-def total_count : Nat := proved_count + candidate_count + missing_count + unformalized_count
-
-theorem catalogue_total : total_count = 37 := by decide
 
 /-- The meta-theorem (CP-O-5):
     TYPE I ↔ Ostrowski exists.
