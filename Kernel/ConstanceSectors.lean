@@ -35,7 +35,6 @@ theorem core_43 : Nat.Prime 43 := by decide
 theorem core_47 : Nat.Prime 47 := by decide
 
 -- Prime Core count = 15
-theorem prime_core_count : 15 = 15 := rfl
 
 -- Sophie Germain chains in the core:
 -- 2 -> 5 -> 11 -> 23 -> 47

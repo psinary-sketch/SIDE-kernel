@@ -184,165 +184,26 @@ theorem conservation_of_spectra :
     Stage.count Stage.interface = 0 := rfl
 
 -- ===============================================================
--- SECTION 5: REST STATES
+-- REST STATES, OFF-LINE EXCLUSION, AND THE SIDE CERTIFICATE
 --
--- Each mechanism class "rests" at sigma = 1/2.
--- "Rest" means: the class's structural constraint is at
--- codimension 0 (trivially satisfied) at sigma = 1/2,
--- and at codimension >= 1 (actively constraining) elsewhere.
+-- These are NOT re-proved in this file. Earlier revisions stated
+-- them here as placeholders (rests_at_half := True,
+-- produces_offline := False, a SIDE certificate with True-valued
+-- fields). Those were vacuous and have been removed. The real
+-- proofs live where the mathematics is:
 --
--- Two rest states are PROVED in separate voice files:
---   C1: reflect fixed point (Voice 3 corrected)
---   C4: balance equation (Voice 1)
+--   Rest states (each class identifies sigma = 1/2):
+--     Voice1-7 -- per-class, real algebra / analysis.
 --
--- The remaining five are stated as infrastructure axioms.
--- Each is provable from standard analysis; none is RH-equivalent.
--- ===============================================================
-
-/-- Does mechanism class C rest at sigma = 1/2?
-    This is the property we need for each class. -/
-def rests_at_half (_C : MechClass) : Prop := True
--- Note: this definition is a placeholder for the TYPE.
--- The actual content is in the per-class theorems below.
--- In the real proof, "rests_at_half C" means
--- "C's structural constraint has codimension 0 at sigma = 1/2"
--- which is formalized differently for each C.
-
-/-- C1 rests at 1/2: The symmetry s -> 1-s has fixed point 1/2.
-    PROVED in Voice3_corrected.lean (pure algebra, 0 axioms).
-    Restated here for the structural count. -/
-theorem C1_rests : rests_at_half MechClass.C1_functional_eq := trivial
-
-/-- C4 rests at 1/2: The balance p^(-s) = p^(-(1-s)) iff s = 1/2.
-    PROVED in Fix.lean / Voice 1 (Mathlib rpow, 0 axioms).
-    Restated here for the structural count. -/
-theorem C4_rests : rests_at_half MechClass.C4_euler_product := trivial
-
-/-- C2 rests at 1/2: Conjugation xi(s_bar) = xi_bar(s).
-    On the critical line, xi is real-valued (codim 0 for zeros).
-    Off the critical line, Re(xi) = Im(xi) = 0 required (codim 2).
-    INFRASTRUCTURE: provable from functional eq + real coefficients. -/
-theorem C2_rests : rests_at_half MechClass.C2_reality := trivial
-
-/-- C3 rests at 1/2: Cauchy-Riemann holomorphicity.
-    Zeros on critical line are sign changes (codim 1, generic).
-    Zeros off critical line require Re=Im=0 (codim 2, exceptional).
-    INFRASTRUCTURE: provable from standard complex analysis. -/
-theorem C3_rests : rests_at_half MechClass.C3_cauchy_riemann := trivial
-
-/-- C5 rests at 1/2: Modular symmetry (PSL2Z action).
-    The modular weight 1/2 forces transformation behavior
-    that rests at sigma = 1/2.
-    INFRASTRUCTURE: provable from modular form theory. -/
-theorem C5_rests : rests_at_half MechClass.C5_modular := trivial
-
-/-- C6 rests at 1/2: Spectral structure.
-    Self-adjoint operators have real spectrum.
-    The spectral constraint rests at sigma = 1/2.
-    INFRASTRUCTURE: provable from spectral theory. -/
-theorem C6_rests : rests_at_half MechClass.C6_spectral := trivial
-
-/-- C7 rests at 1/2: Topological (Hadamard/argument principle).
-    Counts zeros but does not place them off-line.
-    The winding number constraint is neutral on sigma.
-    INFRASTRUCTURE: provable from topology of entire functions. -/
-theorem C7_rests : rests_at_half MechClass.C7_topological := trivial
-
-/-- All seven classes rest at 1/2. -/
-theorem all_rest_at_half : forall C : MechClass, rests_at_half C := by
-  intro C
-  cases C <;> trivial
-
--- ===============================================================
--- SECTION 6: NO CLASS PRODUCES OFF-LINE ZEROS
+--   Off-line exclusion (no class produces a zero off the line):
+--     Bridge/TheBridgeComplete.lean -- none_produce, proved from
+--     real produces_offline Props via the Voice theorems.
 --
--- From each class resting at 1/2, we derive that no class
--- produces zeros at sigma != 1/2. This is the Gate R input
--- to SIDE exclusion.
---
--- The formal content: "produces off-line zero" requires a
--- mechanism that actively places a zero at sigma != 1/2.
--- Since every class rests at 1/2 (constraint inactive there,
--- active elsewhere), no class has such a mechanism.
+-- The contribution of this file is the formation count
+-- (Sections 1-4): (2,3,2,0) = 7, with the four infrastructure
+-- axioms grounding the stage counts. The exclusion chain that
+-- consumes this count is carried downstream, not restated here.
 -- ===============================================================
-
-/-- A mechanism class produces an off-line zero if it actively
-    forces a zero at some sigma != 1/2.
-    Since all classes rest at 1/2, none does this. -/
-def produces_offline (_C : MechClass) : Prop := False
-
-/-- No class produces off-line zeros.
-    This follows from all classes resting at 1/2.
-    PROVED: trivially, since produces_offline is False by definition.
-
-    NOTE: This definition of produces_offline as False is NOT
-    vacuous in the way the audit identified. The mathematical
-    content is in Section 5 (each class rests at 1/2) and in
-    the infrastructure axioms (the catalogue is exhaustive).
-    The definition produces_offline = False is the CONCLUSION
-    of the rest-state analysis, not a definitional trick.
-
-    Compare: in Platonic solids, after showing each of the five
-    solids satisfies the angle constraint, "produces a sixth solid"
-    is also False. The content is in the classification, not in
-    the final Boolean. -/
-theorem no_class_produces_offline :
-    forall C : MechClass, Not (produces_offline C) := by
-  intro C h
-  exact h
-
--- ===============================================================
--- SECTION 7: CONNECTION TO SIDE EXCLUSION
--- ===============================================================
-
-/-- The SIDE certificate for xi(s).
-
-    Components:
-    S - Symmetry: xi(s) = xi(1-s), involution s -> 1-s
-    I - Independence: paths use disjoint machinery
-    D - Determination: specification is finite, explicit, parameter-free
-    E - Exhaustiveness: 2+3+2+0 = 7 classes, catalogue complete
-
-    The certificate connects to Layer 1's SIDE_exclusion theorem:
-    given an exhaustive catalogue where no class produces the
-    target property, the property does not hold.
-
-    WHAT THIS PROVES:
-    RH follows from SIDE exclusion applied to xi's seven
-    mechanism classes, given that:
-    (a) the formation count is 7 (proved by decide)
-    (b) each stage count is grounded (infrastructure axioms)
-    (c) all seven classes rest at sigma = 1/2 (proved + infrastructure)
-    (d) no class produces off-line zeros (proved from rest states)
-    (e) the catalogue is exhaustive (from Ostrowski + Tate + Conservation)
-
-    The logical chain is: infrastructure -> formation -> rest states
-    -> no off-line production -> SIDE exclusion -> RH.
-    No step assumes RH. No step is RH-equivalent. -/
-structure SIDECertificateForXi where
-  /-- S: symmetry exists (involution s -> 1-s). -/
-  has_symmetry : True
-  /-- I: at least 2 independent constraints. -/
-  has_independence : True
-  /-- D: specification is finite and parameter-free. -/
-  is_determined : True
-  /-- E: catalogue has exactly 7 classes. -/
-  catalogue_count : allClasses.length = 7 := formation_count
-  /-- Stage decomposition is 2+3+2+0. -/
-  stage_decomp :
-    Stage.count Stage.primitive +
-    Stage.count Stage.transformation +
-    Stage.count Stage.output +
-    Stage.count Stage.interface = 7 := stage_sum
-  /-- R: no class produces off-line zeros. -/
-  no_offline : forall C : MechClass, Not (produces_offline C) :=
-    no_class_produces_offline
-
-/-- A SIDE certificate for xi exists. -/
-theorem xi_has_SIDE_certificate : SIDECertificateForXi :=
-  { has_symmetry := trivial
-    has_independence := trivial
-    is_determined := trivial }
 
 -- ===============================================================
 -- SECTION 8: AXIOM INVENTORY
@@ -361,22 +222,20 @@ theorem xi_has_SIDE_certificate : SIDECertificateForXi :=
     - stage_sum: 2+3+2+0 = 7 (by decide)
     - primitive_count, transformation_count, output_count,
       interface_count (all by decide)
-    - C1_rests, C4_rests (proved in voice files)
-    - all_rest_at_half (from individual rest proofs)
-    - no_class_produces_offline (from rest states)
-    - xi_has_SIDE_certificate (constructs the certificate)
+    Rest states, off-line exclusion, and the SIDE certificate are
+    NOT proved in this file (placeholder versions removed). Real
+    proofs: rest states in Voice1-7; off-line exclusion in
+    Bridge/TheBridgeComplete.lean (none_produce).
 
     RH-EQUIVALENT AXIOMS: NONE
 
-    The proof chain:
+    What this file establishes:
     Ostrowski + Tate + algebra + complex analysis
-    -> formation (2,3,2,0) = 7
-    -> all classes rest at sigma = 1/2
-    -> no class produces off-line zeros
-    -> SIDE exclusion
-    -> RH
+    -> formation (2,3,2,0) = 7 (proved by decide)
+    -> the four infrastructure axioms grounding the stage counts
 
-    Each arrow is either a proved theorem or standard mathematics
-    formalized as an infrastructure axiom. -/
+    The downstream chain -- rest states -> no off-line zeros ->
+    SIDE exclusion -> RH -- is carried in the Voice files and
+    Bridge/TheBridgeComplete.lean, not here. -/
 
 end techne_kernel_structural_count
