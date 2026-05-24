@@ -70,19 +70,8 @@ inductive RH_MechanismClass where
 /-- The formation count. -/
 theorem formation_count : 2 + 3 + 2 + 0 = 7 := by decide
 
-/-- Each mechanism class identifies σ = 1/2 or is silent.
-    None produces off-line zeros. -/
-def produces_offline : RH_MechanismClass → Prop
-  | .schwarz       => False  -- forces conjugate symmetry, not off-line zeros
-  | .euler_balance  => False  -- balance at σ=1/2 only
-  | .functional_eq  => False  -- forces ξ(s)=ξ(1-s), identifies σ=1/2
-  | .psl2_modular   => False  -- fixed point at σ=1/2
-  | .spectral       => False  -- self-adjoint → real spectrum → σ=1/2
-  | .cauchy_riemann  => False  -- local constraint, doesn't produce off-line
-  | .hadamard       => False  -- global factorization, respects σ=1/2
-
-theorem rh_none_produces : ∀ c : RH_MechanismClass, ¬(produces_offline c) := by
-  intro c; cases c <;> intro h <;> exact h
+-- [M1 retired] produces_offline (:= False for all 7) and rh_none_produces (proved
+-- not-False). The real per-class exclusion is conditional; see Bridge/SIDEBridge.lean.
 
 /-- Seven classes exhaust all possibilities (completeness). -/
 theorem rh_classes_complete : ∀ c : RH_MechanismClass,
@@ -98,22 +87,12 @@ theorem rh_classes_complete : ∀ c : RH_MechanismClass,
   · right; right; right; right; right; left; rfl
   · right; right; right; right; right; right; rfl
 
-/-- OffLineZero: there exists a mechanism class producing one. -/
-def OffLineZero : Prop := ∃ c : RH_MechanismClass, produces_offline c
-
-/-- RH: no off-line zero exists. -/
-theorem rh_exclusion : ¬OffLineZero := by
-  intro ⟨c, hc⟩
-  exact rh_none_produces c hc
-
-/-- RH as DomainOstrowski instance. -/
-def rh_ostrowski : Ostrowski RH_MechanismClass := {
-  target := OffLineZero,
-  produces := produces_offline,
-  exhaustive := fun d => rfl,
-  none_produces := rh_none_produces,
-  exclusion := rh_exclusion
-}
+-- [M1 retired] OffLineZero / rh_exclusion / rh_ostrowski (the hollow Ostrowski instance:
+-- its target was the internal proposition (exists c, False), NOT a statement about zeta,
+-- so rh_exclusion proved (not False) and said nothing about the zeros). The canonical RH
+-- proof is conditional: Bridge/ConservationBridge.lean (riemann_hypothesis) and
+-- Bridge/SIDEBridge.lean. RH_MechanismClass + its Fintype instance below certify the
+-- catalogue (exactly seven classes), not the exclusion.
 
 -- ============================================================
 -- PART 1b: YANG-MILLS AS OSTROWSKI INSTANCE (LT-3.2)
@@ -124,27 +103,9 @@ inductive YM_Sector where
   | perturbative | instanton | vortex | monopole
   deriving DecidableEq
 
-def ym_massless : YM_Sector → Prop
-  | .perturbative => False  -- asymptotic freedom → confinement
-  | .instanton    => False  -- tunneling → condensate → gap
-  | .vortex       => False  -- string tension → gap
-  | .monopole     => False  -- dual Meissner → gap
-
-theorem ym_none_massless : ∀ s : YM_Sector, ¬(ym_massless s) := by
-  intro s; cases s <;> intro h <;> exact h
-
-def YM_Massless : Prop := ∃ s : YM_Sector, ym_massless s
-
-theorem ym_mass_gap : ¬YM_Massless := by
-  intro ⟨s, hs⟩; exact ym_none_massless s hs
-
-def ym_ostrowski : Ostrowski YM_Sector := {
-  target := YM_Massless,
-  produces := ym_massless,
-  exhaustive := fun d => rfl,
-  none_produces := ym_none_massless,
-  exclusion := ym_mass_gap
-}
+-- [M1 retired] ym_massless (:= False for all 4 sectors) through ym_ostrowski. The
+-- Yang-Mills mass gap is an OPEN Clay Millennium Problem; it is NOT proved here. The
+-- YM_Sector enumeration is retained; no mass-gap claim is made in this kernel.
 
 end DomainOstrowski
 
@@ -197,8 +158,8 @@ instance : Fintype DomainOstrowski.RH_MechanismClass := {
   complete := by intro c; cases c <;> simp [Finset.mem_insert, Finset.mem_singleton]
 }
 
-/-- RH is TYPE I: finite domain, all checked, none produces. -/
-theorem rh_is_type_I : TypeClass.type_I = TypeClass.type_I := rfl
+-- [M1 retired] rh_is_type_I was (TypeClass.type_I = TypeClass.type_I := rfl) -- a vacuous
+-- tautology (X = X) that certified nothing about RH.
 
 /-- The formation count 7 terminates the search; proved by `decide`. -/
 theorem formation_terminates : (2 + 3 + 2 + 0 : Nat) = 7 := by decide
