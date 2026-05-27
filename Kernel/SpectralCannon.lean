@@ -43,10 +43,5 @@ theorem deriv_at_half (t : ℝ) :
     · simp
   rw [h_eq] at h; exact h
 
--- REMOVED: replaced by SimplicityClosure.all_zeros_simple_from_baker
--- axiom all_zeros_simple :
---     ∀ (s : ℂ), completedRiemannZeta₀ s = 0 →
---     0 < s.re → s.re < 1 →
---     deriv completedRiemannZeta₀ s ≠ 0
 
 end SpectralCannon
