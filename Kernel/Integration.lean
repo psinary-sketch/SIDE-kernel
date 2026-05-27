@@ -188,7 +188,7 @@ structure StructuralExhaustivenessData where
     SIDEKernel.n3 + SIDEKernel.n4 = 7
   /-- Per-class exclusion: no mechanism class produces off-line zeros.
       Proved in PoissonExhaustion.lean via Voice 1. Monograph. -/
-  per_class_exclusion : ∀ sigma : Real, ¬(PoissonExhaustion.OffLineZero sigma)
+  per_class_exclusion : ∀ sigma : Real, ¬(PoissonExhaustion.BalanceContradiction sigma)
 
 /-- The kernel's compiled evidence, assembled as one structure.
     Each field references an existing compiled theorem. 0 sorry. -/
@@ -212,7 +212,7 @@ theorem rh_from_structural_exhaustiveness
     RiemannHypothesis := by
   -- Bridge to Mathlib's RiemannHypothesis via XiDef
   exact rh_implies_mathlib_rh (fun sigma h_off => by
-    -- h_off : OffLineZero sigma
+    -- h_off : BalanceContradiction sigma
     -- h_off.1 : is_xi_zero sigma
     -- h_off.2 : ¬(sigma = 1/2)
     exact h_off.2 (h sigma h_off.1))

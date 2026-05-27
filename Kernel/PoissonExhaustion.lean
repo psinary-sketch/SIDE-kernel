@@ -24,10 +24,10 @@ theorem ostrowski_complete :
   | padic p hp => right; exact ⟨p, hp, rfl⟩
 
 -- ============================================================
--- OFFLINEZERO — carries the structural condition
+-- BalanceContradiction — carries the structural condition
 -- ============================================================
 
-/-- OffLineZero sigma means:
+/-- BalanceContradiction sigma means:
     There exists a prime p such that the Euler product balance
     equation holds at sigma (this is a structural consequence
     of ξ having an Euler product — the multiplicative structure
@@ -38,9 +38,9 @@ theorem ostrowski_complete :
     built from the Euler product ζ(s) = ∏(1-p^(-s))⁻¹.
 
     Voice 1 proves: balance ↔ σ = 1/2.
-    Therefore OffLineZero is self-contradictory — the structural
+    Therefore BalanceContradiction is self-contradictory — the structural
     condition forces σ = 1/2, which contradicts σ ≠ 1/2. -/
-def OffLineZero (sigma : Real) : Prop :=
+def BalanceContradiction (sigma : Real) : Prop :=
   ∃ (p : Nat) (hp : Nat.Prime p),
     (prime_as_real p hp) ^ (-sigma) =
     (prime_as_real p hp) ^ (-(1 - sigma)) ∧
@@ -64,7 +64,7 @@ def OffLineZero (sigma : Real) : Prop :=
     seven mechanism classes, providing formation-saturating
     coverage. But the proof only needs one. -/
 theorem gate_e_exhaustive_derived :
-    ∀ sigma : Real, ¬(OffLineZero sigma) := by
+    ∀ sigma : Real, ¬(BalanceContradiction sigma) := by
   intro sigma h
   obtain ⟨p, hp, h_balance, h_ne⟩ := h
   exact h_ne ((balance_theorem p hp sigma).mp h_balance)
@@ -75,13 +75,13 @@ theorem gate_e_exhaustive_derived :
 
 /-
   PROVED IN THIS FILE:
-    gate_e_exhaustive_derived : ∀ σ, ¬(OffLineZero σ)
+    gate_e_exhaustive_derived : ∀ σ, ¬(BalanceContradiction σ)
 
   AXIOMS: 0
   SORRY:  0
 
   METHOD:
-    1. OffLineZero carries the Euler balance condition
+    1. BalanceContradiction carries the Euler balance condition
        (structural consequence of ξ's specification)
     2. Voice 1's balance_theorem: balance ↔ σ = 1/2
     3. Contradiction with σ ≠ 1/2
