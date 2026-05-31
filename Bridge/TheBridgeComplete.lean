@@ -21,7 +21,7 @@ inductive MechanismClass where
   | C4_modular | C5_spectral | C6_cauchy_riemann | C7_hadamard
   deriving DecidableEq, Fintype
 
-theorem seven_classes : Fintype.card MechanismClass = 7 := by native_decide
+theorem seven_classes : Fintype.card MechanismClass = 7 := by decide
 
 -- ============================================================
 -- GROUNDING EACH VOICE IN MATHLIB
