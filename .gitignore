@@ -6,3 +6,7 @@ lake-packages/
 *.trace
 *.hash
 .claude/
+
+kernel_manifest.txt
+lean_inventory.txt
+kernel_tree.txt
