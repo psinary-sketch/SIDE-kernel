@@ -30,7 +30,7 @@ import Kernel.ThomBridge
 
 -- Spectral Cannon + Perpendicular Crossing
 import Kernel.SpectralCannon
-import Kernel.SpectralCannonFull4
+import Kernel.SpectralCannonFull
 import Kernel.PerpendicularCrossing
 
 -- Frobenius Uniqueness

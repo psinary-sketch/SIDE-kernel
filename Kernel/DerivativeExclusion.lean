@@ -21,7 +21,7 @@ namespace DerivativeExclusion
   Voice2 (√ mechanism): θ(-1/τ) = √(-iτ)·θ(τ). The √ produces
     the functional equation ξ(s) = ξ(1-s). Differentiating:
     ξ'(s) = -ξ'(1-s). At s = 1/2+it: ξ'(1/2+it) = -ξ'(1/2-it).
-    This is the Spectral Cannon (compiled in SpectralCannonFull4).
+    This is the Spectral Cannon (compiled in SpectralCannonFull).
     It constrains ξ' but does not force ξ' = 0.
 
   Voices 3-7: Each constrains zero behavior but none produces
@@ -66,7 +66,7 @@ def class1_deriv_excluded : Prop :=
 -- analyticOrderAt requires the meromorphic log-derivative PR.
 
 -- Class 2 (√ mechanism): Spectral Cannon constrains Re(ξ') = 0
--- but does not force ξ' = 0. Compiled in SpectralCannonFull4.
+-- but does not force ξ' = 0. Compiled in SpectralCannonFull.
 
 -- Classes 3-7: Each produces specific structural constraints
 -- on zeros (compiled in Voice3-7). None produces the algebraic

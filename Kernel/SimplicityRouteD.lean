@@ -1,6 +1,6 @@
 import Mathlib.Tactic
 import Kernel.Focus
-import Kernel.SpectralCannonFull4
+import Kernel.SpectralCannonFull
 
 open Complex
 
@@ -15,7 +15,7 @@ namespace SimplicityRouteD
 --
 -- CHAIN RULE: F'(t) = i * xi'(1/2 + it)
 -- Since F is real, F'(t) is real, so xi'(1/2+it) is purely imaginary.
--- (This is exactly SpectralCannonFull4: Re(xi'(1/2+it)) = 0)
+-- (This is exactly SpectralCannonFull: Re(xi'(1/2+it)) = 0)
 --
 -- AT A SIMPLE ZERO t0: F(t0) = 0, F'(t0) != 0
 --   => F crosses zero transversally
@@ -41,7 +41,7 @@ namespace SimplicityRouteD
 
 -- The two key facts already in the kernel:
 -- 1. F is real-valued (Focus.focus)
--- 2. xi' is purely imaginary on the line (SpectralCannonFull4)
+-- 2. xi' is purely imaginary on the line (SpectralCannonFull)
 
 -- At a zero on the critical line:
 -- F(t0) = 0 means xi(1/2 + it0) = 0

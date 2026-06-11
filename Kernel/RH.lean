@@ -1,7 +1,7 @@
 import Kernel.Focus
 import Kernel.ThomBridge
 import Kernel.SpectralCannon
-import Kernel.SpectralCannonFull4
+import Kernel.SpectralCannonFull
 import Kernel.PerpendicularCrossing
 import Kernel.ProductFormula_Rat
 import Kernel.PoissonExhaustion
@@ -26,7 +26,7 @@ theorem assembly :
 -- FOCUS:           Focus.focus
 -- Antisymmetry:    ThomBridge.antisymmetry
 -- Diff FE:         SpectralCannon.deriv_fe
--- Spectral Cannon: SpectralCannonFull4.spectral_cannon
+-- Spectral Cannon: SpectralCannonFull.spectral_cannon
 -- Conservation:    ProductFormula_Rat.s_darkness_principle
 -- Formation 7:     StructuralCount (decide)
 -- SIDE logic:      Layer1

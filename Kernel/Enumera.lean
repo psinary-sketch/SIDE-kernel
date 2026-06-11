@@ -126,7 +126,7 @@ theorem F23_units_mod_24 : Nat.totient 24 = 8 := F18_totient24
 -- (SpectralCannon.lean)
 
 -- F27: Re(Lambda_0') = 0 on critical line
--- (SpectralCannonFull4.lean)
+-- (SpectralCannonFull.lean)
 
 -- F28: Antisymmetry about sigma = 1/2
 -- (ThomBridge.lean)

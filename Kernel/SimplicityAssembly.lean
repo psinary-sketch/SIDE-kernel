@@ -1,5 +1,5 @@
 import Kernel.Layer1
-import Kernel.SpectralCannonFull4
+import Kernel.SpectralCannonFull
 import Kernel.Focus
 import Kernel.SignChange
 import Kernel.DoubleZero
@@ -27,7 +27,7 @@ namespace SimplicityAssembly
 --
 -- ROUTE D (Real Function IVT):
 --   Focus: F(t) = xi(1/2+it) is real-valued
---   SpectralCannonFull4: F'(t) purely imaginary (Re=0)
+--   SpectralCannonFull: F'(t) purely imaginary (Re=0)
 --   SignChange: simple zero => sign change (proved)
 --   DoubleZero: double zero => energy = 0 (proved)
 --   Equivalence: simplicity <=> transversal crossing

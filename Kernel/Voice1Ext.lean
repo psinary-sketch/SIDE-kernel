@@ -2,7 +2,7 @@ import Mathlib.NumberTheory.LSeries.RiemannZeta
 import Mathlib.Analysis.Calculus.Deriv.Basic
 import Mathlib.Analysis.Calculus.Deriv.Comp
 import Mathlib.Analysis.Complex.Basic
-import Kernel.SpectralCannonFull4
+import Kernel.SpectralCannonFull
 
 open Complex
 

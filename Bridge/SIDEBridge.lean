@@ -4,7 +4,7 @@ import Kernel.Voice1
 import Kernel.Voice2
 import Kernel.Voice3
 import Kernel.AnalyticBridge
-import Kernel.SpectralCannonFull4
+import Kernel.SpectralCannonFull
 import Kernel.PerpendicularCrossing
 
 open Complex techne_kernel
