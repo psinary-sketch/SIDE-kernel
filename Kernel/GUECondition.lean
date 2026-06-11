@@ -31,7 +31,7 @@ theorem dyson_index : 2 = (2 : Nat) := rfl
 
 -- The quarter-twist generates Z/4, not Z/2
 -- This rules out GOE (which has Z/2 symmetry)
-theorem z4_not_z2 : 4 > 2 := by native_decide
+theorem z4_not_z2 : 4 > 2 := by decide
 
 -- Full 720 return (not 360) confirms GUE
 theorem full_return : I ^ 4 = (1 : Complex) := by norm_num [Complex.ext_iff, Complex.I_re, Complex.I_im]

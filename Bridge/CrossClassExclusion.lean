@@ -34,7 +34,7 @@ inductive CouplingChannel where
   | distributive_law
   deriving DecidableEq, Fintype
 
-theorem two_channels : Fintype.card CouplingChannel = 2 := by native_decide
+theorem two_channels : Fintype.card CouplingChannel = 2 := by decide
 
 /-- κ of each coupling channel. Both are silent (κ = 0). -/
 def channel_kappa : CouplingChannel → ConservationStrength

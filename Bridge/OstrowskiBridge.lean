@@ -71,7 +71,7 @@ inductive TransformationStage where
   deriving DecidableEq, Fintype
 
 /-- n₂ = 3. -/
-theorem formation_n2 : Fintype.card TransformationStage = 3 := by native_decide
+theorem formation_n2 : Fintype.card TransformationStage = 3 := by decide
 
 /-- (2, 3, 2, 0) = 7. -/
 theorem formation_count : 2 + 3 + 2 + 0 = 7 := SIDEKernel.formation

@@ -12,33 +12,33 @@ theorem code_d : 3 = 3 := rfl
 
 -- Formation block sizes: (n1, n2, n3, n4) = (2, 3, 2, 0)
 -- Active blocks partition the 7 dimensions
-theorem block_partition : 2 + 3 + 2 = 7 := by native_decide
+theorem block_partition : 2 + 3 + 2 = 7 := by decide
 theorem interface_dark : 0 = 0 := rfl
 
 -- Stage complementarity: each active stage has complement >= d
 -- Stage 1 (size 2): complement = 7 - 2 = 5 >= 3
 -- Stage 2 (size 3): complement = 7 - 3 = 4 >= 3
 -- Stage 3 (size 2): complement = 7 - 2 = 5 >= 3
-theorem stage1_complement : 7 - 2 >= 3 := by native_decide
-theorem stage2_complement : 7 - 3 >= 3 := by native_decide
-theorem stage3_complement : 7 - 2 >= 3 := by native_decide
+theorem stage1_complement : 7 - 2 >= 3 := by decide
+theorem stage2_complement : 7 - 3 >= 3 := by decide
+theorem stage3_complement : 7 - 2 >= 3 := by decide
 
 -- Minimum block size (determines error detection capability)
 -- min(2, 3, 2) = 2, so weight-1 errors within any block are detectable
-theorem min_block_size : min 2 (min 3 2) = 2 := by native_decide
+theorem min_block_size : min 2 (min 3 2) = 2 := by decide
 
 -- Distance = min complement over all single-block errors
 -- But for formation-block errors, d = min(n_i) + 1 when blocks
 -- are the error basis. Here min(n_i) = 2, giving d >= 3
 -- for any error supported on at most one block.
-theorem distance_lower : min 2 (min 3 2) + 1 = 3 := by native_decide
+theorem distance_lower : min 2 (min 3 2) + 1 = 3 := by decide
 
 -- Singleton property: k = 1 (rank-1 projector)
 -- The bright subspace is 1-dimensional (eigenvalue 12)
 -- The dark subspace is 6-dimensional (eigenvalue 0)
 -- This gives exactly 1 logical qubit
-theorem bright_dim : 7 - 6 = 1 := by native_decide
-theorem dark_dim : 7 - 1 = 6 := by native_decide
+theorem bright_dim : 7 - 6 = 1 := by decide
+theorem dark_dim : 7 - 1 = 6 := by decide
 
 -- Hamming bound check: for [[n,k,d]] = [[7,1,3]]
 -- Sum_{j=0}^{t} C(n,j) <= 2^(n-k) where t = floor((d-1)/2) = 1
@@ -46,12 +46,12 @@ theorem dark_dim : 7 - 1 = 6 := by native_decide
 -- Wait: for [[7,1,3]], the Hamming bound gives:
 -- 2^k * Sum_{j=0}^{1} C(n,j)(q-1)^j <= q^n
 -- For q=2: 2^1 * (1 + 7) = 16 <= 2^7 = 128. Satisfied.
-theorem hamming_bound : 2 * (1 + 7) <= 2 ^ 7 := by native_decide
+theorem hamming_bound : 2 * (1 + 7) <= 2 ^ 7 := by decide
 
 -- The Hamming code [[7,4,3]] is perfect: equality in Hamming bound
 -- The Trivium code [[7,1,3]] is a subcode (k=1 < 4)
 -- It satisfies the bound with room to spare
-theorem hamming_perfect_ref : 1 + 7 = 2 ^ 3 := by native_decide
+theorem hamming_perfect_ref : 1 + 7 = 2 ^ 3 := by decide
 
 -- Knill-Laflamme condition summary:
 -- For rank-1 code (k=1), K-L reduces to:

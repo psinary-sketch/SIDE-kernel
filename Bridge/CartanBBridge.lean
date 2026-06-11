@@ -31,7 +31,7 @@
 
   The Lean module declares these classes as a finite type
   `OutputStageClass`, proves `Fintype.card OutputStageClass = 2`
-  by `native_decide`, and provides the `OutputStageExhaustiveness`
+  by `decide`, and provides the `OutputStageExhaustiveness`
   certificate that ties this count to the entire-function hypothesis
   via the three classical theorems above.
 
@@ -77,7 +77,7 @@ deriving Fintype, DecidableEq, Repr
 
 /-- Exactly two output-stage classes. -/
 theorem output_stage_card : Fintype.card OutputStageClass = 2 := by
-  native_decide
+  decide
 
 /-! ## Section 2. The Three Classical Theorems
 
@@ -231,7 +231,7 @@ The four formation summands now have parallel structure:
   n₄ = 0   |  Conservation of Spectra (Tate)           |  1950
 
 Each summand is supported by a classical classification theorem.
-The total (2 + 3 + 2 + 0 = 7) is verified by `native_decide` in
+The total (2 + 3 + 2 + 0 = 7) is verified by `decide` in
 `StructuralCount.lean`. The composition into `StructuralExhaustiveness`
 is performed in `TheBridgeComplete.lean`.
 

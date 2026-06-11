@@ -47,9 +47,9 @@ def n4 : Nat := 0
 -- ============================================================
 
 /-- The formation count: 2 + 3 + 2 + 0 = 7 mechanism classes. -/
-theorem formation_count : n1 + n2 + n3 + n4 = 7 := by native_decide
+theorem formation_count : n1 + n2 + n3 + n4 = 7 := by decide
 
 /-- The formation count as a bare arithmetic fact. -/
-theorem formation : 2 + 3 + 2 + 0 = 7 := by native_decide
+theorem formation : 2 + 3 + 2 + 0 = 7 := by decide
 
 end SIDEKernel

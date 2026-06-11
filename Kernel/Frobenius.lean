@@ -4,11 +4,11 @@ namespace Frobenius
 
 def frobeniusNumber (a b : Nat) : Int := a * b - a - b
 
-theorem frobenius_two_three : frobeniusNumber 2 3 = 1 := by native_decide
+theorem frobenius_two_three : frobeniusNumber 2 3 = 1 := by decide
 
-theorem frobenius_two_five : frobeniusNumber 2 5 = 3 := by native_decide
+theorem frobenius_two_five : frobeniusNumber 2 5 = 3 := by decide
 
-theorem frobenius_three_four : frobeniusNumber 3 4 = 5 := by native_decide
+theorem frobenius_three_four : frobeniusNumber 3 4 = 5 := by decide
 
 theorem frobenius_two (b : Nat) :
     frobeniusNumber 2 b = (b : Int) - 2 := by

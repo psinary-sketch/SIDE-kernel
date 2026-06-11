@@ -13,7 +13,7 @@ namespace Enumera
 -- Each theorem corresponds to a numbered finding
 
 -- F1: Dimension 7 is forced (Stormer)
-theorem F1_dim_seven : 2 + 3 + 2 + 0 = 7 := by native_decide
+theorem F1_dim_seven : 2 + 3 + 2 + 0 = 7 := Bijection.formation
 
 -- F2: {2,3} unique gap-free pair (Frobenius)
 theorem F2_gap_free : Frobenius.frobeniusNumber 2 3 = 1 := Frobenius.frobenius_two_three
@@ -25,11 +25,11 @@ theorem F3_stormer_3 : Stormer.consecSmooth 3 = true := Stormer.pair_3_4
 theorem F3_stormer_4 : Stormer.consecSmooth 8 = true := Stormer.pair_8_9
 
 -- F4: Norm squared = 12
-theorem F4_norm : 3 + 2 + 1 + 0 + 1 + 2 + 3 = 12 := by native_decide
+theorem F4_norm : 3 + 2 + 1 + 0 + 1 + 2 + 3 = 12 := by decide
 
 -- F5: Eigenvalue spectrum {0^6, 12}
-theorem F5_bright : 3 + 2 + 1 + 0 + 1 + 2 + 3 = 12 := by native_decide
-theorem F5_dark : 7 - 1 = 6 := by native_decide
+theorem F5_bright : 3 + 2 + 1 + 0 + 1 + 2 + 3 = 12 := by decide
+theorem F5_dark : 7 - 1 = 6 := by decide
 
 -- F6: Aperture = 1/7
 theorem F6_aperture_denom : 7 = 7 := rfl
@@ -64,17 +64,17 @@ theorem F12_card_id : Fintype.card Bijection.IdElem = 7 := Bijection.id_card
 -- (padic_norm_prime_lt_one in OstrowskiClassify)
 
 -- F15: Product formula: places decompose as 1+1+1 = 3
-theorem F15_places : 1 + 1 + 1 = 3 := by native_decide
+theorem F15_places : 1 + 1 + 1 = 3 := by decide
 
 -- F16: Conductor 4 = 2^2
-theorem F16_conductor : 2 ^ 2 = (4 : Nat) := by native_decide
+theorem F16_conductor : 2 ^ 2 = (4 : Nat) := by decide
 
 -- F17: Totient(4) = 2
-theorem F17_totient : Nat.totient 4 = 2 := by native_decide
+theorem F17_totient : Nat.totient 4 = 2 := by decide
 
 -- F18: Natural modulus 24
-theorem F18_mod24 : 2 ^ 3 * 3 = (24 : Nat) := by native_decide
-theorem F18_totient24 : Nat.totient 24 = 8 := by native_decide
+theorem F18_mod24 : 2 ^ 3 * 3 = (24 : Nat) := by decide
+theorem F18_totient24 : Nat.totient 24 = 8 := by decide
 theorem F18_units : 8 = 8 := rfl
 
 -- F19: Sophie Germain pairs from {2,3} sector
@@ -86,13 +86,13 @@ theorem F19_sg_11 : Nat.Prime 11 := by decide
 theorem F19_sg_23 : Nat.Prime 23 := by decide
 theorem F19_sg_47 : Nat.Prime 47 := by decide
 -- 2*2+1=5, 2*3+1=7, 2*5+1=11, 2*23+1=47
-theorem F19_pair1 : 2 * 2 + 1 = 5 := by native_decide
-theorem F19_pair2 : 2 * 3 + 1 = 7 := by native_decide
-theorem F19_pair3 : 2 * 5 + 1 = 11 := by native_decide
-theorem F19_pair4 : 2 * 23 + 1 = 47 := by native_decide
+theorem F19_pair1 : 2 * 2 + 1 = 5 := by decide
+theorem F19_pair2 : 2 * 3 + 1 = 7 := by decide
+theorem F19_pair3 : 2 * 5 + 1 = 11 := by decide
+theorem F19_pair4 : 2 * 23 + 1 = 47 := by decide
 
 -- F20: Hamming bound for [[7,1,3]]
-theorem F20_hamming : 2 * (1 + 7) <= 2 ^ 7 := by native_decide
+theorem F20_hamming : 2 * (1 + 7) <= 2 ^ 7 := by decide
 
 -- F21: 2 and 3 are prime in Z
 theorem F21_two_prime : Nat.Prime 2 := by decide

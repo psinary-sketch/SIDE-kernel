@@ -28,7 +28,7 @@ theorem assembly :
 -- Diff FE:         SpectralCannon.deriv_fe
 -- Spectral Cannon: SpectralCannonFull4.spectral_cannon
 -- Conservation:    ProductFormula_Rat.s_darkness_principle
--- Formation 7:     StructuralCount (native_decide)
+-- Formation 7:     StructuralCount (decide)
 -- SIDE logic:      Layer1
 -- Euler closing:   riemannZeta_ne_zero_of_one_le_re (Mathlib)
 -- Frobenius:       Frobenius.unique_gapfree

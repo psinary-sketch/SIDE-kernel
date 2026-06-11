@@ -13,14 +13,14 @@ theorem gen_3 : Nat.Prime 3 := by decide
 -- Sector II: First extensions (5, 7)
 theorem ext_5 : Nat.Prime 5 := by decide
 theorem ext_7 : Nat.Prime 7 := by decide
-theorem ext_5_from_2 : 2 * 2 + 1 = 5 := by native_decide
-theorem ext_7_from_3 : 2 * 3 + 1 = 7 := by native_decide
+theorem ext_5_from_2 : 2 * 2 + 1 = 5 := by decide
+theorem ext_7_from_3 : 2 * 3 + 1 = 7 := by decide
 
 -- Sector III: Second extensions (11, 13)
 theorem ext_11 : Nat.Prime 11 := by decide
 theorem ext_13 : Nat.Prime 13 := by decide
-theorem ext_11_from_5 : 2 * 5 + 1 = 11 := by native_decide
-theorem ext_13_from_6 : 2 * 6 + 1 = 13 := by native_decide
+theorem ext_11_from_5 : 2 * 5 + 1 = 11 := by decide
+theorem ext_13_from_6 : 2 * 6 + 1 = 13 := by decide
 
 -- The Prime Core: first 15 primes
 -- 2,3,5,7,11,13,17,19,23,29,31,37,41,43,47
@@ -38,27 +38,27 @@ theorem core_47 : Nat.Prime 47 := by decide
 
 -- Sophie Germain chains in the core:
 -- 2 -> 5 -> 11 -> 23 -> 47
-theorem sg_chain_2_5 : 2 * 2 + 1 = 5 := by native_decide
-theorem sg_chain_5_11 : 2 * 5 + 1 = 11 := by native_decide
-theorem sg_chain_11_23 : 2 * 11 + 1 = 23 := by native_decide
-theorem sg_chain_23_47 : 2 * 23 + 1 = 47 := by native_decide
+theorem sg_chain_2_5 : 2 * 2 + 1 = 5 := by decide
+theorem sg_chain_5_11 : 2 * 5 + 1 = 11 := by decide
+theorem sg_chain_11_23 : 2 * 11 + 1 = 23 := by decide
+theorem sg_chain_23_47 : 2 * 23 + 1 = 47 := by decide
 -- Chain length 5: longest in core
 
 -- 3 -> 7 (length 2)
-theorem sg_chain_3_7 : 2 * 3 + 1 = 7 := by native_decide
+theorem sg_chain_3_7 : 2 * 3 + 1 = 7 := by decide
 
 -- Exit primes: 2p+1 is composite
 -- 7 -> 15 = 3*5 (exit)
-theorem exit_7 : 2 * 7 + 1 = 15 := by native_decide
-theorem exit_7_composite : 15 = 3 * 5 := by native_decide
+theorem exit_7 : 2 * 7 + 1 = 15 := by decide
+theorem exit_7_composite : 15 = 3 * 5 := by decide
 
 -- 13 -> 27 = 3^3 (exit)
-theorem exit_13 : 2 * 13 + 1 = 27 := by native_decide
-theorem exit_13_composite : 27 = 3 * 9 := by native_decide
+theorem exit_13 : 2 * 13 + 1 = 27 := by decide
+theorem exit_13_composite : 27 = 3 * 9 := by decide
 
 -- tau = 3480 (PRIME GROUND fundamental parameter)
 -- tau = 2^3 * 3 * 5 * 29
-theorem tau_value : 2 ^ 3 * 3 * 5 * 29 = 3480 := by native_decide
-theorem tau_factored : 3480 = 8 * 435 := by native_decide
+theorem tau_value : 2 ^ 3 * 3 * 5 * 29 = 3480 := by decide
+theorem tau_factored : 3480 = 8 * 435 := by decide
 
 end ConstanceSectors

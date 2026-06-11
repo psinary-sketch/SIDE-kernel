@@ -9,7 +9,7 @@ incidence through Hamming H·Hᵀ = 0 through CSS construction
 through Steane [[7,1,3]]. Pipeline uniqueness verified:
 {2,3,5}-smooth gives 10 ≠ 15 = 2⁴-1.
 
-All verified by native_decide. 0 sorry. 0 axioms.
+All verified by decide. 0 sorry. 0 axioms.
 -/
 
 -- ============================================================
@@ -33,7 +33,7 @@ def stormer_23 : List (Nat × Nat) :=
     then some (n+1, n+2) else none
 
 /-- Exactly 4 Størmer pairs: (1,2), (2,3), (3,4), (8,9). -/
-theorem stormer_23_count : stormer_23.length = 4 := by native_decide
+theorem stormer_23_count : stormer_23.length = 4 := by decide
 
 /-- A number is {2,3,5}-smooth if its only prime factors are 2, 3, and 5. -/
 def is_235_smooth : Nat → Bool
@@ -53,10 +53,10 @@ def stormer_235 : List (Nat × Nat) :=
     then some (n+1, n+2) else none
 
 /-- Exactly 10 consecutive {2,3,5}-smooth pairs. -/
-theorem stormer_235_count : stormer_235.length = 10 := by native_decide
+theorem stormer_235_count : stormer_235.length = 10 := by decide
 
 /-- Pipeline does NOT extend: 10 ≠ 15 = 2⁴ - 1. -/
-theorem pipeline_stops : 10 ≠ 2^4 - 1 := by native_decide
+theorem pipeline_stops : 10 ≠ 2^4 - 1 := by decide
 
 -- ============================================================
 -- SECTION 2: Fano plane incidence
@@ -66,7 +66,7 @@ theorem pipeline_stops : 10 ≠ 2^4 - 1 := by native_decide
 def fano_lines : List (Fin 7 × Fin 7 × Fin 7) :=
   [(0,1,2), (0,3,4), (0,5,6), (1,3,5), (1,4,6), (2,3,6), (2,4,5)]
 
-theorem fano_line_count : fano_lines.length = 7 := by native_decide
+theorem fano_line_count : fano_lines.length = 7 := by decide
 
 /-- Number of lines through a given point. -/
 def lines_through (p : Fin 7) : Nat :=
@@ -74,7 +74,7 @@ def lines_through (p : Fin 7) : Nat :=
 
 /-- Each point lies on exactly 3 lines. -/
 theorem fano_incidence : ∀ p : Fin 7, lines_through p = 3 := by
-  intro p; fin_cases p <;> native_decide
+  intro p; fin_cases p <;> decide
 
 -- ============================================================
 -- SECTION 3: Hamming code and H·Hᵀ
@@ -94,30 +94,30 @@ def HHt (i j : Fin 3) : ZMod 2 :=
 /-- H · Hᵀ ≡ 0 (mod 2): the self-orthogonality condition.
     Therefore C⊥ ⊂ C and the CSS construction applies. -/
 theorem hht_zero : ∀ i j : Fin 3, HHt i j = 0 := by
-  intro i j; fin_cases i <;> fin_cases j <;> native_decide
+  intro i j; fin_cases i <;> fin_cases j <;> decide
 
 -- ============================================================
 -- SECTION 4: Steane code parameters
 -- ============================================================
 
-theorem steane_n : 2^3 - 1 = 7 := by native_decide
-theorem steane_k : 7 - 2 * 3 = 1 := by native_decide
-theorem steane_d : 2 + 1 = 3 := by native_decide
+theorem steane_n : 2^3 - 1 = 7 := by decide
+theorem steane_k : 7 - 2 * 3 = 1 := by decide
+theorem steane_d : 2 + 1 = 3 := by decide
 
 /-- CSS threshold: self-orthogonality holds at dim 3, fails at dim 2. -/
 theorem css_threshold :
     (2^(3-2) % 2 = 0) ∧ (2^(2-2) % 2 ≠ 0) := by
-  constructor <;> native_decide
+  constructor <;> decide
 
 /-- The complete Steane code: [[7, 1, 3]] with H·Hᵀ = 0. -/
 theorem steane_code_complete :
     (2^3 - 1 = 7) ∧ (7 - 2*3 = 1) ∧ (2 + 1 = 3) ∧
     (∀ i j : Fin 3, HHt i j = 0) := by
   refine ⟨?_, ?_, ?_, ?_⟩
-  · native_decide
-  · native_decide
-  · native_decide
-  · intro i j; fin_cases i <;> fin_cases j <;> native_decide
+  · decide
+  · decide
+  · decide
+  · intro i j; fin_cases i <;> fin_cases j <;> decide
 
 -- ============================================================
 -- SECTION 5: The full chain theorem
@@ -141,9 +141,9 @@ theorem arithmetic_forces_steane :
     -- Unique: pipeline stops at {2,3}
     (10 ≠ 2^4 - 1) := by
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩
-  · native_decide
-  · native_decide
-  · intro p; fin_cases p <;> native_decide
-  · intro i j; fin_cases i <;> fin_cases j <;> native_decide
-  · native_decide
-  · native_decide
+  · decide
+  · decide
+  · intro p; fin_cases p <;> decide
+  · intro i j; fin_cases i <;> fin_cases j <;> decide
+  · decide
+  · decide

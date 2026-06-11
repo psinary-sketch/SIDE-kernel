@@ -21,8 +21,8 @@ theorem bij_surjective : Function.Surjective bij := by decide
 theorem bij_bijective : Function.Bijective bij :=
   And.intro bij_injective bij_surjective
 
-theorem mech_card : Fintype.card MechClass = 7 := by native_decide
-theorem id_card : Fintype.card IdElem = 7 := by native_decide
+theorem mech_card : Fintype.card MechClass = 7 := by decide
+theorem id_card : Fintype.card IdElem = 7 := by decide
 theorem formation : 2 + 3 + 2 + 0 = 7 := SIDEKernel.formation
 
 end Bijection
