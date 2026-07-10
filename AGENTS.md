@@ -173,6 +173,12 @@ Each extension elaborates the abstract structure; none changes the logical conte
 
 ---
 
+## Environment-safety rules (Windows, junctions)
+
+- **NEVER `Remove-Item -Recurse -Force` on paths containing junctions** (it follows them; today it deleted `.lake/packages/mathlib` through the worktree junction). Remove junction reparse points with `cmd /c rmdir /Q` or `fsutil reparsepoint delete`. Junctions look like directories to PowerShell's recursive-remove and get traversed into the target. Recorded 2026-07-10 after an audit-cleanup incident that denuded `.lake/packages/mathlib` of its source tree while leaving cached oleans intact; mtime-reverse restored the working state, but the correct move is to never let the recursive-force follow junction reparse points in the first place.
+
+---
+
 ## Contact
 
 J. York Seale, ORCID [0009-0008-7993-0310](https://orcid.org/0009-0008-7993-0310). Via GitHub (issues, PRs) on this repository.
