@@ -469,7 +469,7 @@ end OstrowskiCatalogue
 
     DomainOstrowski: abstract structure for exhaustive proofs
     RH_MechanismClass: 7 classes, none produces off-line zeros
-    YM_Sector: 4 sectors, all gapped
+    YM_Sector: 4 sectors (enumeration only; no mass-gap claim — see M1-retired note above)
     ECondition: E as search termination, TYPE classification
     SpectralSilence: essential → silent (10/10 tested)
     EliminativeProof: RH is eliminative, not constructive

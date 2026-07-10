@@ -130,31 +130,31 @@ theorem identity_theorem_unique_bridge
   ((hU.analyticOn_iff_analyticOnNhd).mp hf).eqOn_of_preconnected_of_eventuallyEq
     ((hU.analyticOn_iff_analyticOnNhd).mp hg) hUc hz₀ hfg
 
-/-- T3. The Stein property of ℂ (Cartan B applied to ℂ).
+/-! ## Section 2b. T3 (Cartan B / Cousin-I) -- OPEN, SET ASIDE
 
-The cohomological statement is H¹(ℂ, 𝒪) = 0 — sheaf cohomology of
-holomorphic functions vanishes. Mathlib does not yet contain the
-sheaf-cohomological version, but the consequence we need — that
-every Cousin-I problem on ℂ is solvable by a global meromorphic
-function — is the Mittag-Leffler theorem on ℂ, classical since 1876.
+  The third classical pillar -- "no intermediate cohomological scale", i.e. the
+  Stein property H^1(C, O) = 0 / Cousin-I solvability on C (Mittag-Leffler 1876)
+  -- is NOT formalized in this stack and is deliberately SET ASIDE.
 
-Operationally: any prescription of principal parts on a discrete
-subset of ℂ is realized by a meromorphic function on ℂ. There is
-no obstruction "between" local data (the principal parts) and the
-global function. This is what kills the third class.
+  Asserts: for a closed discrete S in C and any prescription of principal parts on
+  S, there is a global meromorphic g on C realizing them (g - pp_c analytic at each
+  c). Classical, but Mathlib carries only the ANALYSIS of meromorphic functions
+  (MeromorphicOn, divisors, Nevanlinna value distribution), not the CONSTRUCTIVE
+  Mittag-Leffler / Cousin-I existence theorem.
 
-We state the consequence we need — that the obstruction space
-is trivial — as a placeholder for the Mathlib import path that
-will eventually replace it. -/
-def CousinI_solvability : Prop :=
-  ∀ (S : Set ℂ) (_ : Set.Countable S),
-    ∀ (_ : ℂ → ℂ),  -- principal parts
-      True  -- always solvable; obstruction space is 0
+  Decision (2026-06-16): this leg does not meet programme reliance standards. A
+  conditional-hypothesis encoding ("(h_cousin : ...) -> ...") is deliberately NOT
+  used -- that format is non-standard for the kernel and must not become precedent.
+  Left as an explicit open external input: documented here, NOT a consumed Prop,
+  NOT proved, NOT relied upon by any kernel theorem. The n3 = 2 count and the two
+  formalized pillars (T1 elliptic regularity, T2 Identity Theorem) stand alone below.
 
-/-- Cousin-I problems on ℂ are always solvable. -/
-theorem cartan_B_consequence : CousinI_solvability := by
-  intro S _ _
-  trivial
+  Research lead (TECHNE, 2026-06-16): Mathlib DOES carry Nevanlinna value-distribution
+  theory (FirstMainTheorem, characteristic/counting functions, Jensen). An EXCLUSION
+  route to "no third output-stage class" via the First Main Theorem -- rather than a
+  constructive Cousin-I -- may be reachable in-stack; logged for the R-curve /
+  simplicity toolset. Until then: SET ASIDE.
+-/
 
 /-! ## Section 3. The Output-Stage Exhaustiveness Certificate
 
@@ -166,7 +166,8 @@ The certificate is a conjunction:
   (a) the type `OutputStageClass` has finite cardinality 2;
   (b) the local-class collapse is justified by elliptic regularity;
   (c) the local-to-global bridge is unique by the Identity Theorem;
-  (d) no intermediate scale exists by the Stein property of ℂ.
+  (d) [SET ASIDE] the no-intermediate-scale step (Cartan B / Cousin-I) is OPEN;
+      see Section 2b above; it is NOT a field of the certificate below.
 
 Component (a) is `output_stage_card`.
 Components (b), (c), (d) are the three theorems above.
@@ -186,14 +187,16 @@ structure OutputStageExhaustiveness : Prop where
       AnalyticOn ℂ f U → AnalyticOn ℂ g U →
       ∀ {z₀ : ℂ}, z₀ ∈ U → f =ᶠ[𝓝 z₀] g →
       Set.EqOn f g U
-  no_intermediate : CousinI_solvability
 
-/-- The exhaustiveness certificate is unconditional. -/
+/-- The output-stage classification certificate. Certifies the FORMALIZED pillars:
+    the 2-element class count, the local-collapse (elliptic regularity), and the
+    unique local-to-global bridge (Identity Theorem). The third pillar (Cartan B /
+    Cousin-I, no intermediate scale) is OPEN and SET ASIDE (Section 2b) -- not a
+    field here, not relied upon. Unconditional on what it states. -/
 theorem output_stage_exhaustiveness_proved : OutputStageExhaustiveness :=
   { card_two       := output_stage_card
   , local_collapse := elliptic_regularity_collapse
   , bridge_unique  := identity_theorem_unique_bridge
-  , no_intermediate := cartan_B_consequence
   }
 
 /-! ## Section 4. The n₃ = 2 Certificate
