@@ -93,12 +93,12 @@ Canonical reading order:
 Bridge files:
 
 - `TheBridgeComplete.lean` — SE proved, 7 derived exclusions, Ostrowski from Mathlib
-- `CSSThreshold.lean` — Steane [[7,1,3]] threshold verified by `native_decide`
+- `CSSThreshold.lean` — Steane [[7,1,3]] threshold verified by `decide` (`native_decide` eliminated corpus-wide at `v1.2`)
 - `OstrowskiBridge.lean` — Ostrowski exhaustive, formation n₂ = 3
 
 ## Structure
 
-- `Kernel/` — Core formalization (69 files)
+- `Kernel/` — Core formalization (72 files at tag `v1.2`; counts are scope-dependent — cite terminals by name, see `DEPOSIT_v1_2_NOTES.md`)
 - `Bridge/` — Files compiling against Mathlib, grounding abstract types in Mathlib API
 - `legacy/` — Historical snapshots (probe files from v1 through v66.1, not part of ship build)
 
