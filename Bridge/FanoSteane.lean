@@ -10,6 +10,17 @@ through Steane [[7,1,3]]. Pipeline uniqueness verified:
 {2,3,5}-smooth gives 10 ≠ 15 = 2⁴-1.
 
 All verified by decide. 0 sorry. 0 axioms.
+
+Toolchain-rot repair (2026-07-16): the three `stormer_*.length` counts are proved
+by `decide +kernel` rather than plain `decide`.  The lists are built by
+`filterMap` over the well-founded-recursive `is_23_smooth` / `is_235_smooth`,
+which the elaborator's `decide` reducer stopped unfolding at a Mathlib/toolchain
+boundary (it stalls at `.length.beq`); the kernel reducer still unfolds it.  The
+definitions and asserted values (4, 10) are unchanged — the values were true at
+the original toolchain and are re-derived here, not adjusted — and `decide
++kernel` adds no axiom beyond `{propext, Quot.sound}` (no `native_decide`, no
+`Lean.ofReduceBool`).  See OPEN_TRAILS: first observed toolchain-rot in a pinned
+kernel (source unchanged, truth unchanged, checkability decayed).
 -/
 
 -- ============================================================
@@ -33,7 +44,7 @@ def stormer_23 : List (Nat × Nat) :=
     then some (n+1, n+2) else none
 
 /-- Exactly 4 Størmer pairs: (1,2), (2,3), (3,4), (8,9). -/
-theorem stormer_23_count : stormer_23.length = 4 := by decide
+theorem stormer_23_count : stormer_23.length = 4 := by decide +kernel
 
 /-- A number is {2,3,5}-smooth if its only prime factors are 2, 3, and 5. -/
 def is_235_smooth : Nat → Bool
@@ -53,7 +64,7 @@ def stormer_235 : List (Nat × Nat) :=
     then some (n+1, n+2) else none
 
 /-- Exactly 10 consecutive {2,3,5}-smooth pairs. -/
-theorem stormer_235_count : stormer_235.length = 10 := by decide
+theorem stormer_235_count : stormer_235.length = 10 := by decide +kernel
 
 /-- Pipeline does NOT extend: 10 ≠ 15 = 2⁴ - 1. -/
 theorem pipeline_stops : 10 ≠ 2^4 - 1 := by decide
@@ -141,7 +152,7 @@ theorem arithmetic_forces_steane :
     -- Unique: pipeline stops at {2,3}
     (10 ≠ 2^4 - 1) := by
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩
-  · decide
+  · decide +kernel   -- stormer_23.length = 4 (WF recursion needs the kernel reducer)
   · decide
   · intro p; fin_cases p <;> decide
   · intro i j; fin_cases i <;> fin_cases j <;> decide
