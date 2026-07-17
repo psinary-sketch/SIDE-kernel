@@ -77,6 +77,8 @@ grep -rn "^axiom " Kernel/ Bridge/ MetaKernel.lean --include="*.lean"       # ex
 
 ## Numbers
 
+> **Counts are scope-dependent and not the citation unit.** The figures below describe a v1.2-era scope; no single partition of the tree reproduces a blanket file count (candidates range 69–126 — see `DEPOSIT_v1_2_NOTES.md` and the corpus errata E-2026-07-13-1 / E-2026-07-12-1). Cite **named terminals at a pin**, verified by the two `grep` commands above, not a blanket "N files, 0 sorry, 0 axioms." The published deposit descriptions (v1.3, DOI 10.5281/zenodo.21417776) use named-terminal grammar.
+
 - **560** theorems, lemmas, and definitions in the sorry-free core
 - **0** `sorry` (unproved assertions)
 - **0** custom axioms
