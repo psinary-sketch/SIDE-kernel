@@ -1,5 +1,5 @@
 /-
-  SieveCeiling.lean  (v2)
+  SieveCeiling.lean  (v3)
 
   The Sieve Ceiling Lemma:
     If every inference step of a proof factors through a κ = 0
@@ -8,27 +8,44 @@
     statements.
 
   Closes the E-Difficulty Theorem:
-    For determined I+D+S systems with n₄ = 0, decidability
-    within ZFC of a universal property is equivalent to the
-    existence of a domain-Ostrowski.
+    For determined I+D+S systems, decidability within ZFC of a
+    universal property is equivalent to the existence of a
+    domain-Ostrowski.
 
-  J. York Seale, April 2026
+  J. York Seale, April 2026 — v3 W-6-EXT R2, 2026-07-19
   PLACE TO STAND Research Programme
 
   STATUS (honest):
-  - 0 sorry
-  - 0 axioms
-  - Style matches InFormation: no Mathlib
-    dependency, vanilla Lean 4 core only.
-  - Abstract formalization of the structural content. The full
-    first-order formalization (with explicit FirstOrder.Language
-    proof objects, semantic I-indistinguishability as Setoid,
-    and the Davenport-Heilbronn Epstein witness as concrete
-    computation) is a Mathlib-dependent extension, flagged at
-    the end of this file as future work. The abstract content
-    proved here is the logical skeleton; the extensions plug
-    concrete witnesses into the abstract slots.
-  - Build: lake env lean SieveCeiling.lean
+  - 0 sorry. Vanilla Lean 4 core only, toolchain v4.29.0-rc8.
+  - W-6-EXT R2 (2026-07-19) de-vacuifies the E-Difficulty terminals.
+    The v2 shells are retired:
+      · v2 `IsDecidable (_s : DeterminedSystem)` DISCARDED its system
+        argument (a constant `True`). Now `IsDecidable s` ranges over
+        proofs ABOUT s — lists of interface-crossing `Step s` whose
+        access is READ OFF `s.interfaces` (repair (c)). It reads s.
+      · v2 `e_difficulty` proved `True ↔ True`: `_h_conserved` was
+        unused and the domain-Ostrowski was fabricated by
+        `List.replicate`. Now Conservation is LOAD-BEARING — it forces
+        the decidability-carrying bright access into the INESSENTIAL
+        sector (the n₄=0 content) — and the Ostrowski is EXTRACTED
+        from the decidability witness, not fabricated.
+    The manuscript's `s.classes ≥ 1` edge hypothesis is dropped: the
+    equivalence holds even for zero-class systems (both sides false),
+    so carrying it would be a dead binder. `SieveCeilingReal` is
+    co-edited in the same commit to match the 2-arg form.
+  - The SEMANTIC content of the ceiling (Movement 1: dark-factored
+    inference respects the I-indistinguishability relation) lives in
+    the sibling `SieveCeilingSemantic.lean` (RespectsI,
+    sieve_ceiling_semantic) and its concrete Davenport–Heilbronn
+    witness in `SieveCeilingWitness.lean`. The base `sieve_ceiling` /
+    `bright_access_required` below are the abstract-Proof SCAFFOLDING
+    for that content — see their docstrings.
+  - EXTERNAL-STRENGTH note (W-6-EXT-A): the constructive formalization
+    of an actual off-line zero (upgrading `SieveCeilingWitness`'s cited
+    `allOnLine .dh = False` datum to a proof) remains open / Mathlib-
+    absent. The witness architecture itself exists in-kernel; the
+    stipulation is honest math-leg input.
+  - Build: lake build Kernel.Cascade.SieveCeiling
 -/
 
 -- ============================================================
@@ -72,7 +89,7 @@ def DeterminedSystem.isConserved (s : DeterminedSystem) : Prop :=
     (s.interfaces i).kappa = Kappa.dark
 
 -- ============================================================
--- PART 1: INFERENCE STEPS AND FACTORING
+-- PART 1: INFERENCE STEPS AND FACTORING  (Terminal 1 — UNTOUCHED)
 -- ============================================================
 
 /-- An inference step's interface-access profile.
@@ -112,11 +129,10 @@ theorem proof_mutually_exclusive (π : Proof) :
   rw [hs_bright] at hs_dark
   cases hs_dark
 
-/-- Either every step factors dark, or some step is bright. -/
+/-- TERMINAL 1 (axiom-free). Either every step factors dark, or some
+    step is bright. -/
 theorem proof_dichotomy (π : Proof) :
     π.factorsDark ∨ π.hasBrightAccess := by
-  -- For each step, it's either factored_through_dark or accesses_bright.
-  -- If any step is bright, hasBrightAccess; else every step is dark.
   induction π with
   | nil => left; intro s hs; cases hs
   | cons head tail ih =>
@@ -155,17 +171,14 @@ def StatementKind.strength : StatementKind → Nat
   | .universal             => 2
 
 -- ============================================================
--- PART 3: THE SIEVE CEILING — MOVEMENTS 1+2 COMBINED
+-- PART 3: THE SIEVE CEILING SCAFFOLDING  (abstract-Proof layer)
 -- ============================================================
 
 /-- The maximum statement-kind a proof can establish, as a
-    function of its interface profile.
-
-    Movement 1: factored-dark proofs cannot discriminate within
-      I-equivalence classes (semantic reduction).
-    Movement 2: the strongest class-wise statement is density-
-      one-per-class. Universal requires element-level
-      discrimination, which factored-dark inference lacks. -/
+    function of its interface profile. SCAFFOLDING: the cap is
+    stated here; the CONTENT (why a dark-factored proof cannot
+    discriminate within I-classes) is proved semantically in
+    `SieveCeilingSemantic.sieve_ceiling_semantic`. -/
 def maxStatement (π : Proof) : StatementKind :=
   if π.factorsDark then StatementKind.density_one_per_class
                    else StatementKind.universal
@@ -177,138 +190,151 @@ theorem factored_dark_capped (π : Proof) (h : π.factorsDark) :
   rw [if_pos h]
   exact Nat.le_refl _
 
--- ============================================================
--- PART 4: DENSITY-ONE-PER-CLASS < UNIVERSAL (MOVEMENT 3)
--- ============================================================
-
-/-- The strength ordering is strict: density_one_per_class < universal.
-    This is the structural content of the Epstein witness
-    (Davenport-Heilbronn 1936 for Z(s) of discriminant -23): a
-    system can have density-one on the critical line while
-    having off-line zeros. In the abstract formalization, the
-    strict ordering is immediate from the strength definition;
-    the Mathlib extension would witness the gap concretely. -/
+/-- The strength ordering is strict: density_one_per_class < universal
+    (the nat-fact 1 < 2). The EXTERNAL non-degeneracy of this gap at a
+    concrete object is the Davenport–Heilbronn witness in
+    `SieveCeilingWitness.lean` (and W-6-EXT-A for the constructive
+    off-line zero). -/
 theorem density_one_lt_universal :
     StatementKind.density_one_per_class.strength < StatementKind.universal.strength := by
   decide
 
--- ============================================================
--- PART 5: THE SIEVE CEILING LEMMA
--- ============================================================
-
-/-- THE SIEVE CEILING LEMMA.
-
-    If π factors through dark interfaces, π cannot establish
-    a universal statement about the target parameter. -/
+/-- SCAFFOLDING (base sieve_ceiling, abstract-Proof form). A factored-
+    dark proof is capped below universal STRENGTH. This is the strength
+    bookkeeping; the contentful sieve ceiling — that dark-factored
+    inference cannot separate I-indistinguishable configurations — is
+    `SieveCeilingSemantic.sieve_ceiling_semantic`, with the concrete
+    Davenport–Heilbronn instance in `SieveCeilingWitness.dh_sieve_ceiling`.
+    Cite those for content; cite this only for the strength bound. -/
 theorem sieve_ceiling (π : Proof) (h : π.factorsDark) :
     (maxStatement π).strength < StatementKind.universal.strength := by
   have h1 := factored_dark_capped π h
   have h2 := density_one_lt_universal
   exact Nat.lt_of_le_of_lt h1 h2
 
-/-- CONTRAPOSITIVE (Corollary 3.6): any proof of a universal
-    statement has at least one bright-access step. -/
+/-- SCAFFOLDING (Corollary 3.6, abstract-Proof form). Any proof reaching
+    universal strength has a bright step. Contentful form:
+    `SieveCeilingSemantic` (a target not respecting the I-relation has
+    no dark-factored certificate). -/
 theorem bright_access_required (π : Proof)
     (h : (maxStatement π).strength = StatementKind.universal.strength) :
     π.hasBrightAccess := by
   cases proof_dichotomy π with
   | inl h_dark =>
-    -- Factored-dark contradicts universal-strength achievement.
     have h_lt := sieve_ceiling π h_dark
     rw [h] at h_lt
     exact absurd h_lt (Nat.lt_irrefl _)
   | inr h_bright => exact h_bright
 
 -- ============================================================
--- PART 6: DOMAIN-OSTROWSKI AND E-DIFFICULTY
+-- PART 4: INTERFACE-TIED PROOFS AND E-DIFFICULTY  (W-6-EXT R2)
 -- ============================================================
 
-/-- A domain-Ostrowski for a determined system is an exhaustive
-    enumeration of bright-access steps, one per mechanism class. -/
+/-- A step in a proof ABOUT s: it crosses a specific interface
+    (a mechanism-class boundary). Its access is not free-floating;
+    it is read off the crossed interface (repair (c)). -/
+structure Step (s : DeterminedSystem) where
+  crosses : Nat
+  inBounds : crosses < s.classes
+
+/-- The step is bright exactly when the interface it crosses is
+    non-dark. Ties access to `s.interfaces`. -/
+def Step.isBright {s : DeterminedSystem} (st : Step s) : Bool :=
+  ! (s.interfaces st.crosses).kappa.isDark
+
+/-- A proof about s is a list of interface-crossing steps. -/
+abbrev SysProof (s : DeterminedSystem) := List (Step s)
+
+/-- Some step accesses a bright interface. -/
+def SysProof.hasBrightAccess {s : DeterminedSystem} (π : SysProof s) : Prop :=
+  ∃ st ∈ π, st.isBright = true
+
+/-- Boolean summary used to compute the strongest establishable kind. -/
+def SysProof.anyBright {s : DeterminedSystem} (π : SysProof s) : Bool :=
+  π.any (fun st => st.isBright)
+
+theorem anyBright_iff {s : DeterminedSystem} (π : SysProof s) :
+    π.anyBright = true ↔ π.hasBrightAccess := by
+  unfold SysProof.anyBright SysProof.hasBrightAccess
+  exact List.any_eq_true
+
+/-- The strongest statement-kind a proof about s can establish:
+    universal iff it has a bright access; otherwise capped at
+    density-one-per-class. The cap FOLLOWS from the interface profile
+    (a fully-dark proof has no bright step). -/
+def sysMaxStatement {s : DeterminedSystem} (π : SysProof s) : StatementKind :=
+  match π.anyBright with
+  | true  => StatementKind.universal
+  | false => StatementKind.density_one_per_class
+
+theorem sysMax_universal_iff {s : DeterminedSystem} (π : SysProof s) :
+    sysMaxStatement π = StatementKind.universal ↔ π.hasBrightAccess := by
+  unfold sysMaxStatement
+  rw [← anyBright_iff]
+  cases h : π.anyBright with
+  | true  => exact ⟨fun _ => rfl, fun _ => rfl⟩
+  | false => constructor <;> (intro hh; exact absurd hh (by decide))
+
+/-- A universal property is decidable if some proof ABOUT s achieves
+    universal strength. READS s (repair (c)): the proofs range over
+    `SysProof s`, whose steps read `s.interfaces`. (v2 discarded s.) -/
+def IsDecidable (s : DeterminedSystem) : Prop :=
+  ∃ π : SysProof s, sysMaxStatement π = StatementKind.universal
+
+/-- A domain-Ostrowski: a bright access exhibited in s, together with
+    the fact — forced by Conservation — that it lies in the INESSENTIAL
+    sector (n₄ = 0 darkens every essential interface, so the
+    decidability-carrying brightness cannot be essential). The
+    `inessential` field is what makes `isConserved` load-bearing in
+    `e_difficulty`. -/
 structure DomainOstrowski (s : DeterminedSystem) where
-  brightSteps : List StepAccess
-  all_bright : ∀ step ∈ brightSteps, step = StepAccess.accesses_bright
-  exhaustive : brightSteps.length ≥ s.classes
+  brightClass : Nat
+  inBounds : brightClass < s.classes
+  isBright : (s.interfaces brightClass).kappa.isDark = false
+  inessential : (s.interfaces brightClass).essential = false
 
-/-- A universal property is decidable if some proof achieves
-    universal strength. -/
-def IsDecidable (_s : DeterminedSystem) : Prop :=
-  ∃ π : Proof, (maxStatement π).strength = StatementKind.universal.strength
+/-- THE E-DIFFICULTY THEOREM (de-vacuified, W-6-EXT R2).
 
-/-- Helper: a proof with at least one bright step does not factor dark. -/
-theorem hasBright_not_factorsDark (π : Proof) (h : π.hasBrightAccess) :
-    ¬ π.factorsDark := by
-  intro hdark
-  exact proof_mutually_exclusive π hdark h
+    For a conserved determined system, decidability of a universal
+    property is equivalent to the existence of a domain-Ostrowski.
 
-/-- Helper: a proof with at least one bright step achieves universal. -/
-theorem hasBright_maxStatement (π : Proof) (h : π.hasBrightAccess) :
-    maxStatement π = StatementKind.universal := by
-  unfold maxStatement
-  rw [if_neg (hasBright_not_factorsDark π h)]
+    Forward: a decidability witness has a bright step; the crossed
+    interface is bright, and Conservation forces it to be inessential.
+    The Ostrowski is EXTRACTED from that step — not fabricated.
+    Backward: a domain-Ostrowski's bright interface supports a one-step
+    proof achieving universal strength (the SIDE method).
 
-/-- THE E-DIFFICULTY THEOREM.
-
-    For determined systems with at least one mechanism class
-    (s.classes ≥ 1), decidability of a universal property is
-    equivalent to existence of a domain-Ostrowski.
-
-    Forward: a decidability witness proof must have bright access
-    (Corollary 3.6); its bright-access steps form the Ostrowski.
-
-    Backward: a domain-Ostrowski's bright-access steps constitute
-    a proof achieving universal strength (the SIDE method).
-
-    The s.classes ≥ 1 hypothesis excludes the vacuous edge case
-    of zero-class systems, where both sides trivially hold.
-    Every programme-relevant system (ξ, Yang-Mills, BSD, Hodge,
-    Navier-Stokes) has s.classes ≥ 1. -/
-theorem e_difficulty (s : DeterminedSystem)
-    (_h_conserved : s.isConserved) (h_nontrivial : s.classes ≥ 1) :
+    Conservation (h_conserved) is load-bearing: it supplies the
+    `inessential` component of the extracted Ostrowski. -/
+theorem e_difficulty (s : DeterminedSystem) (h_conserved : s.isConserved) :
     IsDecidable s ↔ Nonempty (DomainOstrowski s) := by
   constructor
-  · -- IsDecidable → DomainOstrowski exists.
-    intro ⟨π, hπ⟩
-    have _h_bright : π.hasBrightAccess := bright_access_required π hπ
-    -- Witness the Ostrowski with s.classes bright steps.
-    refine ⟨{
-      brightSteps := List.replicate s.classes StepAccess.accesses_bright,
-      all_bright := ?_,
-      exhaustive := ?_
-    }⟩
-    · -- Every step in a replicate of accesses_bright IS accesses_bright.
-      intro step hstep
-      exact List.eq_of_mem_replicate hstep
-    · -- Length of replicate n x equals n.
-      simp [List.length_replicate]
-  · -- DomainOstrowski exists → IsDecidable.
-    intro ⟨ostrowski⟩
-    refine ⟨ostrowski.brightSteps, ?_⟩
-    -- The Ostrowski's brightSteps list is non-empty because
-    -- its length ≥ s.classes ≥ 1.
-    have h_len_pos : ostrowski.brightSteps.length ≥ 1 := by
-      exact Nat.le_trans h_nontrivial ostrowski.exhaustive
-    -- A list of length ≥ 1 has a head.
-    cases hne : ostrowski.brightSteps with
-    | nil =>
-      -- Empty contradicts length ≥ 1.
-      rw [hne] at h_len_pos
-      exact absurd h_len_pos (by decide)
-    | cons head tail =>
-      -- Non-empty: head is bright by all_bright, so π has bright access.
-      have hπ_bright : Proof.hasBrightAccess ostrowski.brightSteps := by
-        refine ⟨head, ?_, ?_⟩
-        · rw [hne]; exact List.Mem.head _
-        · apply ostrowski.all_bright
-          rw [hne]; exact List.Mem.head _
-      rw [hne] at hπ_bright
-      rw [hasBright_maxStatement _ hπ_bright]
+  · intro ⟨π, hπ⟩
+    obtain ⟨st, _hin, hst⟩ := (sysMax_universal_iff π).mp hπ
+    have hisDark : (s.interfaces st.crosses).kappa.isDark = false := by
+      unfold Step.isBright at hst
+      cases hd : (s.interfaces st.crosses).kappa.isDark with
+      | false => rfl
+      | true  => rw [hd] at hst; exact absurd hst (by decide)
+    have hiness : (s.interfaces st.crosses).essential = false := by
+      cases hess : (s.interfaces st.crosses).essential with
+      | false => rfl
+      | true  =>
+        have hdark := h_conserved st.crosses st.inBounds hess
+        rw [hdark] at hisDark
+        exact absurd hisDark (by decide)
+    exact ⟨⟨st.crosses, st.inBounds, hisDark, hiness⟩⟩
+  · intro ⟨o⟩
+    refine ⟨[⟨o.brightClass, o.inBounds⟩], ?_⟩
+    rw [sysMax_universal_iff]
+    refine ⟨⟨o.brightClass, o.inBounds⟩, List.Mem.head _, ?_⟩
+    simp [Step.isBright, o.isBright]
 
 -- ============================================================
--- PART 7: SMOKE TESTS (ξ AND THE RH CASCADE)
+-- PART 5: SMOKE TEST (ξ AND THE RH CASCADE)
 -- ============================================================
 
-/-- ξ's formation: 2 + 3 + 2 + 0 = 7, conserved. -/
+/-- ξ's formation: 2 + 3 + 2 + 0 = 7, fully conserved. -/
 def xi_system : DeterminedSystem := {
   classes := 7,
   interfaces := fun _ => { kappa := Kappa.dark, essential := true }
@@ -317,51 +343,32 @@ def xi_system : DeterminedSystem := {
 theorem xi_conserved : xi_system.isConserved := by
   intro i _hi _ess; rfl
 
-theorem xi_nontrivial : xi_system.classes ≥ 1 := by decide
-
-/-- E-Difficulty applies to ξ. -/
+/-- E-Difficulty applies to ξ. Both sides are false here (a fully
+    conserved system has no bright — hence no domain-Ostrowski — in
+    this abstract model; the Ostrowski is the hard SIDE input). -/
 theorem e_difficulty_xi :
     IsDecidable xi_system ↔ Nonempty (DomainOstrowski xi_system) :=
-  e_difficulty xi_system xi_conserved xi_nontrivial
+  e_difficulty xi_system xi_conserved
 
 /-
   REMARKS
 
-  1. NON-TRIVIALITY HYPOTHESIS. The E-Difficulty theorem is
-     stated with the hypothesis s.classes ≥ 1 (at least one
-     mechanism class). This excludes the vacuous edge case
-     of empty systems, where both "decidable" and "has
-     domain-Ostrowski" are trivially true. Every
-     programme-relevant system (ξ with 7 classes,
-     Yang-Mills with 4 sectors, BSD with 7 transferred,
-     Hodge with 5 N-structures, Navier-Stokes with 1
-     mechanism + 3 conflicts) satisfies s.classes ≥ 1.
+  1. WHAT THIS FILE PROVES (v3, W-6-EXT R2)
+     - proof_dichotomy: Terminal 1, axiom-free
+     - maxStatement / factored_dark_capped / sieve_ceiling /
+       bright_access_required: abstract-Proof SCAFFOLDING; contentful
+       ceiling lives in SieveCeilingSemantic
+     - IsDecidable: reads s (SysProof s over s.interfaces)
+     - e_difficulty: decidability ↔ domain-Ostrowski, Conservation
+       load-bearing, Ostrowski extracted (no List.replicate)
 
-  2. WHAT THIS FILE PROVES
-     - proof_mutually_exclusive: dark-factored ⇒ no bright access
-     - proof_dichotomy: every proof is either dark-factored or has bright
-     - sieve_ceiling: dark-factored proofs cannot reach universal
-     - bright_access_required: universal proofs have bright steps
-     - e_difficulty: decidability ↔ domain-Ostrowski (for s.classes ≥ 1)
+  2. SIBLINGS (the E-Difficulty lift): SieveCeilingSemantic (Movement
+     1, RespectsI), SieveCeilingWitness (Davenport–Heilbronn witness),
+     SieveCeilingReal (real-κ refinement), SieveCeilingBridge
+     (dark ⇒ I-indistinguishability). Real reuses e_difficulty; it is
+     co-edited with this file's 2-arg form.
 
-  3. AXIOMS / SORRIES: 0 (both counted; verify by #print axioms)
-
-  4. DEPENDENCIES: Core Lean 4 only. No Mathlib.
-
-  5. EXTENSIONS (for future Mathlib-dependent version)
-     - Replace abstract Kappa with Real ∈ [0,1]
-     - Replace abstract Proof with FirstOrder.Language proof
-     - Witness Epstein zero concretely (Mathlib PR: Davenport-
-       Heilbronn for Z(s) of discriminant -23)
-     - I-equivalence class as Setoid on the universe
-     - Interface-factoring as predicate on concrete proof steps
-
-     Each extension elaborates the abstract structure; none
-     changes the logical content established here.
-
-  6. ACCOMPANIES: SIEVE_CEILING_LEMMA.md (paper, 416 lines).
-     The paper develops the semantic framework (model theory
-     of I-indistinguishability, Epstein witness concretely,
-     connection to E-Difficulty and Gödel). This file
-     formalizes the logical skeleton.
+  3. DEFERRED (W-6-EXT-A): constructive off-line-zero formalization —
+     upgrading Witness's cited allOnLine .dh = False to a proof. Open /
+     Mathlib-absent; the stipulation is honest.
 -/

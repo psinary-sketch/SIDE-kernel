@@ -80,12 +80,14 @@ theorem isConserved_refines (s : RDeterminedSystem)
   exact (s.interfaces i).toKappa_dark_of_zero hk
 
 /-- E-Difficulty, transferred to a real-k system: for a conserved
-    real system with at least one class, decidability of a universal
-    property is equivalent to a domain-Ostrowski. -/
+    real system, decidability of a universal property is equivalent to
+    a domain-Ostrowski. (W-6-EXT R2: base `e_difficulty` is now 2-arg —
+    the `classes ≥ 1` edge hypothesis was decorative and was dropped
+    rather than carried as a dead binder here.) -/
 theorem e_difficulty_real (s : RDeterminedSystem)
-    (h_cons : s.isConserved) (h_nt : s.classes ≥ 1) :
+    (h_cons : s.isConserved) :
     IsDecidable s.toAbstract ↔ Nonempty (DomainOstrowski s.toAbstract) :=
-  e_difficulty s.toAbstract (isConserved_refines s h_cons) h_nt
+  e_difficulty s.toAbstract (isConserved_refines s h_cons)
 
 /-- xi's formation as a real-k system: 7 classes, every essential
     interface dark (k = 0). -/
@@ -101,6 +103,6 @@ theorem xi_conserved_R : xi_system_R.isConserved := by
 theorem e_difficulty_xi_R :
     IsDecidable xi_system_R.toAbstract ↔
       Nonempty (DomainOstrowski xi_system_R.toAbstract) :=
-  e_difficulty_real xi_system_R xi_conserved_R (by decide)
+  e_difficulty_real xi_system_R xi_conserved_R
 
 end SieveCeilingReal
