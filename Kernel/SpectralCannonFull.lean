@@ -55,6 +55,13 @@ theorem schwarz_deriv (t σ : ℝ) :
   have h_unique := hg.unique h_conj_deriv
   rw [h_unique]; rfl
 
+/-- **Perpendicular crossing / derivative-imaginary on the line.** For every real `t`,
+the derivative of the completed zeta `completedRiemannZeta₀` at `⟨1/2, t⟩` is purely
+imaginary — its real part vanishes. Reached from the differentiated functional equation
+(`SpectralCannon.deriv_at_half`) and Schwarz reflection (`schwarz_deriv`). This is a single
+covering `∀t` statement about the geometry *on* the critical line — an A of a sub-RH
+proposition — NOT the exclusion of off-line zeros; do not gloss it as "every zero on the
+line" (label corrected 2026-07-21). -/
 theorem spectral_cannon (t : ℝ) :
     (deriv completedRiemannZeta₀ ⟨1/2, t⟩).re = 0 := by
   have h_fe := SpectralCannon.deriv_at_half t
