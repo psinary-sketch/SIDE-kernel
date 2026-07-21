@@ -185,6 +185,26 @@ def StructuralExhaustiveness : Prop :=
     ∃ p : Nat, Nat.Prime p ∧ ∃ _ : Fact (Nat.Prime p),
       f.IsEquiv (Rat.AbsoluteValue.padic p))
 
+/-- **What each conjunct is (per-conjunct honesty; W-ORD-ROUTE1 Fork B, 2026-07-21).**
+The terminal is the conjunction `⟨seven_classes, none_produce, ostrowski_exhaustive_prime⟩`,
+and it DERIVES exactly what it literally states. Read conjunct by conjunct:
+
+* **Catalogue completeness** `Fintype.card MechanismClass = 7` — `decide` over the
+  seven-constructor inductive. The finite catalogue is genuinely complete.
+* **Ostrowski exhaustiveness** — genuine Mathlib (`Rat.AbsoluteValue.equiv_real_or_padic`):
+  every nontrivial place of ℚ is the real place or a `p`-adic place. This is the covering
+  ingredient (all places at once).
+* **Seven-class exclusion** `none_produce` — a per-class conjunction. **C₁–C₅ DERIVE** from the
+  voice-theorems (`voice1..5`): thin but genuine real algebra — the σ = 1/2 fixed points of
+  conjugation, balance, reflection, the S-action, and the spectral offset. **C₆ and C₇ are
+  DEFINITION-ENCODED**, not derived: `zero_codim σ := if σ = 1/2 then 1 else 2` *assigns* the
+  off-line codimension-2 (so `c6_exclusion` closes by `if_neg`), and `hadamard_contrib _ := 0`
+  makes σ-neutrality hold by `rfl` (so `voice7_sigma_neutral` is `rfl`). Their conclusion is
+  written into the definition; the analytic identification is manuscript-resident.
+
+Loom Correspondence row-note: DERIVES for what it literally states, C₆/C₇ definition-encoded
+flagged (`VERIFICATION_LOOM.md:1199`). De-encoding C₆ (count-of-real-constraints) and C₇
+(genus-1 Hadamard factorization) is tracked as research work-order **W-ORD-ROUTE1-A**. -/
 theorem structural_exhaustiveness_proved :
     StructuralExhaustiveness :=
   ⟨seven_classes, none_produce, ostrowski_exhaustive_prime⟩
