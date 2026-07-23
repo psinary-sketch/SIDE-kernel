@@ -1,6 +1,7 @@
 import Mathlib.NumberTheory.Ostrowski
 import Mathlib.NumberTheory.LSeries.RiemannZeta
 import Kernel.Core
+import Kernel.Voice3b
 import Bridge.OstrowskiBridge
 
 /-! THE BRIDGE (Complete): Connecting abstract SIDE logic
@@ -118,8 +119,11 @@ theorem voice7_sigma_neutral (σ : Real) :
 -- SIDE EXCLUSION (all 7 derived from Voice theorems)
 -- ============================================================
 
-noncomputable def zero_codim (σ : Real) : Nat :=
-  if σ = 1 / 2 then 1 else 2
+-- C₆ codimension model: the SINGLE de-encoded model at
+-- `Kernel/Voice3b.lean` (`zero_codimension`, a COUNT of active real
+-- constraints), consumed here by import. The former Bridge-local
+-- `zero_codim := if σ = 1/2 then 1 else 2` literal is deleted
+-- (W-ORD-ROUTE1-A, C₆; unified per the K1 ruling).
 
 noncomputable def produces_offline : MechanismClass -> Prop
   | .C1_schwarz => ∃ σ : Real, σ ≠ 1 / 2 ∧ σ = 1 - σ
@@ -127,7 +131,8 @@ noncomputable def produces_offline : MechanismClass -> Prop
   | .C3_functional_eq => ∃ σ : Real, σ ≠ 1 / 2 ∧ (1 - σ) = σ
   | .C4_modular => ∃ σ : Real, σ ≠ 1 / 2 ∧ 1 - σ = σ
   | .C5_spectral => ∃ σ : Real, σ ≠ 1 / 2 ∧ σ - 1 / 2 = 0
-  | .C6_cauchy_riemann => ∃ σ : Real, σ ≠ 1 / 2 ∧ zero_codim σ = 1
+  | .C6_cauchy_riemann =>
+      ∃ σ : Real, σ ≠ 1 / 2 ∧ techne_kernel_voice3b.zero_codimension σ = 1
   | .C7_hadamard => ∃ σ : Real, hadamard_contrib σ ≠ hadamard_contrib (1 / 2)
 
 theorem c1_exclusion : ¬ produces_offline .C1_schwarz := by
@@ -152,9 +157,10 @@ theorem c5_exclusion : ¬ produces_offline .C5_spectral := by
 
 theorem c6_exclusion : ¬ produces_offline .C6_cauchy_riemann := by
   intro ⟨σ, hne, hcodim⟩
-  unfold zero_codim at hcodim
-  rw [if_neg hne] at hcodim
-  omega
+  -- `hcodim : zero_codimension σ = 1` is (def-eq) `cr_minimal_codim σ`;
+  -- `cr_forces_half` DERIVES σ = 1/2 from the reflection identity, not
+  -- from a literal. The σ ≠ 1/2 hypothesis then contradicts it.
+  exact hne (techne_kernel_voice3b.cr_forces_half σ hcodim)
 
 theorem c7_exclusion : ¬ produces_offline .C7_hadamard := by
   intro ⟨σ, h⟩
@@ -196,15 +202,21 @@ and it DERIVES exactly what it literally states. Read conjunct by conjunct:
   ingredient (all places at once).
 * **Seven-class exclusion** `none_produce` — a per-class conjunction. **C₁–C₅ DERIVE** from the
   voice-theorems (`voice1..5`): thin but genuine real algebra — the σ = 1/2 fixed points of
-  conjugation, balance, reflection, the S-action, and the spectral offset. **C₆ and C₇ are
-  DEFINITION-ENCODED**, not derived: `zero_codim σ := if σ = 1/2 then 1 else 2` *assigns* the
-  off-line codimension-2 (so `c6_exclusion` closes by `if_neg`), and `hadamard_contrib _ := 0`
-  makes σ-neutrality hold by `rfl` (so `voice7_sigma_neutral` is `rfl`). Their conclusion is
-  written into the definition; the analytic identification is manuscript-resident.
+  conjugation, balance, reflection, the S-action, and the spectral offset. **C₆ DERIVES AT MODEL
+  LEVEL** (W-ORD-ROUTE1-A, C₆, 2026-07-22): the codimension is now the de-encoded COUNT
+  `zero_codimension σ = (activeConstraints σ).card` at `Kernel/Voice3b.lean` (consumed here by
+  import; the former Bridge-local `if σ = 1/2 then 1 else 2` literal is deleted), and
+  `c6_exclusion` closes through `cr_forces_half`, which DERIVES σ = 1/2 from the reflection
+  identity `1 - σ = σ ↔ σ = 1/2` — not from a literal. **The residue is NAMED**: ξ-faithfulness
+  (that ξ(σ+it) = 0 imposes exactly {Re ξ = 0, Im ξ = 0}, Im dropping on the real line) is the
+  Cauchy-Riemann identification of A_Place_to_Stand §18.2 (corrected reading), MANUSCRIPT-RESIDENT,
+  and lands INTERFACES-with-named-premise when tied to ξ in Lean. **C₇ is STILL DEFINITION-ENCODED**:
+  `hadamard_contrib _ := 0` makes σ-neutrality hold by `rfl` (so `voice7_sigma_neutral` is `rfl`);
+  its de-encoding (genus-1 Hadamard factorization) is the queued C₇ sitting of W-ORD-ROUTE1-A.
 
-Loom Correspondence row-note: DERIVES for what it literally states, C₆/C₇ definition-encoded
-flagged (`VERIFICATION_LOOM.md:1199`). De-encoding C₆ (count-of-real-constraints) and C₇
-(genus-1 Hadamard factorization) is tracked as research work-order **W-ORD-ROUTE1-A**. -/
+Loom Correspondence row-note: DERIVES for what it literally states; C₆ now derived-at-model-level
+with the INTERFACES residue named, C₇ still definition-encoded (`VERIFICATION_LOOM.md:1199`).
+Tracked as research work-order **W-ORD-ROUTE1-A** (C₆ done at model level; C₇ sitting queued). -/
 theorem structural_exhaustiveness_proved :
     StructuralExhaustiveness :=
   ⟨seven_classes, none_produce, ostrowski_exhaustive_prime⟩

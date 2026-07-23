@@ -89,7 +89,10 @@ theorem voice2_certificate :
 theorem voice3_certificate :
     ∀ (s : Real),
     techne_kernel_voice3.reflect s = s ↔ s = 1 / 2 :=
-  fun s => reflect_fixed_iff s
+  fun s => techne_kernel_voice3.reflect_fixed_iff s
+  -- qualified: Voice3b now also defines `reflect_fixed_iff` (the de-encoded
+  -- C₆ codimension model derives σ = 1/2 from it); this certificate is about
+  -- `techne_kernel_voice3.reflect`, so it names the Voice3 lemma explicitly.
 
 /-- Certificate: Voice 3b (Cauchy-Riemann codimension) proves
     the codimension drops from 2 to 1 exactly at σ = 1/2. -/
