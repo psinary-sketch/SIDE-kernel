@@ -54,10 +54,29 @@ namespace techne_kernel_voice7
     zeros regardless of which sigma they're at.
 
     We model this as a constant function: the topological
-    mechanism contributes the same constraint at every sigma. -/
+    mechanism contributes the same constraint at every sigma.
+
+    **σ-neutral stand-in (DEFINITION-ENCODED; W-ORD-ROUTE1-A, C₇; honest relabel
+    2026-07-22).** This is the `Kernel/` twin of `Bridge/TheBridgeComplete.hadamard_contrib`
+    (unified C₇ site). `:= 0` ASSIGNS σ-neutrality; it does not derive it. The
+    neutrality shape `∀σ, g σ = g(1/2)` (see `topological_no_sigma_preference`) is
+    satisfied only by a σ-constant `g`, so no non-vacuous model-level de-encode of
+    THIS shape exists; the constant is a faithful stand-in for a σ-non-selective
+    contribution whose real content is manuscript-resident:
+      • the Hadamard product ENCODES (not produces) the zero set — FE-symmetric
+        under s ↦ 1−s; Mathlib at pin `e960b84` has the FE but **not** the genus-1
+        factorization (three-lines Hadamard only) — premise named Mathlib-absent;
+      • the product is PRESENT in RH-violators (Epstein, §917/§933/§1845), so its
+        presence cannot enforce on-line — a model-theoretic argument, unmodeled here.
+    Faithful de-encode refiled as research work-order **W-ORD-C7-WITNESS** (two-point
+    Epstein-vs-ideal countermodel, kin to `SieveCeilingWitness`; cross-linked
+    W-6-EXT-A). -/
 def topological_contribution (_sigma : Real) : Real := 0
 
-/-- The topological contribution is sigma-independent. -/
+/-- The topological contribution is sigma-independent. True OF THE STAND-IN
+    (the constant 0) and now says so: it asserts the stand-in's σ-constancy, not
+    a σ-selective property of ξ's actual Hadamard product. See
+    `topological_contribution`; faithful witness = W-ORD-C7-WITNESS. -/
 theorem topological_constant (sigma1 sigma2 : Real) :
     topological_contribution sigma1 = topological_contribution sigma2 := by
   unfold topological_contribution; rfl
@@ -68,7 +87,12 @@ theorem topological_constant (sigma1 sigma2 : Real) :
 
     In SIDE terms: C7 does not produce off-line zeros because
     it does not produce zeros at ANY specific sigma. It counts
-    them but does not place them. -/
+    them but does not place them.
+
+    **Stand-in caveat (W-ORD-ROUTE1-A, C₇).** The `∀σ, g σ = g(1/2)` shape is
+    satisfied only by a σ-constant `g`; this holds by `rfl` of the `:= 0` stand-in
+    and asserts nothing σ-selective about ξ's Hadamard product. Faithful witness =
+    W-ORD-C7-WITNESS (see `topological_contribution`). -/
 theorem topological_no_sigma_preference (sigma : Real) :
     topological_contribution sigma = topological_contribution (1 / 2 : Real) := by
   unfold topological_contribution; rfl

@@ -109,9 +109,38 @@ theorem voice5_spectral_offset (σ : Real) :
     σ - 1 / 2 = 0 ↔ σ = 1 / 2 := by
   constructor <;> intro h <;> linarith
 
--- Voice 7 (C₇ Hadamard): topological contribution is σ-neutral
+-- Voice 7 (C₇ Hadamard): topological contribution is σ-neutral.
+/-- **σ-neutral stand-in (DEFINITION-ENCODED; W-ORD-ROUTE1-A, C₇; honest relabel
+    2026-07-22).** `hadamard_contrib := 0` ASSIGNS σ-neutrality; it does not derive
+    it. Unlike C₆ (a genuine constraint-count that derives σ = 1/2, W-ORD-ROUTE1-A),
+    C₇'s neutrality shape `∀σ, g σ = g(1/2)` is satisfied only by a σ-constant `g`,
+    so no non-vacuous model-level de-encode of THIS shape exists; the `:= 0` is a
+    faithful stand-in for a σ-non-selective contribution, with its real content
+    manuscript-resident:
+
+    * **Encodes-not-produces (FE-symmetric).** The Hadamard product
+      ξ(s) = ξ(0)∏_ρ(1 − s/ρ) encodes the zero set and is invariant under the
+      functional-equation reflection s ↦ 1−s (zeros symmetric under ρ ↦ 1−ρ). It
+      records where the zeros are; it exerts no σ-selective force. Mathlib at the
+      pin `e960b84` carries the FE (`completedRiemannZeta₀_one_sub`) but **NOT** the
+      genus-1 Hadamard/Weierstrass factorization (`Analysis/Complex/Hadamard.lean`
+      is the three-lines theorem; no product-over-zeros, no order-of-growth theory)
+      — the genus-1 factorization premise is **named Mathlib-absent** at this pin.
+    * **Presence in RH-violators (the manuscript's actual argument, §917/§933/§1845).**
+      Completed Epstein zeta functions ALSO have Hadamard factorizations and DO have
+      off-line zeros; the product is present in systems that violate RH, so its
+      presence cannot enforce on-line placement. This is a model-theoretic
+      (necessary-not-sufficient) argument, **unmodeled at this pin**.
+
+    Faithful de-encode is refiled as research work-order **W-ORD-C7-WITNESS** (a
+    two-point Epstein-vs-ideal countermodel, kin to `SieveCeilingWitness`/`dh_witness`;
+    cross-linked to W-6-EXT-A, same Epstein datum). Loom Correspondence row-note. -/
 def hadamard_contrib (_ : Real) : Real := 0
 
+/-- σ-neutrality of the stand-in, by `rfl` (the contribution is the constant 0).
+    True OF THE STAND-IN and now says so: this asserts nothing about ξ's actual
+    Hadamard product beyond the σ-neutrality the stand-in assigns. See
+    `hadamard_contrib`; faithful witness = W-ORD-C7-WITNESS. -/
 theorem voice7_sigma_neutral (σ : Real) :
     hadamard_contrib σ = hadamard_contrib (1 / 2 : Real) := rfl
 

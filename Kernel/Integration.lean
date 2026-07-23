@@ -119,7 +119,15 @@ theorem voice6_certificate :
 
 /-- Certificate: Voice 7 (topological) proves the topological
     mechanism (Hadamard, argument principle) is σ-neutral:
-    it contributes the same information at every σ. -/
+    it contributes the same information at every σ.
+
+    **Stand-in caveat (W-ORD-ROUTE1-A, C₇; honest relabel 2026-07-22).** This
+    certifies the σ-constancy of the `:= 0` STAND-IN (`topological_contribution`),
+    which ASSIGNS neutrality rather than deriving it — the `∀σ₁σ₂, g σ₁ = g σ₂`
+    shape holds only for a σ-constant `g`. It asserts nothing σ-selective about ξ's
+    actual Hadamard product; the manuscript's C₇ content (FE-symmetric product,
+    genus-1 factorization named Mathlib-absent at pin `e960b84`; presence-in-Epstein
+    model-theoretic argument, §917) is refiled as W-ORD-C7-WITNESS. -/
 theorem voice7_certificate :
     ∀ (sigma1 sigma2 : Real),
     topological_contribution sigma1 = topological_contribution sigma2 :=
