@@ -166,17 +166,22 @@ theorem cr_not_minimal_off_line (sigma : Real)
 -- THE DETERMINATION BRIDGE
 -- ===============================================================
 
-/-- In a determined system, "generic" = "actual."
+/-- **Off-line codimension corollary** (contrapositive of `codim_on_line`): a zero of
+    codimension 2 forces σ ≠ 1/2, because on the line the codimension is 1. This is
+    codimension ARITHMETIC — it does NOT use Determination and no longer pretends to.
 
-    Normal complex analysis says: codimension-2 conditions are
-    "generically" not satisfied (a set of measure zero in parameter space).
-    In a determined system (no free parameters) there IS no parameter space;
-    the specification fixes everything. So "generically not satisfied"
-    becomes "actually not satisfied" — the codimension-2 condition cannot be
-    achieved because no parameter exists to tune. This is the D in SIDE. -/
-theorem determination_bridge (sigma : Real)
-    (h_codim2 : zero_codimension sigma = 2)
-    (_h_determined : True) :
+    A real Determination premise runs the OTHER way (manuscript-resident, not proved
+    here): §432 "in a determined system with no tunable parameters, codimension-2
+    coincidences do not occur" — i.e. `Determined(ξ) → zero_codimension σ ≠ 2`. The
+    kernel's genuine determination object is `SieveCeiling.DeterminedSystem`; the
+    codimension-side exclusion is the research-grade W-1 work-order (deferred). Per the
+    loom W-1 finding, do not cite this theorem as the proof of Determination.
+
+    (W-ORD-V3B, 2026-07-23: renamed from `determination_bridge`; the decorative
+    `(_h_determined : True)` binder — a discarded vacuity — deleted. Fork (b), content
+    decides arity.) -/
+theorem offLine_of_codim_two (sigma : Real)
+    (h_codim2 : zero_codimension sigma = 2) :
     Not (sigma = 1 / 2) := by
   intro h_half
   rw [h_half, codim_on_line] at h_codim2
