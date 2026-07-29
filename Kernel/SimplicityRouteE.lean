@@ -74,7 +74,12 @@ namespace SimplicityRouteE
 -- Simplicity of the zero of xi <=> transversality of F.
 -- The energy E = F^2 + F'^2 > 0 iff no double zeros.
 
-theorem energy_positivity_equivalence :
+/-- **PLACEHOLDER — not the real statement (tautology-sweep hygiene, 2026-07-29).** Body is `True`; the
+    name now carries the placeholder status. The real Route-E statement would have to say: the energy
+    E(t) = F(t)² + F′(t)² > 0 for all t iff every ξ-zero on the line is simple — where the positivity
+    itself is the open premise (F′(t₀)=0 ⇔ ξ′(½+it₀)=0). Unformalized. Uncited; nothing imports it.
+    Faithful formalization is work-order **W-ORD-ROUTE-DE-EQUIV**. -/
+theorem energy_positivity_equivalence_placeholder :
     True := trivial
 -- Full formalization: E(t) > 0 for all t iff all zeros simple.
 -- The equivalence is proved; the positivity itself is the axiom.

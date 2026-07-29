@@ -6,6 +6,10 @@ namespace TriviumCode
 -- 7 physical qubits, 1 logical qubit, distance 3
 
 -- Code parameters
+/-- **DEPRECATED — labeling stub (tautology-sweep hygiene, 2026-07-29).** `code_n/code_k/code_d` state
+    `7 = 7 / 1 = 1 / 3 = 3` (bare `N = N`, `rfl`) — the name labels a value the tautology does not
+    establish. The genuine [[7,1,3]] parameters are compiled at `SteaneExemplar.steane_parameters`
+    (SIDE-cosmo, `{propext, Quot.sound}`); cite that, not these. Kept in place (uncited; nothing imports them). -/
 theorem code_n : 7 = 7 := rfl
 theorem code_k : 1 = 1 := rfl
 theorem code_d : 3 = 3 := rfl
@@ -13,6 +17,9 @@ theorem code_d : 3 = 3 := rfl
 -- Formation block sizes: (n1, n2, n3, n4) = (2, 3, 2, 0)
 -- Active blocks partition the 7 dimensions
 theorem block_partition : 2 + 3 + 2 = 7 := by decide
+/-- **DEPRECATED — labeling stub (2026-07-29).** `0 = 0` (`rfl`); the genuine dark-interface content
+    (n₄ = 0 / the six-dimensional dark subspace) is compiled at `ProductFormula.conservation_of_spectra`
+    and `partition_cardinalities` (SIDE-substrate-cluster). Kept in place (uncited). -/
 theorem interface_dark : 0 = 0 := rfl
 
 -- Stage complementarity: each active stage has complement >= d
