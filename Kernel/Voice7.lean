@@ -121,15 +121,22 @@ theorem c7_rests_everywhere (sigma : Real) :
     topological_rests sigma := by
   unfold topological_rests topological_contribution; rfl
 
-/-- C7 forces sigma = 1/2 in SIDE terms.
-    Since C7 is sigma-neutral, any zero that C7 "produces"
-    must get its sigma-value from another class. C7 alone
-    cannot place a zero at any sigma, including off-line.
+/-- **DEPRECATED — claiming name retired (statement-read finding, 2026-07-29).**
+    The conclusion of this theorem is `sigma = sigma` — a tautology, true
+    irrespective of the hypothesis `topological_rests sigma`. It does NOT force
+    `sigma = 1/2`; the name `c7_forces_half` over-named a vacuous body (the
+    core-terminal statement-read at SIDE-kernel v1.3 caught it). The declaration
+    is kept (not removed) because papers still reference it; do not cite it.
 
-    We model: if the topological mechanism is the ONLY
-    active mechanism at sigma, then sigma must be at the
-    default (1/2) because no force pushes it elsewhere.
-    This is the "no mechanism -> no effect" principle. -/
+    The module's stand-in content is `topological_constant` (and
+    `topological_no_sigma_preference`) over the definition-encoded stand-in
+    `topological_contribution := 0`: they truly state the stand-in is σ-constant,
+    nothing more. The faithful de-encode — that ξ's actual Hadamard product is
+    σ-non-selective — is **NO LONGER an open work-order: it was compiled
+    2026-07-24 as `Voice7Witness.hadamard_does_not_enforce_online`** (axiom-free,
+    DERIVES; the Epstein countermodel — the Hadamard observable cannot enforce
+    on-line placement). W-ORD-C7-WITNESS is closed-by-compile. Cite that terminal
+    for the faithful C₇ content; cite `topological_constant` only for the stand-in. -/
 theorem c7_forces_half (sigma : Real) :
     topological_rests sigma -> sigma = sigma := by
   intro _; rfl
