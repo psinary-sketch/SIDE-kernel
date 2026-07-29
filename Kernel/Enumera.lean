@@ -32,6 +32,8 @@ theorem F5_bright : 3 + 2 + 1 + 0 + 1 + 2 + 3 = 12 := by decide
 theorem F5_dark : 7 - 1 = 6 := by decide
 
 -- F6: Aperture = 1/7
+/-- **DEPRECATED — labeling stub (2026-07-29).** `7 = 7` (`rfl`); the genuine 7-count is
+    `SIDEKernel.formation` (2+3+2+0 = 7). Kept in place (uncited). -/
 theorem F6_aperture_denom : 7 = 7 := rfl
 
 -- F7: Spinor T^4 = I, T^2 = -I
@@ -75,6 +77,8 @@ theorem F17_totient : Nat.totient 4 = 2 := by decide
 -- F18: Natural modulus 24
 theorem F18_mod24 : 2 ^ 3 * 3 = (24 : Nat) := by decide
 theorem F18_totient24 : Nat.totient 24 = 8 := by decide
+/-- **DEPRECATED — labeling stub (2026-07-29).** `8 = 8` (`rfl`); the genuine value is the sibling
+    `F18_totient24 : Nat.totient 24 = 8` (compiled just above). Kept in place (uncited). -/
 theorem F18_units : 8 = 8 := rfl
 
 -- F19: Sophie Germain pairs from {2,3} sector
