@@ -5,4 +5,4 @@ import Kernel.Voice7Witness
 #print axioms Voice7Witness.hadamard_does_not_enforce_online
 #print axioms Voice7Witness.hadamard_does_not_enforce_online'
 #print axioms Voice7Witness.hadamard_witness
-#print axioms Voice7Witness.hadObs_blind
+#print axioms Voice7Witness.hadObs_dark

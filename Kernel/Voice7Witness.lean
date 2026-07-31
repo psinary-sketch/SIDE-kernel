@@ -87,10 +87,11 @@ def hadObs : Config → Bool
     vacuity of W-6). Reuses the `SieveCeilingWitness.iIndist` shape. -/
 def hadIndist (x y : Config) : Prop := hadObs x = hadObs y
 
-/-- The observable is `Blind` in the `SieveCeilingBridge` sense: it is
-    constant, so it separates nothing (the κ = 0 darkness at the level
-    of the reading). -/
-theorem hadObs_blind : SieveCeilingBridge.Blind hadObs := by
+/-- The observable is constant, so it separates nothing -- the κ = 0
+    (dark) case at the level of the reading, `SieveCeilingBridge.Blind`.
+    (Renamed 2026-07-30 from `hadObs_blind`, vocabulary-law hygiene;
+    statement and proof unchanged. No paper cites the former name.) -/
+theorem hadObs_dark : SieveCeilingBridge.Blind hadObs := by
   intro x y; cases x <;> cases y <;> rfl
 
 /-- Non-totality screen: the reading-kernel is genuinely a reading, not
@@ -144,7 +145,7 @@ theorem hadamard_does_not_enforce_online :
 theorem hadamard_does_not_enforce_online' :
     ¬ ∃ D : Config → Prop,
       RespectsI (SieveCeilingBridge.obsRel hadObs) D ∧ ∀ z, D z ↔ allOnLine z :=
-  SieveCeilingBridge.blind_sieve_ceiling hadObs_blind
+  SieveCeilingBridge.blind_sieve_ceiling hadObs_dark
     ⟨Config.ideal, Config.epstein, trivial, id⟩
 
 end Voice7Witness
