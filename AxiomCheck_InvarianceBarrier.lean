@@ -8,3 +8,7 @@ import Kernel.Cascade.InvarianceBarrier
 #check @InvarianceBarrier.DeterminedBy
 #print axioms InvarianceBarrier.invariance_barrier
 #print axioms InvarianceBarrier.DeterminedBy
+#check @InvarianceBarrier.derivability_barrier
+#check @InvarianceBarrier.Derives
+#print axioms InvarianceBarrier.derivability_barrier
+#print axioms InvarianceBarrier.Derives

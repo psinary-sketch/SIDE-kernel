@@ -42,4 +42,25 @@ theorem invariance_barrier
     ¬ DeterminedBy agree P :=
   fun h_det => h_diverge (h_det x y h_agree)
 
+/-- `x` *derives* `P` over the class `agree` when a derivation at `x` transports
+    to every `agree`-related point (soundness / relativization: a proof using
+    only class-accessible facts holds at every agreeing witness). This models
+    derivability, not truth: `Derives agree P x` is strictly stronger than `P x`
+    only through the class. -/
+def Derives (agree : α → α → Prop) (P : α → Prop) (x : α) : Prop :=
+  ∀ z, agree x z → P z
+
+/-- The derivability barrier (soundness corollary of the invariance barrier).
+
+    If witness `y` **agrees** with `x` (`agree x y`) yet the target property
+    **fails** at `y` (`¬ P y`), then `x` does not derive `P` over the class --
+    no derivation invariant on `agree` establishes `P` at `x`. Unlike
+    `invariance_barrier`, this needs no divergence biconditional (hence no
+    knowledge of `P x`): one agreeing counter-witness suffices. -/
+theorem derivability_barrier
+    {agree : α → α → Prop} {P : α → Prop} {x y : α}
+    (h_agree : agree x y) (h_fail : ¬ P y) :
+    ¬ Derives agree P x :=
+  fun h_der => h_fail (h_der y h_agree)
+
 end InvarianceBarrier
