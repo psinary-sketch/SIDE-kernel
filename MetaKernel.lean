@@ -141,7 +141,26 @@ inductive TypeClass where
     The Mechanism Theorem: if the target requires some domain
     element to produce it (target → ∃d, produces d),
     and no element does (∀d, ¬produces d),
-    then the target doesn't hold (¬target). -/
+    then the target doesn't hold (¬target).
+
+    INERTNESS RECORD (audited 2026-08-05, probed not inferred).
+    `[Fintype Domain]` is NOT USED by the proof below. The same conclusion,
+    from the same two hypotheses with the finiteness assumption deleted and
+    no imports at all, compiles and depends on no axioms. Three consequences,
+    on the record here because a reader meets the hypothesis here:
+    (1) the syllogism is VALID ON ANY DOMAIN — infinite, empty, uncountable;
+        it is modus tollens composed with an existential elimination, and the
+        word "finite" describes the intended application, not a hypothesis
+        the theorem uses;
+    (2) this theorem's recorded axiom profile `[propext, Quot.sound]` is
+        attributable to the unused instance argument, not to its content;
+    (3) NO DEFECT IS CLAIMED AND NONE EXISTS — the theorem is correct and
+        proves more than its statement announces. The statement is left
+        unchanged deliberately: the finite catalogue is what the corpus
+        actually applies this to, and the record belongs beside it rather
+        than in place of it. The alternative repair (drop `Fintype` and
+        state what is proved) remains available and is not taken here.
+    Grade: OVER-HYPOTHESIZED (see the keystone's Correspondence preamble). -/
 theorem type_I_has_ostrowski (Domain : Type) [Fintype Domain]
     (target : Prop) (produces : Domain → Prop)
     (h_none : ∀ d, ¬(produces d))
