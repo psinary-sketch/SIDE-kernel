@@ -39,7 +39,7 @@ def n2 : Nat := 3
 /-- n₃ = 2: output stage (local Cauchy-Riemann + global Hadamard). -/
 def n3 : Nat := 2
 
-/-- n₄ = 0: interface stage (all interfaces are s-dark). -/
+/-- n4 = 0: interface stage, assigned (the claim that all interfaces are s-dark is the conservation clause, not derived here). -/
 def n4 : Nat := 0
 
 -- ============================================================
