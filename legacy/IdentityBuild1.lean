@@ -144,16 +144,7 @@ noncomputable def smul_equiv (c : ℂ) (hc : c ≠ 0) : ℂ ≃L[ℂ] ℂ where
 -- If f is entire and f(z₀) = 0 and f'(z₀) ≠ 0,
 -- then ∃ ε > 0, ∀ z, ‖z - z₀‖ < ε → z ≠ z₀ → f(z) ≠ 0
 
-lemma simple_zero_isolated
-    (f : ℂ → ℂ) (z₀ : ℂ)
-    (hf : Differentiable ℂ f)
-    (hz : f z₀ = 0)
-    (hd : deriv f z₀ ≠ 0) :
-    ∀ᶠ z in nhdsWithin z₀ {z₀}ᶜ, f z ≠ 0 := by
-  -- f'(z₀) ≠ 0 → locally injective → isolated zero
-  -- Step 1: get HasStrictDerivAt
-  have h_da : HasDerivAt f (deriv f z₀) z₀ := hf.differentiableAt.hasDerivAt
-  sorry -- need HasDerivAt → HasStrictDerivAt for analytic functions
+-- [b648, (R258)(2)] simple_zero_isolated closed by `sorry` -- quarantined to branch sorry-quarantine-SIDE-kernel; recorded in ERRATA.md.
 
 -- =========================================================
 -- SECTION 7: ATTEMPT — accumulation kills all coefficients
@@ -162,13 +153,7 @@ lemma simple_zero_isolated
 -- If f is entire and f(zₙ) = 0 for zₙ → z₀ with zₙ ≠ z₀,
 -- then all iterated derivatives of f at z₀ are zero.
 
-lemma accumulation_kills_derivs
-    (f : ℂ → ℂ) (z₀ : ℂ)
-    (hf : Differentiable ℂ f)
-    (hacc : ∃ (z : ℕ → ℂ), (∀ n, f (z n) = 0) ∧ (∀ n, z n ≠ z₀) ∧
-            Tendsto z atTop (nhds z₀)) :
-    ∀ n : ℕ, iteratedDeriv n f z₀ = 0 := by
-  sorry -- induction using simple_zero_isolated
+-- [b648, (R258)(2)] accumulation_kills_derivs closed by `sorry` -- quarantined to branch sorry-quarantine-SIDE-kernel; recorded in ERRATA.md.
 
 -- =========================================================
 -- SECTION 8: Check what's available for HasStrictDerivAt
@@ -208,6 +193,4 @@ example (f : ℂ → ℂ) (z₀ : ℂ) (hf : Differentiable ℂ f) :
 -- This is invertible iff f'(z₀) ≠ 0.
 
 -- Can we build the equiv?
-example (f : ℂ → ℂ) (z₀ : ℂ) (hf : Differentiable ℂ f) (hd : deriv f z₀ ≠ 0) :
-    ∃ (e : ℂ ≃L[ℂ] ℂ), (e : ℂ →L[ℂ] ℂ) = fderiv ℂ f z₀ := by
-  sorry -- need to construct from deriv f z₀ ≠ 0
+-- [b648, (R258)(2)] (example) closed by `sorry` -- quarantined to branch sorry-quarantine-SIDE-kernel; recorded in ERRATA.md.

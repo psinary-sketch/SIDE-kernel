@@ -53,13 +53,7 @@ lemma conj_half_sub_one (s : ℂ) :
 -- All components are real! So conj(f_modif(t)) = f_modif(t)
 
 -- Let's try to prove it
-example (t : ℝ) : starRingEnd ℂ ((hurwitzEvenFEPair 0).f_modif t) =
-    (hurwitzEvenFEPair 0).f_modif t := by
-  -- Unfold f_modif
-  simp only [WeakFEPair.f_modif]
-  -- Try to show conj distributes over everything
-  simp [map_add, map_sub, map_indicator, conj_ofReal, map_mul, map_one, smul_eq_mul]
-  sorry -- PROBE: see what remains
+-- [b648, (R258)(2)] (example) closed by `sorry` -- quarantined to branch sorry-quarantine-SIDE-kernel; recorded in ERRATA.md.
 
 -- =========================================================
 -- RESTRICTED INTEGRAL CONJUGATION
@@ -87,28 +81,4 @@ example (f : ℝ → ℂ) :
 -- FULL PROOF ATTEMPT v5
 -- =========================================================
 
-theorem schwarz_v5 (s : ℂ) :
-    completedRiemannZeta₀ (starRingEnd ℂ s) =
-    starRingEnd ℂ (completedRiemannZeta₀ s) := by
-  -- Unfold to mellin
-  show mellin (hurwitzEvenFEPair 0).f_modif (starRingEnd ℂ s / 2) / 2 =
-       starRingEnd ℂ (mellin (hurwitzEvenFEPair 0).f_modif (s / 2) / 2)
-  -- Push conj through /2
-  rw [map_div₀]
-  norm_num
-  -- Goal should now be about mellin
-  -- mellin f_modif (conj(s)/2) = conj(mellin f_modif (s/2))
-  -- Rewrite conj(s)/2 as conj(s/2)
-  rw [← conj_div_two]
-  -- Unfold mellin
-  simp only [mellin]
-  -- Use integral conjugation
-  rw [← integral_conj (𝕜 := ℂ)]
-  -- Now compare integrands
-  congr 1
-  ext t
-  -- Need: ↑t^(conj(s/2)-1) • f_modif(t) = conj(↑t^(s/2-1) • f_modif(t))
-  -- = conj(↑t^(s/2-1)) • conj(f_modif(t))
-  -- = ↑t^(conj(s/2-1)) • f_modif(t)  [using cpow_conj + f_modif real]
-  -- = ↑t^(conj(s/2)-1) • f_modif(t)  [using conj_sub distributes]
-  sorry
+-- [b648, (R258)(2)] schwarz_v5 closed by `sorry` -- quarantined to branch sorry-quarantine-SIDE-kernel; recorded in ERRATA.md.

@@ -73,7 +73,4 @@ example (z τ : ℂ) : jacobiTheta₂ (starRingEnd ℂ z) (starRingEnd ℂ τ) =
 -- PROBE G: Try unfolding and using simp/norm_num
 -- =========================================================
 
-example (s : ℂ) : completedRiemannZeta₀ (starRingEnd ℂ s) =
-    starRingEnd ℂ (completedRiemannZeta₀ s) := by
-  unfold completedRiemannZeta₀
-  sorry
+-- [b648, (R258)(2)] (example) closed by `sorry` -- quarantined to branch sorry-quarantine-SIDE-kernel; recorded in ERRATA.md.

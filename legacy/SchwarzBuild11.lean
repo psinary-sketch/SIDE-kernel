@@ -38,24 +38,4 @@ lemma conj_half_sub_one (s : ℂ) :
 -- FULL PROOF
 -- =========================================================
 
-theorem schwarz_discharge (s : ℂ) :
-    completedRiemannZeta₀ (starRingEnd ℂ s) =
-    starRingEnd ℂ (completedRiemannZeta₀ s) := by
-  show mellin (hurwitzEvenFEPair 0).f_modif (starRingEnd ℂ s / 2) / 2 =
-       starRingEnd ℂ (mellin (hurwitzEvenFEPair 0).f_modif (s / 2) / 2)
-  rw [map_div₀, conj_two]
-  congr 1
-  simp only [mellin]
-  suffices hpt : ∀ t ∈ Ioi (0:ℝ),
-      (↑t : ℂ) ^ ((starRingEnd ℂ) s / 2 - 1) • (hurwitzEvenFEPair 0).f_modif t =
-      (starRingEnd ℂ) ((↑t : ℂ) ^ (s / 2 - 1) • (hurwitzEvenFEPair 0).f_modif t) by
-    rw [setIntegral_congr measurableSet_Ioi hpt]
-    exact integral_conj
-  intro t ht
-  simp only [smul_eq_mul, map_mul]
-  congr 1
-  · -- Rewrite exponent: conj(s)/2 - 1 = conj(s/2 - 1)
-    rw [conj_half_sub_one]
-    exact (cpow_conj_pos_real t ht (s / 2 - 1)).symm
-  · -- f_modif real-valued
-    sorry
+-- [b648, (R258)(2)] schwarz_discharge closed by `sorry` -- quarantined to branch sorry-quarantine-SIDE-kernel; recorded in ERRATA.md.

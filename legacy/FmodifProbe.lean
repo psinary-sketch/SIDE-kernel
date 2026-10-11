@@ -8,10 +8,7 @@ open Complex HurwitzZeta MeasureTheory Set
 -- i.e. conj fixes f_modif(t)
 
 -- First: what does f_modif unfold to?
-example (t : ℝ) : (hurwitzEvenFEPair 0).f_modif t = _ := by
-  unfold WeakFEPair.f_modif
-  -- See what it looks like
-  sorry
+-- [b648, (R258)(2)] (example) closed by `sorry` -- quarantined to branch sorry-quarantine-SIDE-kernel; recorded in ERRATA.md.
 
 -- Try: is there a conj_ofReal that handles the whole thing?
 -- f = ofReal ∘ evenKernel, so f(t) = ofReal(evenKernel 0 t)
@@ -23,30 +20,15 @@ example (t : ℝ) : (hurwitzEvenFEPair 0).f_modif t = _ := by
 -- t^(-k) for t real positive → real → conj-fixed ✓
 
 -- So every component is real. Can simp handle it?
-example (t : ℝ) :
-    (hurwitzEvenFEPair 0).f_modif t =
-    starRingEnd ℂ ((hurwitzEvenFEPair 0).f_modif t) := by
-  simp only [WeakFEPair.f_modif, hurwitzEvenFEPair]
-  simp [map_add, map_sub, conj_ofReal, map_smul, map_mul, map_one,
-        map_indicator, starRingEnd_self_apply]
-  sorry
+-- [b648, (R258)(2)] (example) closed by `sorry` -- quarantined to branch sorry-quarantine-SIDE-kernel; recorded in ERRATA.md.
 
 -- Try native_decide or norm_num
-example (t : ℝ) :
-    (hurwitzEvenFEPair 0).f_modif t =
-    starRingEnd ℂ ((hurwitzEvenFEPair 0).f_modif t) := by
-  simp only [WeakFEPair.f_modif]
-  -- Try RCLike.conj_eq_iff or similar
-  rw [show (starRingEnd ℂ) = Complex.conjCLE from rfl]
-  sorry
+-- [b648, (R258)(2)] (example) closed by `sorry` -- quarantined to branch sorry-quarantine-SIDE-kernel; recorded in ERRATA.md.
 
 -- Does conj_eq_iff_re help?
 -- conj(z) = z ↔ z.im = 0
 -- So we could show f_modif(t).im = 0
-example (t : ℝ) :
-    ((hurwitzEvenFEPair 0).f_modif t).im = 0 := by
-  simp only [WeakFEPair.f_modif]
-  sorry
+-- [b648, (R258)(2)] (example) closed by `sorry` -- quarantined to branch sorry-quarantine-SIDE-kernel; recorded in ERRATA.md.
 
 -- Nuclear: just use conj_eq_iff_re
 #check Complex.conj_eq_iff_re

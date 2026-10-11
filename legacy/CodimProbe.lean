@@ -47,17 +47,7 @@ open Complex
 #check @Complex.conj_eq_iff_im
 
 -- The FOCUS theorem
-theorem focus_on_critical_line (t : Real) :
-    (completedRiemannZeta₀ ⟨1/2, t⟩).im = 0 := by
-  -- conj(1/2 + it) = 1/2 - it = 1 - (1/2 + it)
-  have h_conj_eq_one_sub : (starRingEnd ℂ) (⟨1/2, t⟩ : ℂ) = 1 - ⟨1/2, t⟩ := by
-    ext <;> simp [Complex.conj_re, Complex.conj_im]
-    ring
-  -- Schwarz: Λ₀(conj s) = conj(Λ₀(s))
-  -- FE: Λ₀(1-s) = Λ₀(s)
-  -- Combined: conj(Λ₀(s)) = Λ₀(conj s) = Λ₀(1-s) = Λ₀(s)
-  -- Therefore Im(Λ₀(s)) = 0
-  sorry
+-- [b648, (R258)(2)] focus_on_critical_line closed by `sorry` -- quarantined to branch sorry-quarantine-SIDE-kernel; recorded in ERRATA.md.
 
 -- ============================================================
 -- STEP 5: Zero-free region from Mathlib
@@ -68,18 +58,7 @@ theorem euler_closing (s : ℂ) (hs : 1 ≤ s.re) : riemannZeta s ≠ 0 :=
   riemannZeta_ne_zero_of_one_le_re hs
 
 -- Zeros are confined to the critical strip
-theorem zeros_in_strip (s : ℂ) (hs : riemannZeta s = 0)
-    (h_not_trivial : ¬∃ n : Nat, s = -2 * (↑n + 1))
-    (h_ne_one : s ≠ 1) :
-    0 < s.re ∧ s.re < 1 := by
-  constructor
-  · -- Re(s) > 0: from FE + non-vanishing
-    -- If Re(s) ≤ 0 and s is not trivial... this needs more work
-    sorry
-  · -- Re(s) < 1: from non-vanishing
-    by_contra h
-    push_neg at h
-    exact euler_closing s h hs
+-- [b648, (R258)(2)] zeros_in_strip closed by `sorry` -- quarantined to branch sorry-quarantine-SIDE-kernel; recorded in ERRATA.md.
 
 -- ============================================================
 -- THE QUESTION: Can we go from "strip" to "line"?

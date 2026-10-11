@@ -34,12 +34,7 @@ example (t : ℝ) (ht : 0 < t) : ((t : ℂ)).arg = 0 := by
 -- FIX 3: cpow conj for positive reals (fixed)
 -- =========================================================
 
-example (t : ℝ) (ht : 0 < t) (w : ℂ) :
-    (t : ℂ) ^ (starRingEnd ℂ w) = starRingEnd ℂ ((t : ℂ) ^ w) := by
-  rw [cpow_conj]
-  · simp [conj_ofReal]
-  · -- need: arg(↑t) ≠ π
-    sorry  -- will fill once we find the lemma name
+-- [b648, (R258)(2)] (example) closed by `sorry` -- quarantined to branch sorry-quarantine-SIDE-kernel; recorded in ERRATA.md.
 
 -- =========================================================
 -- FIX 4: conj(s-1) = conj(s)-1 (for the s/2-1 term)
@@ -56,22 +51,4 @@ example (s : ℂ) : starRingEnd ℂ (s - 1) = starRingEnd ℂ s - 1 := by
 example (s : ℂ) : completedRiemannZeta₀ s =
     mellin (hurwitzEvenFEPair 0).f_modif (s / 2) / 2 := by rfl
 
-theorem schwarz_v2 (s : ℂ) :
-    completedRiemannZeta₀ (starRingEnd ℂ s) =
-    starRingEnd ℂ (completedRiemannZeta₀ s) := by
-  -- Unfold both sides to mellin
-  show mellin (hurwitzEvenFEPair 0).f_modif (starRingEnd ℂ s / 2) / 2 =
-       starRingEnd ℂ (mellin (hurwitzEvenFEPair 0).f_modif (s / 2) / 2)
-  -- Push conj through outer /2
-  rw [map_div₀, show (starRingEnd ℂ) (2:ℂ) = 2 from by simp [conj_ofReal]]
-  congr 1
-  -- LHS has conj(s)/2, need to show = conj(s/2)
-  -- Actually LHS already has (starRingEnd ℂ s / 2) from the show
-  -- Need: mellin f_modif (conj(s)/2) = conj(mellin f_modif (s/2))
-  -- Unfold mellin on both sides
-  simp only [mellin]
-  rw [← integral_conj]
-  congr 1
-  ext t
-  -- Need: ↑t ^ (conj(s)/2 - 1) • f_modif(t) = conj(↑t ^ (s/2 - 1) • f_modif(t))
-  sorry
+-- [b648, (R258)(2)] schwarz_v2 closed by `sorry` -- quarantined to branch sorry-quarantine-SIDE-kernel; recorded in ERRATA.md.

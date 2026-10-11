@@ -51,58 +51,17 @@ lemma conj_half_sub_one (s : ℂ) :
 -- with correction terms involving ofReal constants
 
 -- Test: is f_modif value conj-fixed?
-example (t : ℝ) : starRingEnd ℂ ((hurwitzEvenFEPair 0).f_modif t) =
-    (hurwitzEvenFEPair 0).f_modif t := by
-  sorry  -- PROBE: what does the goal look like after unfold?
+-- [b648, (R258)(2)] (example) closed by `sorry` -- quarantined to branch sorry-quarantine-SIDE-kernel; recorded in ERRATA.md.
 
 -- =========================================================
 -- ALTERNATIVE: Try simp-based proof
 -- =========================================================
 
 -- Maybe simp can handle the whole thing if we give it enough lemmas
-theorem schwarz_v3 (s : ℂ) :
-    completedRiemannZeta₀ (starRingEnd ℂ s) =
-    starRingEnd ℂ (completedRiemannZeta₀ s) := by
-  -- Unfold to mellin
-  show mellin (hurwitzEvenFEPair 0).f_modif (starRingEnd ℂ s / 2) / 2 =
-       starRingEnd ℂ (mellin (hurwitzEvenFEPair 0).f_modif (s / 2) / 2)
-  -- Handle outer structure
-  rw [map_div₀, conj_two]
-  congr 1
-  -- Now: mellin f_modif (conj(s)/2) = conj(mellin f_modif (s/2))
-  -- The LHS has (starRingEnd ℂ s / 2), and we need it as conj(s/2)
-  -- Actually starRingEnd ℂ s / 2 = starRingEnd ℂ (s/2) by conj_div_two
-  rw [← conj_div_two]
-  -- Now: mellin f_modif (conj(s/2)) = conj(mellin f_modif (s/2))
-  -- Unfold mellin
-  simp only [mellin]
-  -- Goal: ∫ t in Ioi 0, ↑t^(conj(s/2)-1) • f_modif(t)
-  --     = conj(∫ t in Ioi 0, ↑t^(s/2-1) • f_modif(t))
-  --
-  -- Use integral_conj on RHS (with restricted measure)
-  conv_rhs => rw [← integral_conj (𝕜 := ℂ)]
-  -- Now both sides are integrals, compare integrands
-  congr 1
-  ext ⟨t, ht⟩
-  sorry
+-- [b648, (R258)(2)] schwarz_v3 closed by `sorry` -- quarantined to branch sorry-quarantine-SIDE-kernel; recorded in ERRATA.md.
 
 -- =========================================================
 -- EVEN SIMPLER: skip integral_conj, prove directly
 -- =========================================================
 
-theorem schwarz_v4 (s : ℂ) :
-    completedRiemannZeta₀ (starRingEnd ℂ s) =
-    starRingEnd ℂ (completedRiemannZeta₀ s) := by
-  show mellin (hurwitzEvenFEPair 0).f_modif (starRingEnd ℂ s / 2) / 2 =
-       starRingEnd ℂ (mellin (hurwitzEvenFEPair 0).f_modif (s / 2) / 2)
-  rw [map_div₀, conj_two]
-  congr 1
-  rw [← conj_div_two]
-  simp only [mellin]
-  -- Try: rewrite conj of integral using integral_conj
-  -- integral_conj says: ∫ conj(f x) ∂μ = conj(∫ f x ∂μ)
-  -- So conj(∫ f x ∂μ) = ∫ conj(f x) ∂μ, i.e. ← integral_conj
-  -- But we need to match the restricted measure form
-  -- ∫ x in S, f x = ∫ x, f x ∂(μ.restrict S)
-  -- So it should work with the right μ
-  sorry
+-- [b648, (R258)(2)] schwarz_v4 closed by `sorry` -- quarantined to branch sorry-quarantine-SIDE-kernel; recorded in ERRATA.md.
