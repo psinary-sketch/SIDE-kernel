@@ -1,129 +1,42 @@
-# SIDE Kernel
+# The legacy map of sorry-quarantine-SIDE-kernel
 
-Lean 4 formalization of the SIDE proof of the Riemann Hypothesis.
+This branch holds, as they stood, the declarations that b648 quarantined from `main` under the author’s ruling (R258)(2): each was closed by `sorry` and entered `main` before the standing rule that no `sorry` reaches any `main` (relay OPEN_TRAILS :11508). The branch’s tip, `0256e9e`, is the commit of `main` they were quarantined from; `main` (`b0f2a3a` when this map was written) no longer carries them, and the kernel’s `ERRATA.md` on `main` names each. Each row gives the declaration’s file and line at the tip, its statement, the date it entered `main`, and its successor in the built kernel -- the declaration in a lean_lib of `main` proving the same content, by file and line -- or “no successor; superseded by” with the reason. Written by relay b649 under (R259)(3) from relay `data/b648_sorry_classification.json`.
 
-**J. York Seale** — https://orcid.org/0009-0008-7993-0310
+The kernel’s own `README.md`, which this map replaces on this branch alone, stands whole at the tip `0256e9e` (blob `2bdd4f9a10d0`) and on `main`.
 
-## Quick start
+| # | file :line (at `0256e9e`) | kind | declaration | its `sorry` | statement | entered main | successor |
+|:--|:--|:--|:--|:--|:--|:--|:--|
+| 1 | `legacy/CodimProbe.lean` :50 | theorem | `focus_on_critical_line` | :60 | `theorem focus_on_critical_line (t : Real) : (completedRiemannZeta₀ ⟨1/2, t⟩).im = 0` | 2026-04-02 | no successor; superseded by legacy/SchwarzReflection_PR.lean :129 (completedRiemannZeta₀_im_eq_zero_on_half), itself outside every lean_lib |
+| 2 | `legacy/CodimProbe.lean` :71 | theorem | `zeros_in_strip` | :78 | `theorem zeros_in_strip (s : ℂ) (hs : riemannZeta s = 0) (h_not_trivial : ¬∃ n : Nat, s = -2 * (↑n + 1)) (h_ne_one : s ≠ 1) : 0 < s.re ∧ s.re < 1` | 2026-04-02 | no successor; superseded by nothing -- a legacy probe outside every lean_lib; nothing consumes it |
+| 3 | `legacy/FmodifProbe.lean` :11 | example | `(example)` | :14 | `example (t : ℝ) : (hurwitzEvenFEPair 0).f_modif t = _` | 2026-04-02 | no successor; superseded by nothing -- an unnamed legacy probe (example) outside every lean_lib; nothing can consume it |
+| 4 | `legacy/FmodifProbe.lean` :26 | example | `(example)` | :32 | `example (t : ℝ) : (hurwitzEvenFEPair 0).f_modif t = starRingEnd ℂ ((hurwitzEvenFEPair 0).f_modif t)` | 2026-04-02 | no successor; superseded by nothing -- an unnamed legacy probe (example) outside every lean_lib; nothing can consume it |
+| 5 | `legacy/FmodifProbe.lean` :35 | example | `(example)` | :41 | `example (t : ℝ) : (hurwitzEvenFEPair 0).f_modif t = starRingEnd ℂ ((hurwitzEvenFEPair 0).f_modif t)` | 2026-04-02 | no successor; superseded by nothing -- an unnamed legacy probe (example) outside every lean_lib; nothing can consume it |
+| 6 | `legacy/FmodifProbe.lean` :46 | example | `(example)` | :49 | `example (t : ℝ) : ((hurwitzEvenFEPair 0).f_modif t).im = 0` | 2026-04-02 | no successor; superseded by nothing -- an unnamed legacy probe (example) outside every lean_lib; nothing can consume it |
+| 7 | `legacy/FmodifProbe2.lean` :15 | example | `(example)` | :26 | `example (t : ℝ) : (hurwitzEvenFEPair 0).f_modif t = starRingEnd ℂ ((hurwitzEvenFEPair 0).f_modif t)` | 2026-04-02 | no successor; superseded by nothing -- an unnamed legacy probe (example) outside every lean_lib; nothing can consume it |
+| 8 | `legacy/FmodifProbe2.lean` :56 | example | `(example)` | :75 | `example (t : ℝ) : (hurwitzEvenFEPair 0).f_modif t = starRingEnd ℂ ((hurwitzEvenFEPair 0).f_modif t)` | 2026-04-02 | no successor; superseded by nothing -- an unnamed legacy probe (example) outside every lean_lib; nothing can consume it |
+| 9 | `legacy/IdentityBuild1.lean` :147 | lemma | `simple_zero_isolated` | :156 | `lemma simple_zero_isolated (f : ℂ → ℂ) (z₀ : ℂ) (hf : Differentiable ℂ f) (hz : f z₀ = 0) (hd : deriv f z₀ ≠ 0) : ∀ᶠ z in nhdsWithin z₀ {z₀}ᶜ, f z ≠ 0` | 2026-04-02 | no successor; superseded by nothing -- a legacy build attempt outside every lean_lib; nothing consumes it |
+| 10 | `legacy/IdentityBuild1.lean` :165 | lemma | `accumulation_kills_derivs` | :171 | `lemma accumulation_kills_derivs (f : ℂ → ℂ) (z₀ : ℂ) (hf : Differentiable ℂ f) (hacc : ∃ (z : ℕ → ℂ), (∀ n, f (z n) = 0) ∧ (∀ n, z n ≠ z₀) ∧ Tendsto z atTop (nhds z₀)) : ∀ n : ℕ, iteratedDeriv n f z₀ = 0` | 2026-04-02 | no successor; superseded by nothing -- a legacy build attempt outside every lean_lib; nothing consumes it |
+| 11 | `legacy/IdentityBuild1.lean` :211 | example | `(example)` | :213 | `example (f : ℂ → ℂ) (z₀ : ℂ) (hf : Differentiable ℂ f) (hd : deriv f z₀ ≠ 0) : ∃ (e : ℂ ≃L[ℂ] ℂ), (e : ℂ →L[ℂ] ℂ) = fderiv ℂ f z₀` | 2026-04-02 | no successor; superseded by nothing -- an unnamed legacy probe (example) outside every lean_lib; nothing can consume it |
+| 12 | `legacy/ProductFormula_Int.lean` :72 | theorem | `product_formula_prime_pow` | :96 | `theorem product_formula_prime_pow (p : Nat) [hp : Fact p.Prime] (k : Nat) : normProduct p ((p : Rat) ^ k) = 1` | 2026-04-02 | `Kernel/ProductFormula_Clean.lean` :86 `product_formula_prime_pow` |
+| 13 | `legacy/ProductFormula_Int.lean` :117 | theorem | `product_formula_nat` | :130 | `theorem product_formula_nat (p : Nat) [hp : Fact p.Prime] (n : Nat) (hn : n ≠ 0) : ¦(n : Rat)¦ * padicNorm p (n : Rat) = 1` | 2026-04-02 | no successor; superseded by nothing -- false as stated (n = 6 at p = 2 gives 3; the file’s own comment at :124), outside every lean_lib, nothing consumes it |
+| 14 | `legacy/SchwarzBuild10.lean` :29 | theorem | `schwarz_discharge` | :59 | `theorem schwarz_discharge (s : ℂ) : completedRiemannZeta₀ (starRingEnd ℂ s) = starRingEnd ℂ (completedRiemannZeta₀ s)` | 2026-04-02 | `Kernel/SchwarzDischarge.lean` :42 `schwarz_reflection_completedZeta₀` |
+| 15 | `legacy/SchwarzBuild11.lean` :41 | theorem | `schwarz_discharge` | :61 | `theorem schwarz_discharge (s : ℂ) : completedRiemannZeta₀ (starRingEnd ℂ s) = starRingEnd ℂ (completedRiemannZeta₀ s)` | 2026-04-02 | `Kernel/SchwarzDischarge.lean` :42 `schwarz_reflection_completedZeta₀` |
+| 16 | `legacy/SchwarzBuild12.lean` :33 | theorem | `schwarz_discharge` | :56 | `theorem schwarz_discharge (s : ℂ) : completedRiemannZeta₀ (starRingEnd ℂ s) = starRingEnd ℂ (completedRiemannZeta₀ s)` | 2026-04-02 | `Kernel/SchwarzDischarge.lean` :42 `schwarz_reflection_completedZeta₀` |
+| 17 | `legacy/SchwarzBuild13.lean` :33 | theorem | `schwarz_discharge` | :53 | `theorem schwarz_discharge (s : ℂ) : completedRiemannZeta₀ (starRingEnd ℂ s) = starRingEnd ℂ (completedRiemannZeta₀ s)` | 2026-04-02 | `Kernel/SchwarzDischarge.lean` :42 `schwarz_reflection_completedZeta₀` |
+| 18 | `legacy/SchwarzBuild14.lean` :33 | theorem | `schwarz_discharge` | :54 | `theorem schwarz_discharge (s : ℂ) : completedRiemannZeta₀ (starRingEnd ℂ s) = starRingEnd ℂ (completedRiemannZeta₀ s)` | 2026-04-02 | `Kernel/SchwarzDischarge.lean` :42 `schwarz_reflection_completedZeta₀` |
+| 19 | `legacy/SchwarzBuild2.lean` :87 | theorem | `schwarz_discharge` | :111, :113 | `theorem schwarz_discharge (s : ℂ) : completedRiemannZeta₀ (starRingEnd ℂ s) = starRingEnd ℂ (completedRiemannZeta₀ s)` | 2026-04-02 | `Kernel/SchwarzDischarge.lean` :42 `schwarz_reflection_completedZeta₀` |
+| 20 | `legacy/SchwarzBuild3.lean` :37 | example | `(example)` | :42 | `example (t : ℝ) (ht : 0 < t) (w : ℂ) : (t : ℂ) ^ (starRingEnd ℂ w) = starRingEnd ℂ ((t : ℂ) ^ w)` | 2026-04-02 | no successor; superseded by nothing -- an unnamed legacy probe (example) outside every lean_lib; nothing can consume it |
+| 21 | `legacy/SchwarzBuild3.lean` :59 | theorem | `schwarz_v2` | :77 | `theorem schwarz_v2 (s : ℂ) : completedRiemannZeta₀ (starRingEnd ℂ s) = starRingEnd ℂ (completedRiemannZeta₀ s)` | 2026-04-02 | `Kernel/SchwarzDischarge.lean` :42 `schwarz_reflection_completedZeta₀` |
+| 22 | `legacy/SchwarzBuild4.lean` :54 | example | `(example)` | :56 | `example (t : ℝ) : starRingEnd ℂ ((hurwitzEvenFEPair 0).f_modif t) = (hurwitzEvenFEPair 0).f_modif t` | 2026-04-02 | no successor; superseded by nothing -- an unnamed legacy probe (example) outside every lean_lib; nothing can consume it |
+| 23 | `legacy/SchwarzBuild4.lean` :63 | theorem | `schwarz_v3` | :87 | `theorem schwarz_v3 (s : ℂ) : completedRiemannZeta₀ (starRingEnd ℂ s) = starRingEnd ℂ (completedRiemannZeta₀ s)` | 2026-04-02 | `Kernel/SchwarzDischarge.lean` :42 `schwarz_reflection_completedZeta₀` |
+| 24 | `legacy/SchwarzBuild4.lean` :93 | theorem | `schwarz_v4` | :108 | `theorem schwarz_v4 (s : ℂ) : completedRiemannZeta₀ (starRingEnd ℂ s) = starRingEnd ℂ (completedRiemannZeta₀ s)` | 2026-04-02 | `Kernel/SchwarzDischarge.lean` :42 `schwarz_reflection_completedZeta₀` |
+| 25 | `legacy/SchwarzBuild5.lean` :56 | example | `(example)` | :62 | `example (t : ℝ) : starRingEnd ℂ ((hurwitzEvenFEPair 0).f_modif t) = (hurwitzEvenFEPair 0).f_modif t` | 2026-04-02 | no successor; superseded by nothing -- an unnamed legacy probe (example) outside every lean_lib; nothing can consume it |
+| 26 | `legacy/SchwarzBuild5.lean` :90 | theorem | `schwarz_v5` | :114 | `theorem schwarz_v5 (s : ℂ) : completedRiemannZeta₀ (starRingEnd ℂ s) = starRingEnd ℂ (completedRiemannZeta₀ s)` | 2026-04-02 | `Kernel/SchwarzDischarge.lean` :42 `schwarz_reflection_completedZeta₀` |
+| 27 | `legacy/SchwarzBuild6.lean` :40 | theorem | `schwarz_discharge` | :71 | `theorem schwarz_discharge (s : ℂ) : completedRiemannZeta₀ (starRingEnd ℂ s) = starRingEnd ℂ (completedRiemannZeta₀ s)` | 2026-04-02 | `Kernel/SchwarzDischarge.lean` :42 `schwarz_reflection_completedZeta₀` |
+| 28 | `legacy/SchwarzBuild7.lean` :29 | theorem | `schwarz_discharge` | :68 | `theorem schwarz_discharge (s : ℂ) : completedRiemannZeta₀ (starRingEnd ℂ s) = starRingEnd ℂ (completedRiemannZeta₀ s)` | 2026-04-02 | `Kernel/SchwarzDischarge.lean` :42 `schwarz_reflection_completedZeta₀` |
+| 29 | `legacy/SchwarzBuild8.lean` :39 | theorem | `schwarz_discharge` | :68 | `theorem schwarz_discharge (s : ℂ) : completedRiemannZeta₀ (starRingEnd ℂ s) = starRingEnd ℂ (completedRiemannZeta₀ s)` | 2026-04-02 | `Kernel/SchwarzDischarge.lean` :42 `schwarz_reflection_completedZeta₀` |
+| 30 | `legacy/SchwarzBuild9.lean` :29 | theorem | `schwarz_discharge` | :58 | `theorem schwarz_discharge (s : ℂ) : completedRiemannZeta₀ (starRingEnd ℂ s) = starRingEnd ℂ (completedRiemannZeta₀ s)` | 2026-04-02 | `Kernel/SchwarzDischarge.lean` :42 `schwarz_reflection_completedZeta₀` |
+| 31 | `legacy/SchwarzProbe2.lean` :76 | example | `(example)` | :79 | `example (s : ℂ) : completedRiemannZeta₀ (starRingEnd ℂ s) = starRingEnd ℂ (completedRiemannZeta₀ s)` | 2026-04-02 | no successor; superseded by nothing -- an unnamed legacy probe (example) outside every lean_lib; nothing can consume it |
 
-```bash
-git clone https://github.com/psinary-sketch/SIDE-kernel
-cd SIDE-kernel
-lake build Kernel.Root
-```
+31 quarantined declarations (32 `sorry` lines); 15 with a successor in the built kernel.
 
-Build time: ~5 minutes with cached Mathlib.
-Expected output: 3580 jobs, 0 errors.
-
-## Building
-
-Requires Lean 4 with Mathlib. Toolchain is pinned in `lean-toolchain`
-(currently `leanprover/lean4:v4.29.0-rc8`).
-
-### Quick build (recommended)
-
-First-time build uses Mathlib's pre-built olean cache to skip the
-~2-hour cold compilation of Mathlib itself:
-
-```bash
-lake exe cache get    # downloads pre-built Mathlib oleans (~1.3 GB)
-lake build            # builds the active kernel (Kernel/, Bridge/, MetaKernel)
-```
-
-Subsequent builds are incremental and fast.
-
-### Full cold build (no cache)
-
-If `lake exe cache get` is unavailable or you prefer to build Mathlib
-from source, plain `lake build` will do so — expect approximately two
-hours on first build. Subsequent builds are fast.
-
-### Per-module builds
-
-For targeted verification of individual ship modules:
-
-```bash
-lake build Kernel.Root                 # full active kernel chain
-lake build Bridge.TheBridgeComplete    # seven mechanism classes, structural exhaustiveness
-lake build MetaKernel                  # nine coupled-system κ instances
-```
-
-The `legacy/` directory contains historical probe files from earlier kernel development states (v1 through v66.1), retained as a record of the axiom-elimination journey described in the monograph (Chapter 26). These files may contain `sorry` tactics and are not part of the ship build. See `legacy/README.md` for details.
-
-## What it proves
-
-Running `lake build` verifies the Riemann Hypothesis theorem end-to-end against Mathlib, with zero `sorry` and zero custom axioms.
-
-**Three load-bearing theorems:**
-
-- `RiemannHypothesis` in `Kernel/Integration.lean` — every nontrivial zero of the Riemann zeta function has real part 1/2 (Mathlib's definition). The headline theorem. Derived from `StructuralExhaustiveness` via the SIDE Exclusion Principle.
-- `structural_exhaustiveness_proved` in `Bridge/TheBridgeComplete.lean` — the seven mechanism classes are exhaustive, and cross-class exclusion shows no class produces the algebraic signature of an off-line zero. Proved unconditionally.
-- `silence_universal` in `Kernel/SilenceTheorem.lean` — the Universal Silence Theorem: the product formula is spectrally silent, proved from Tate's thesis.
-
-`produces_offline` is defined as a meaningful proposition for each of the seven mechanism classes — what it would mean for that class to produce a zero off the critical line — and then refuted by a named Voice theorem. No wildcard. No definitional `False`. Seven derivations from seven compiled Voice theorems.
-
-**Three independent routes reach the conclusion:**
-
-1. Seven mechanism classes (`Bridge/TheBridgeComplete`) with cross-class exclusion forbidding off-line zeros.
-2. Codimension / Spectral Cannon (`Kernel/SchwarzDischarge` + `Kernel/Voice3b` + `Kernel/PerpendicularCrossing`) via perpendicular crossing of ξ'(1/2+it) = 0 combined with Schwarz reflection.
-3. Conservation of Spectra via Tate's thesis, closing from spectral silence of the product formula to the Riemann Hypothesis.
-
-Verify zero sorry and zero custom axioms in the active kernel:
-
-```bash
-grep -rn "^\s*sorry\b" Kernel/ Bridge/ MetaKernel.lean --include="*.lean"   # expect: no matches
-grep -rn "^axiom " Kernel/ Bridge/ MetaKernel.lean --include="*.lean"       # expect: no matches
-```
-
-## Numbers
-
-> **Counts are scope-dependent and not the citation unit.** The figures below describe a v1.2-era scope; no single partition of the tree reproduces a blanket file count (candidates range 69–126 — see `DEPOSIT_v1_2_NOTES.md` and the corpus errata E-2026-07-13-1 / E-2026-07-12-1). Cite **named terminals at a pin**, verified by the two `grep` commands above, not a blanket "N files, 0 sorry, 0 axioms." The published deposit descriptions (v1.3, DOI 10.5281/zenodo.21417776) use named-terminal grammar.
-
-- **560** theorems, lemmas, and definitions in the sorry-free core
-- **0** `sorry` (unproved assertions)
-- **0** custom axioms
-- **82** active Lean files — Kernel/ (69), Bridge/ (12), MetaKernel.lean (1)
-- Per-component declaration count: Kernel/ 409, Bridge/ 97, MetaKernel.lean 54
-- **612** total broad declarations (includes instances, structures, classes, inductives, abbrevs, examples)
-
-## Key files
-
-Canonical reading order:
-
-`Formation.lean` → `Voice1.lean` → `PoissonExhaustion.lean` → `Integration.lean`
-
-Bridge files:
-
-- `TheBridgeComplete.lean` — SE proved, 7 derived exclusions, Ostrowski from Mathlib
-- `CSSThreshold.lean` — Steane [[7,1,3]] threshold verified by `decide` (`native_decide` eliminated corpus-wide at `v1.2`)
-- `OstrowskiBridge.lean` — Ostrowski exhaustive, formation n₂ = 3
-
-## Structure
-
-- `Kernel/` — Core formalization (72 files at tag `v1.2`; counts are scope-dependent — cite terminals by name, see `DEPOSIT_v1_2_NOTES.md`)
-- `Bridge/` — Files compiling against Mathlib, grounding abstract types in Mathlib API
-- `legacy/` — Historical snapshots (probe files from v1 through v66.1, not part of ship build)
-
-## Mathlib contributions
-
-Two theorems from this programme have been merged into Mathlib:
-
-- PR #36881: Logarithmic residue at simple zeros — **Merged**
-- PR #36865: Analytic order at zeros with vanishing value — **Merged**
-
-Two were submitted and closed:
-
-- PR #36871: Nonvanishing in punctured neighborhoods — Closed
-- PR #36324: Schwarz reflection for completed Riemann zeta — Closed
-
-## Companion papers
-
-The mathematical content — Conservation of Spectra, exhaustive enumeration, per-class exclusions — is developed in seven companion papers available at https://github.com/psinary-sketch/PLACE-papers.
-
-## AI disclosure
-
-*Computational workflow assisted by Claude (Anthropic). Mathematical content, proof strategies, and editorial decisions are the author's.*
-
-## License
-
-MIT
