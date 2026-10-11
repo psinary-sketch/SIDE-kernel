@@ -19,21 +19,7 @@ import Mathlib.Tactic.Ring
   the squarefree integers whose prime factorization uses only
   primes from {2, 3} and the sign unit {-1}.
   
-  This file proves:
-  
-  T.1  TriviumDiscriminants has cardinality 7
-  T.2  Every discriminant is {2,3}-smooth (up to sign)
-  T.3  The Frobenius number g(2,3) = 1
-  T.4  Størmer's theorem: the {2,3}-smooth pairs are finite
-  T.5  The seven discriminants carry Fano plane (PG(2,𝔽₂)) incidence
-  T.6  The formation (2,3,2,0) is forced by two generators
-  T.7  The quarter-twist satisfies T² = -1 on a 7-dimensional space
-  
-  Dependencies: None (self-contained, vanilla Lean 4)
-  Sorry: 0
-  Axioms: 0
-  
-  J. York Seale, April 2026
+  This file proves: T.1 the defined Discriminant type has 7 elements; T.2 each value is (-1)^a 2^b 3^c; T.3 every n ≥ 2 is 2a+3b and 1 is not; T.4 consecutive {2,3}-smooth n, n+1 force n ≤ 8; it also records a 7-element FanoLine type and constant valence 3 (no incidence), 2+3+2+0 = 7 = 2^3-1, and the arithmetic 0-1 = -1, (-1)(-1) = 1. Dependencies: Mathlib. York Seale, April 2026
 -/
 
 -- ============================================================
@@ -73,8 +59,7 @@ theorem values_injective : Function.Injective Discriminant.value := by
   intro a b h
   cases a <;> cases b <;> simp [Discriminant.value] at h <;> try rfl
 
-/-- All seven values are squarefree (no perfect square > 1 divides them).
-    We verify this by checking |d| has no repeated prime factors. -/
+/-- All seven values are nonzero (|d| ≠ 0); their squarefreeness is elementary but not stated here. -/
 theorem all_squarefree : ∀ d : Discriminant,
     d.value.natAbs ≠ 0 := by
   intro d; cases d <;> simp [Discriminant.value]
@@ -403,7 +388,7 @@ theorem f2vec_injective : Function.Injective Discriminant.f2vec := by
   intro a b h
   cases a <;> cases b <;> simp [Discriminant.f2vec] at h <;> try rfl
 
-/-- The 7 Fano lines (triples whose F2-vectors sum to zero). -/
+/-- A seven-element index type for the Fano lines; the lines themselves (triples whose F2-vectors sum to zero) are not defined here. -/
 inductive FanoLine where
   | L1 | L2 | L3 | L4 | L5 | L6 | L7
   deriving DecidableEq, Fintype
@@ -411,7 +396,7 @@ inductive FanoLine where
 /-- T.5a: There are exactly 7 Fano lines. -/
 theorem fano_lines_seven : Fintype.card FanoLine = 7 := by decide
 
-/-- Each discriminant lies on exactly 3 lines. -/
+/-- The valence assigned to each discriminant is 3 (the Fano-plane value, stipulated; no incidence relation is defined). -/
 def Discriminant.valence : Discriminant → Nat
   | .neg_one   => 3
   | .two       => 3
@@ -448,7 +433,7 @@ theorem formation_from_three_generators :
 -- SECTION 6: QUARTER-TWIST (arithmetic encoding)
 -- ============================================================
 
-/-- T.7: Quarter-twist i^2 = -1, encoded as pure arithmetic.
+/-- The integer identity 0 - 1 = -1; the quarter-twist i^2 = -1 itself (Complex.I_mul_I) is not stated here.
     In the full formalization this is Complex.I_mul_I. -/
 theorem quarter_twist_arith : (0 : Int) - 1 = -1 := by omega
 
@@ -459,7 +444,7 @@ theorem quarter_twist_period : ((-1 : Int) * (-1)) = 1 := by omega
 -- SECTION 7: SYNTHESIS
 -- ============================================================
 
-/-- The complete Trivium theorem. -/
+/-- The Trivium count bundle: 7 discriminants, 2^3-1 = 7, 7 Fano-line labels, 2+3+2+0 = 7, and 0-1 = -1. -/
 theorem trivium_complete :
     Fintype.card Discriminant = 7
     ∧ 2 ^ 3 - 1 = 7
