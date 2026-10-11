@@ -24,22 +24,21 @@ inductive Interface where
   | internal   -- distributive law
   deriving DecidableEq, Repr
 
-/-- s-darkness: interface contributes no σ-dependent constraint. -/
+/-- Placeholder for s-darkness (defined as True). -/
 def s_dark (i : Interface) : Prop := True
 
 -- Conservation axiom (placeholder, proved from Tate in ZFC)
 theorem conservation_s_dark : True := trivial
 
-/-- Both interfaces are s-dark. -/
+/-- Both interfaces satisfy the placeholder s_dark (True). -/
 theorem both_s_dark : ∀ (i : Interface), s_dark i := by
   intro i; trivial
 
 /-- n₄ = 0: Interfaces contribute ZERO mechanism classes.
-    Eliminates scenarios B (global assembly) and C (external
-    structure). Only scenario A remains (field constraints). -/
+    n4 = 0, the stipulated interface count; the elimination of scenarios B and C is the document's argument. Only scenario A remains (field constraints). -/
 def n₄ : ℕ := 0
 
-/-- What Conservation eliminates: B + C. A remains for Spectral Cannon. -/
+/-- A string recording the claimed elimination (B + C; A remains); not compiled. A remains for Spectral Cannon. -/
 def scenarios_eliminated : String :=
   "B(global) + C(external) eliminated. A(field constraints) remains."
 
