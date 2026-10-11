@@ -33,14 +33,14 @@ theorem local_structure_witness :
   differentiable_completedZeta₀
 
 /-- Elliptic regularity collapse: holomorphic = analytic.
-    Only ONE local structure class (C₃), not two. -/
+    For Lambda0, differentiability at s gives analyticity at s; the one-local-class reading is the document's argument. -/
 theorem local_collapse (s : ℂ) :
     DifferentiableAt ℂ completedRiemannZeta₀ s →
     AnalyticAt ℂ completedRiemannZeta₀ s :=
   fun h => h.analyticAt
 
 /-- Λ₀(1-s) = Λ₀(s). GLOBAL structure witness.
-    Hadamard, argument principle, winding all derive from this. -/
+    Lambda0(1-s) = Lambda0(s), the functional equation (GLOBAL structure witness). -/
 theorem global_structure_witness (s : ℂ) :
     completedRiemannZeta₀ (1 - s) = completedRiemannZeta₀ s :=
   completedRiemannZeta₀_one_sub s
@@ -51,17 +51,14 @@ theorem entire_and_symmetric :
     (∀ s : ℂ, completedRiemannZeta₀ (1 - s) = completedRiemannZeta₀ s) :=
   ⟨differentiable_completedZeta₀, completedRiemannZeta₀_one_sub⟩
 
-/-- Two scales of structure for entire functions on ℂ.
-    No intermediate: Cartan B proves H¹(ℂ,O) = 0. -/
+/-- Two labelled scales of structure (local differential, global topological); the no-intermediate argument cites Cartan B and is not compiled. -/
 inductive OutputScale where
   | local_differential   -- C₃: Cauchy-Riemann, Taylor series
   | global_topological   -- C₇: Hadamard, argument principle
   deriving DecidableEq, Repr
 
 /-- n₃ = 2: Two output mechanism classes.
-    C₃ (Voice 3b): CR → codim → σ = 1/2
-    C₇ (Voice 7): Hadamard → σ-neutral
-    No third: H¹ = 0 (Mittag-Leffler 1876, Cartan 1951) -/
+    n3 = 2, the stipulated count of output mechanism classes (C3, C7); the no-third argument cites Mittag-Leffler and Cartan. -/
 def n₃ : ℕ := 2
 
 -- Voice and Route connections
