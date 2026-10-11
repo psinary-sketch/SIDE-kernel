@@ -6,8 +6,7 @@ import Kernel.Focus
 import Kernel.ThomBridge
 import Kernel.SchwarzDischarge
 
-/-! Proves the perpendicular crossing theorem: at a simple critical-line zero,
-    the Re and Im level curves of ξ cross at right angles, preventing off-line zeros. -/
+/-! Records the algebraic dot-product identity behind the perpendicular-crossing argument and bundles four proved ingredients (FOCUS, FE derivative, no zeros for Re >= 1, antisymmetry); the crossing at xi's zeros and the exclusion of off-line zeros are the manuscript's argument, not compiled. -/
 
 open Complex
 
@@ -99,8 +98,7 @@ theorem simplicity_from_trace_structure
 
 -- We formalize the key algebraic content:
 
-/-- At a critical-line zero, if the derivative is purely imaginary
-    and nonzero, the gradients of Re and Im are perpendicular. -/
+/-- The vectors (0, -c1) and (c1, 0) have dot product zero; the identification of these with the gradients of Re and Im xi at a critical-line zero is not stated. -/
 theorem perpendicular_gradients
     (c₁ : Real) :
     -- ∇(Re ξ) = (0, -c₁) and ∇(Im ξ) = (c₁, 0)
