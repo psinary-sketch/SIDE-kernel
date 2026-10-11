@@ -93,9 +93,7 @@ theorem product_formula_coprime (p : Nat) [hp : Fact p.Prime] (a b : Nat)
 -- SECTION 7: The REAL product formula — product over ALL primes
 -- ============================================================
 
-/-- The product formula: for any positive integer n,
-    |n|_∞ · ∏_{p | n} |n|_p = 1
-    where the product is over primes dividing n. -/
+/-- Every positive integer n equals the product of p^(v_p(n)) over its factorization. -/
 theorem product_formula_full (n : Nat) (hn : n ≠ 0) :
     (n : Rat) = n.factorization.prod (fun p k => (p : Rat) ^ k) := by
   exact_mod_cast Nat.factorization_prod_pow_eq_self hn
@@ -108,14 +106,7 @@ theorem padicNorm_nat_eq (p : Nat) [hp : Fact p.Prime] (n : Nat) (hn : n ≠ 0) 
   congr 1
   simp [padicValRat, padicValInt, padicValNat]
 
-/-- The product formula stated as: n = ∏_p p^(v_p(n)),
-    and for each p: |n|_p = p^(-v_p(n)) = 1/p^(v_p(n)),
-    so |n|_∞ · ∏_p |n|_p = ∏_p p^(v_p(n)) · ∏_p p^(-v_p(n))
-                          = ∏_p (p^(v_p(n)) · p^(-v_p(n)))
-                          = ∏_p 1 = 1
-
-    This is the structural content of the product formula:
-    the archimedean norm exactly cancels the product of p-adic norms. -/
+/-- For each prime p, p^(v_p(n)) * |n|_p = 1 (the per-prime cancellation the product formula is assembled from). -/
 theorem product_formula_structural (n : Nat) (hn : n ≠ 0) :
     ∀ p : Nat, [Fact p.Prime] →
     (((p : Rat) ^ (n.factorization p)) * padicNorm p (n : Rat) = 1) := by
