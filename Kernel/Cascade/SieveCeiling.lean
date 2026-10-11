@@ -1,16 +1,5 @@
 /-
-  SieveCeiling.lean  (v3)
-
-  The Sieve Ceiling Lemma:
-    If every inference step of a proof factors through a κ = 0
-    interface for parameter P, then the proof establishes
-    density statements about P but cannot establish universal
-    statements.
-
-  Closes the E-Difficulty Theorem:
-    For determined I+D+S systems, decidability within ZFC of a
-    universal property is equivalent to the existence of a
-    domain-Ostrowski.
+  The Sieve Ceiling scaffolding: a strength cap defined on interface profiles, under which a dark-factored proof is capped below universal; and e_difficulty: for a conserved DeterminedSystem, the existence of a system-proof with a bright step is equivalent to a bright inessential interface (a domain-Ostrowski) — a model, not decidability within ZFC.
 
   J. York Seale, April 2026 — v3 W-6-EXT R2, 2026-07-19
   PLACE TO STAND Research Programme
