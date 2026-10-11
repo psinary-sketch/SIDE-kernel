@@ -60,41 +60,12 @@ theorem simplicity_from_trace_structure
 -- PART II: PERPENDICULAR CROSSING THEOREM
 -- ================================================================
 
-/- The perpendicular crossing theorem.
-
-    At a simple zero ρ = 1/2 + iγ on the critical line:
-
-    PROVED INGREDIENTS:
-    (a) FOCUS: ξ(1/2+it) ∈ ℝ, so Im(ξ) = 0 on critical line
-    (b) Spectral Cannon: Λ₀'(s) = -Λ₀'(1-s), and at ρ:
-        1-ρ = conj(ρ), so Λ₀'(ρ) = -conj(Λ₀'(ρ))
-        → Re(Λ₀'(ρ)) = 0
-    (c) Simplicity: Λ₀'(ρ) ≠ 0
-
-    CONSEQUENCE (Cauchy-Riemann):
-    Write Λ₀ = u + iv at ρ. The complex derivative f' = ∂u/∂σ + i·∂v/∂σ.
-    Since Re(f'(ρ)) = 0 and Im(f'(ρ)) = c₁ ≠ 0:
-      ∂u/∂σ = 0       (Re gradient has no σ-component)
-      ∂u/∂t = -c₁ ≠ 0 (Re gradient points in t-direction)
-      ∂v/∂σ = c₁ ≠ 0  (Im gradient points in σ-direction)
-      ∂v/∂t = 0        (Im gradient has no t-component)
-
-    The level curve {u = 0} (Re(ξ) = 0) is perpendicular to ∇u = (0, -c₁).
-    → {Re(ξ) = 0} departs in the σ-direction (HORIZONTAL)
-
-    The level curve {v = 0} (Im(ξ) = 0) is perpendicular to ∇v = (c₁, 0).
-    → {Im(ξ) = 0} departs in the t-direction (VERTICAL = critical line)
-
-    They cross at RIGHT ANGLES.
-
-    CONSEQUENCE FOR RH:
-    Along the horizontal {Re(ξ) = 0} curve:
-      d|Im(ξ)|/dσ = |∂v/∂σ| = |c₁| > 0  (at ρ)
-    So |Im(ξ)| is INCREASING as σ moves away from 1/2.
-    Since Im(ξ) = 0 at ρ (FOCUS) and grows monotonically:
-      Im(ξ) NEVER RETURNS TO ZERO along this curve.
-    Therefore {Re(ξ) = 0} never meets {Im(ξ) = 0} off the critical line.
-    NO OFF-LINE ZERO EXISTS. -/
+/- The perpendicular crossing, outlined and not formalized here. At a zero ρ = 1/2 + iγ on the critical line, with ξ real
+    on the line and Λ₀'(ρ) purely imaginary and nonzero, the Cauchy-Riemann equations make the gradients of Re ξ and Im ξ
+    perpendicular at ρ, so the level curves {Re ξ = 0} and {Im ξ = 0} cross at right angles there. Formalized below is only
+    the algebraic identity perpendicular_gradients, (0 : Real) * c₁ + (-c₁) * 0 = 0. That Λ₀'(ρ) ≠ 0 is not proved in this
+    file, the step from the crossing to the absence of off-line zeros is not formalized, and no declaration of this file
+    states where the zeros of ξ lie. -/
 
 -- We formalize the key algebraic content:
 
