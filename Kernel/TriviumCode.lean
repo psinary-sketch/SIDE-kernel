@@ -17,9 +17,7 @@ theorem code_d : 3 = 3 := rfl
 -- Formation block sizes: (n1, n2, n3, n4) = (2, 3, 2, 0)
 -- Active blocks partition the 7 dimensions
 theorem block_partition : 2 + 3 + 2 = 7 := by decide
-/-- **DEPRECATED — labeling stub (2026-07-29).** `0 = 0` (`rfl`); the genuine dark-interface content
-    (n₄ = 0 / the six-dimensional dark subspace) is compiled at `ProductFormula.conservation_of_spectra`
-    and `partition_cardinalities` (SIDE-substrate-cluster). Kept in place (uncited). -/
+/-- **DEPRECATED — labeling stub (2026-07-29).** DEPRECATED — labeling stub. `0 = 0` (rfl). Nearby compiled items: ProductFormula.conservation_of_spectra (SIDE-kernel, ∀ s, 1^s = 1) and partition_cardinalities (SIDE-substrate-cluster, the (3,3,1) weight partition); neither states n₄ = 0 or a six-dimensional dark subspace. Kept in place (uncited). -/
 theorem interface_dark : 0 = 0 := rfl
 
 -- Stage complementarity: each active stage has complement >= d
