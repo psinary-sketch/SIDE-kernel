@@ -8,7 +8,7 @@ import Bridge.OstrowskiBridge
     to Mathlib's riemannZeta.
 
     Seven mechanism classes. Each grounded in Mathlib API.
-    Ostrowski proves exhaustiveness. None produces off-line zeros.
+    Seven declared mechanism classes; the conjunction StructuralExhaustiveness (card = 7, the per-class σ-predicates false, Ostrowski for ℚ) is proved, with C₇ definition-encoded; it does not state that the catalogue is exhaustive or that no class produces an off-line zero of ζ.
     StructuralExhaustiveness is a theorem. -/
 
 open Complex
@@ -225,7 +225,7 @@ The terminal is the conjunction `⟨seven_classes, none_produce, ostrowski_exhau
 and it DERIVES exactly what it literally states. Read conjunct by conjunct:
 
 * **Catalogue completeness** `Fintype.card MechanismClass = 7` — `decide` over the
-  seven-constructor inductive. The finite catalogue is genuinely complete.
+  seven-constructor inductive. Catalogue count Fintype.card MechanismClass = 7 — decide over the seven-constructor inductive; the catalogue's completeness is not stated by this conjunct.
 * **Ostrowski exhaustiveness** — genuine Mathlib (`Rat.AbsoluteValue.equiv_real_or_padic`):
   every nontrivial place of ℚ is the real place or a `p`-adic place. This is the covering
   ingredient (all places at once).
