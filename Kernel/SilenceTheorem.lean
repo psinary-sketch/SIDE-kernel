@@ -105,26 +105,24 @@ open SilenceTheorem
 def TrivialConfig : ConfigurationSpace :=
   { α := Unit, nonempty := ⟨()⟩ }
 
-/-- The product formula as a universal interface.
-    On any configuration, the action is the identity constraint
-    (|x|_𝔸 = 1). The action is constant because the constraint
+/-- A stand-in labeled for the product formula: the constant-true interface on the one-point configuration space. The action is constant because the constraint
     does not depend on which configuration we evaluate. -/
 def product_formula_interface : Interface TrivialConfig Bool :=
   { action := fun _ => true,
     essential := True }
 
-/-- The product formula is universal: its action is constant. -/
+/-- The stand-in product_formula_interface is universal (as every interface on the one-point space is). -/
 theorem product_formula_universal :
     product_formula_interface.is_universal := by
   intro c₁ c₂; rfl
 
-/-- The product formula has κ = 0 by the universal silence theorem. -/
+/-- The stand-in product_formula_interface has kappa = 0 by the universal silence theorem (vacuously, on the one-point space). -/
 theorem product_formula_kappa_zero :
     product_formula_interface.kappa_zero :=
   silence_universal product_formula_interface
     product_formula_universal
 
-/-- The distributive law as a universal interface. -/
+/-- A constant (true-valued) universal interface on the one-point configuration space, labelled the distributive law; it encodes no distributive-law content. -/
 def distributive_interface : Interface TrivialConfig Bool :=
   { action := fun _ => true,
     essential := True }
