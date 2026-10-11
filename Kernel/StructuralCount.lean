@@ -1,29 +1,6 @@
 /-
-  TECHNE KERNEL - THE STRUCTURAL COUNT
-  =====================================
-
-  Encodes the seven mechanism classes of xi(s), their sources,
-  the formation count 2+3+2+0 = 7, rest states at sigma = 1/2,
-  and connection to SIDE exclusion.
-
-  PROOF STRATEGY (from the research):
-  - RH is NOT assumed as an axiom anywhere
-  - RH is NOT equivalent to any single axiom here
-  - RH FOLLOWS from: formation count (7) + all rest states (sigma=1/2)
-    + SIDE exclusion (Layer 1)
-  - The formation count is FORCED by the specification's architecture
-  - Each stage count is grounded in established mathematics:
-    n1=2 (algebraic classification of Z's group structures)
-    n2=3 (Ostrowski's theorem, 1916, proved in ZFC)
-    n3=2 (complex analysis bipartite, standard)
-    n4=0 (Conservation of Spectra, from Tate's thesis 1950)
-
-  AXIOM PHILOSOPHY:
-  Axioms in this file are INFRASTRUCTURE DEBT — theorems that
-  exist in mathematics but are not yet formalized in Mathlib.
+  Encodes the seven mechanism classes of xi(s) as a defined type, their stage assignment, and the formation count 2+3+2+0 = 7 of a defined Stage.count (by decide); the four 'infrastructure' theorems are rfl restatements of that count, not formalizations of Ostrowski, Tate or any classification, and rest states and SIDE exclusion are not in this file.
   None is RH-equivalent. Each is independently verifiable.
-  When Mathlib formalizes Ostrowski/Tate/etc, these axioms
-  become imports.
 
   March 2026
 -/
@@ -133,7 +110,7 @@ theorem interface_count : (classesInStage Stage.interface).length = 0 := by deci
 -- They ground the stage counts in real mathematics.
 -- ===============================================================
 
-/-- INFRASTRUCTURE AXIOM 1: Z has exactly two group structures.
+/-- The primitive stage's defined count is 2 (rfl); the docstring's reading of this as 'Z has exactly two group structures' is manuscript-resident and not formalized here.
 
     Mathematical content: The integers carry additive (Z,+) and
     multiplicative (Z*,.) group structures. No third exists.
@@ -144,7 +121,7 @@ theorem interface_count : (classesInStage Stage.interface).length = 0 := by deci
 theorem Z_has_two_group_structures :
     Stage.count Stage.primitive = 2 := rfl
 
-/-- INFRASTRUCTURE AXIOM 2: Ostrowski's theorem (1916).
+/-- The transformation stage's defined count is 3 (rfl); its grounding in Ostrowski's theorem (1916) is cited, not formalized.
 
     Mathematical content: Every nontrivial absolute value on Q
     is equivalent to either the standard |.| or a p-adic |.|_p.
@@ -164,7 +141,7 @@ theorem ostrowski_places_complete :
 
     Mathematical content: The structural scales of entire function
     theory are local (differential/Cauchy-Riemann) and global
-    (topological/Hadamard). No third scale exists.
+    (topological/Hadamard). The output stage's defined count is 2 (rfl); the 'bipartite' reading of complex analysis is manuscript-resident and not formalized.
 
     Grounds: n3 = 2 (output stage count).
     Status: Standard complex analysis. Not yet in Mathlib. -/
@@ -173,13 +150,10 @@ theorem complex_analysis_bipartite :
 
 /-- INFRASTRUCTURE AXIOM 4: Conservation of Spectra (Tate 1950).
 
-    Mathematical content: The product formula prod_v |x|_v = 1
-    is s-dark — it determines domain geometry but contributes
-    no s-dependent content. All interfaces between stages are
+    The interface stage's defined count is 0 (rfl); the s-darkness of the product formula (Tate 1950) is cited, not formalized here. All interfaces between stages are
     spectrally silent for zero locations.
 
-    Grounds: n4 = 0 (interface stage count).
-    Status: Proved from Tate's thesis (1950) in ZFC. -/
+    Grounds: n4 = 0 (interface stage count). -/
 theorem conservation_of_spectra :
     Stage.count Stage.interface = 0 := rfl
 
