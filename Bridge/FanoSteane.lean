@@ -2,14 +2,9 @@ import Mathlib.Data.ZMod.Basic
 import Mathlib.Data.Fintype.BigOperators
 
 /-!
-# FanoSteane: The Arithmetic-to-Quantum Chain
+Finite facts decided in the kernel: 4 consecutive {2,3}-smooth pairs below 101 and 10 consecutive {2,3,5}-smooth pairs below 10001, the 7 Fano lines with 3 through each point, a Hamming parity matrix with H·Hᵀ = 0 over ZMod 2, and the numerals 7 = 2³-1, 7-2·3 = 1, 2+1 = 3, 10 ≠ 15; no CSS code is constructed; by decide (+kernel), 0 sorry, axioms not printed.
 
-Complete pipeline from {2,3}-smooth pairs through Fano plane
-incidence through Hamming H·Hᵀ = 0 through CSS construction
-through Steane [[7,1,3]]. Pipeline uniqueness verified:
-{2,3,5}-smooth gives 10 ≠ 15 = 2⁴-1.
-
-All verified by decide. 0 sorry. 0 axioms.
+All verified by decide. 0 sorry.
 
 Toolchain-rot repair (2026-07-16): the three `stormer_*.length` counts are proved
 by `decide +kernel` rather than plain `decide`.  The lists are built by
@@ -43,7 +38,7 @@ def stormer_23 : List (Nat × Nat) :=
     if is_23_smooth (n+1) && is_23_smooth (n+2)
     then some (n+1, n+2) else none
 
-/-- Exactly 4 Størmer pairs: (1,2), (2,3), (3,4), (8,9). -/
+/-- Exactly 4 consecutive {2,3}-smooth pairs below 101: (1,2), (2,3), (3,4), (8,9). -/
 theorem stormer_23_count : stormer_23.length = 4 := by decide +kernel
 
 /-- A number is {2,3,5}-smooth if its only prime factors are 2, 3, and 5. -/
@@ -63,7 +58,7 @@ def stormer_235 : List (Nat × Nat) :=
     if is_235_smooth (n+1) && is_235_smooth (n+2)
     then some (n+1, n+2) else none
 
-/-- Exactly 10 consecutive {2,3,5}-smooth pairs. -/
+/-- Exactly 10 consecutive {2,3,5}-smooth pairs below 10001. -/
 theorem stormer_235_count : stormer_235.length = 10 := by decide +kernel
 
 /-- Pipeline does NOT extend: 10 ≠ 15 = 2⁴ - 1. -/
@@ -120,7 +115,7 @@ theorem css_threshold :
     (2^(3-2) % 2 = 0) ∧ (2^(2-2) % 2 ≠ 0) := by
   constructor <;> decide
 
-/-- The complete Steane code: [[7, 1, 3]] with H·Hᵀ = 0. -/
+/-- The Steane parameters as numerals (7 = 2³-1, 7-2·3 = 1, 2+1 = 3) together with H·Hᵀ = 0; the code itself is not constructed here. -/
 theorem steane_code_complete :
     (2^3 - 1 = 7) ∧ (7 - 2*3 = 1) ∧ (2 + 1 = 3) ∧
     (∀ i j : Fin 3, HHt i j = 0) := by
@@ -134,10 +129,7 @@ theorem steane_code_complete :
 -- SECTION 5: The full chain theorem
 -- ============================================================
 
-/-- The complete arithmetic-to-quantum chain:
-    {2,3}-smooth → 4 Størmer pairs → 7 = 2³-1 → PG(2,𝔽₂)
-    → Hamming [7,4,3] → H·Hᵀ = 0 → C⊥ ⊂ C → Steane [[7,1,3]]
-    Pipeline unique: {2,3,5} gives 10 ≠ 15. -/
+/-- Six facts held together: 4 consecutive {2,3}-smooth pairs below 101, 7 = 2³-1, 3 Fano lines through each point, H·Hᵀ = 0, 7-2·3 = 1, and 10 ≠ 2⁴-1; no step of the chain is derived from the previous one. -/
 theorem arithmetic_forces_steane :
     -- Størmer: exactly 4 consecutive {2,3}-smooth pairs
     (stormer_23.length = 4) ∧
