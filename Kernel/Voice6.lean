@@ -63,7 +63,7 @@ theorem offset_zero_iff (sigma : Real) :
 def self_adjoint_constraint (sigma : Real) : Prop :=
   spectral_offset sigma = 0
 
-/-- Self-adjointness forces sigma = 1/2. -/
+/-- The modelled self-adjointness condition (defined as spectral_offset σ = 0) gives σ = 1/2; the Hilbert–Pólya step from a self-adjoint operator to this condition is not formalized. -/
 theorem self_adjoint_forces_half (sigma : Real) :
     self_adjoint_constraint sigma -> sigma = 1 / 2 := by
   unfold self_adjoint_constraint
@@ -74,7 +74,7 @@ theorem self_adjoint_at_half :
     self_adjoint_constraint (1 / 2 : Real) := by
   unfold self_adjoint_constraint spectral_offset; ring
 
-/-- Off the critical line, self-adjointness is violated. -/
+/-- Off the critical line the modelled constraint fails: sigma /= 1/2 gives spectral_offset sigma /= 0 (the constraint is defined as that offset equation; no operator is formalized). -/
 theorem self_adjoint_violated_off_line (sigma : Real)
     (h : Not (sigma = 1 / 2)) :
     Not (self_adjoint_constraint sigma) := by
@@ -86,8 +86,7 @@ theorem self_adjoint_violated_off_line (sigma : Real)
 -- ===============================================================
 
 /-- C6 rests at sigma = 1/2.
-    The spectral constraint (self-adjointness -> real eigenvalues)
-    is trivially satisfied at sigma = 1/2 (zero offset).
+    C6 rests at sigma = 1/2: the modelled constraint spectral_offset sigma = 0 holds at 1/2 and fails elsewhere (self_adjoint_violated_off_line); the constraint encodes the self-adjointness conclusion by definition, no operator is formalized.
     Elsewhere, it's violated. -/
 theorem c6_rests_at_half :
     self_adjoint_constraint (1 / 2 : Real) :=
