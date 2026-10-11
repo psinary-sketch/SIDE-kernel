@@ -122,10 +122,7 @@ By Schwarz reflection: `conj(Λ₀(s)) = Λ₀(conj s) = Λ₀(1 - s)`.
 By the functional equation: `Λ₀(1 - s) = Λ₀(s)`.
 Therefore `conj(Λ₀(s)) = Λ₀(s)`, which holds iff `Im(Λ₀(s)) = 0`.
 
-This establishes that zeros of `Λ₀` on the critical line are sign changes
-of a real-valued function (codimension 1), while off-line zeros would
-require the simultaneous vanishing of both real and imaginary parts
-(codimension 2). -/
+Lambda0 is real-valued on the critical line: Im Lambda0(1/2 + it) = 0 for every real t (by Schwarz reflection and the functional equation). -/
 theorem completedRiemannZeta₀_im_eq_zero_on_half (t : ℝ) :
     (completedRiemannZeta₀ ⟨1/2, t⟩).im = 0 := by
   suffices h : (starRingEnd ℂ) (completedRiemannZeta₀ ⟨1/2, t⟩) =
