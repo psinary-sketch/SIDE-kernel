@@ -80,37 +80,12 @@ theorem perpendicular_gradients
 -- PART III: THE FULL CHAIN
 -- ================================================================
 
-/- The complete logical chain from Focus + SpectralCannon + Simplicity → RH.
-
-    We assemble the proved pieces into one theorem statement.
-
-    Hypotheses (all proved except simplicity):
-    H1: FOCUS — Im(Λ₀(1/2+it)) = 0
-    H2: FE derivative — Λ₀'(s) = -Λ₀'(1-s)
-    H3: Euler closing — ζ(s) ≠ 0 for Re(s) ≥ 1
-    H4: Antisymmetry — Im(Λ₀(σ+it)) = -Im(Λ₀((1-σ)+it))
-    H5 (axiom): Simplicity — Λ₀'(ρ) ≠ 0 at strip zeros
-
-    The chain:
-    H2 at ρ = 1/2+iγ: Λ₀'(ρ) = -Λ₀'(1/2-iγ)
-    Schwarz at conj(ρ) = 1/2-iγ: Λ₀'(conj ρ) = conj(Λ₀'(ρ))
-    Combined: Λ₀'(ρ) = -conj(Λ₀'(ρ)) → Re(Λ₀'(ρ)) = 0
-    H5: Λ₀'(ρ) ≠ 0, so Im(Λ₀'(ρ)) = c₁ ≠ 0
-
-    Cauchy-Riemann at ρ:
-      ∂(Re Λ₀)/∂σ = Re(Λ₀') = 0
-      ∂(Im Λ₀)/∂σ = Im(Λ₀') = c₁ ≠ 0
-
-    Along {Re(Λ₀) = 0} departing from ρ:
-      |Im(Λ₀)| starts at 0 (H1) with derivative |c₁| > 0
-      → |Im(Λ₀)| is strictly increasing
-      → Im(Λ₀) never returns to 0
-      → no off-line zero on this curve
-
-    H3: no zeros for Re(s) ≥ 1
-    H4: symmetry about σ = 1/2
-
-    Therefore: all nontrivial zeros on σ = 1/2. -/
+/- An outline, not formalized here, of an argument from four compiled facts and the simplicity of the zeros toward RH. The
+    theorem below, proved_infrastructure, compiles the four facts as one conjunction: completedRiemannZeta₀ is real on the
+    critical line; its derivative satisfies deriv Λ₀ s = -(deriv Λ₀ (1 - s)); riemannZeta s ≠ 0 for 1 ≤ Re s; and
+    Λ₀(1 - σ + it) is the conjugate of Λ₀(σ + it). The simplicity of the zeros is not among them and is not proved here, the
+    step from the crossing at a simple zero to the absence of off-line zeros is not formalized, and no declaration of this
+    file concludes RH. -/
 
 -- The assembly of all proved components:
 theorem proved_infrastructure :
