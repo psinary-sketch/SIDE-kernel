@@ -101,9 +101,7 @@ theorem voice3b_certificate :
     zero_codimension sigma = 1 → sigma = 1 / 2 :=
   fun sigma => cr_forces_half sigma
 
-/-- Certificate: Voice 5 (modular symmetry) proves σ = 1/2
-    is the unique fixed point of the S-generator of PSL₂(ℤ),
-    and the R-generator (order 3) adds no σ constraint. -/
+/-- Certificate: in Voice 5's model (S_action sigma = 1 - sigma), any S-fixed sigma equals 1/2; the R-generator is modeled as the identity on sigma, so its adding no constraint is assigned, not derived. -/
 theorem voice5_certificate :
     ∀ (sigma : Real),
     S_action sigma = sigma → sigma = 1 / 2 :=
@@ -117,9 +115,7 @@ theorem voice6_certificate :
     self_adjoint_constraint sigma → sigma = 1 / 2 :=
   fun sigma => self_adjoint_forces_half sigma
 
-/-- Certificate: Voice 7 (topological) proves the topological
-    mechanism (Hadamard, argument principle) is σ-neutral:
-    it contributes the same information at every σ.
+/-- Certificate: the Voice 7 stand-in topological_contribution (:= 0) takes the same value at every sigma; this assigns neutrality and asserts nothing about xi's Hadamard product (W-ORD-C7-WITNESS).
 
     **Stand-in caveat (W-ORD-ROUTE1-A, C₇; honest relabel 2026-07-22).** This
     certifies the σ-constancy of the `:= 0` STAND-IN (`topological_contribution`),
@@ -140,9 +136,7 @@ theorem voice7_certificate :
 -- No axioms needed.
 -- ===============================================================
 
-/-- The algebraic content: seven independent paths in the
-    real-arithmetic model, each identifying σ = 1/2 as the
-    unique distinguished point.
+/-- C1 alone: sigma = 1 - sigma implies sigma = 1/2. The other paths are the separate voice certificates; C2 restates C1 and C7 is an assigned stand-in.
 
     C1 (functional equation): 1-σ = σ     ↔ σ = 1/2
     C2 (conjugation):        σ = 1-σ      ↔ σ = 1/2
@@ -154,11 +148,7 @@ theorem voice7_certificate :
 
     Six paths force σ = 1/2 from their condition.
     The seventh is σ-neutral (provides no competing force).
-    No path produces σ ≠ 1/2.
-
-    This is a proved fact about algebraic conditions on reals.
-    It does NOT prove RH by itself — it proves that the
-    algebraic CONDITIONS each force 1/2. Whether these conditions
+    No path produces σ ≠ 1/2. Whether these conditions
     EXHAUST ξ's structure is the Poisson Exhaustion hypothesis. -/
 theorem seven_paths_converge (sigma : Real) :
     -- If ANY of the six nontrivial conditions holds, sigma = 1/2
@@ -178,7 +168,7 @@ theorem seven_paths_converge (sigma : Real) :
 -- Now: explicit 4-field structure mapping to manuscript proofs.
 -- ===============================================================
 
-/-- Structural Exhaustiveness as an explicit 4-field structure.
+/-- A 3-field record of compiled facts (constructor exhaustiveness of Place, the count 2+3+2+0 = 7, and not BalanceContradiction sigma for all sigma); it does not imply StructuralExhaustiveness, which stays the hypothesis of rh_from_structural_exhaustiveness.
     Each field maps to a manuscript and kernel source file.
 
     | Field                | Manuscript              | Kernel Source          |
@@ -188,7 +178,7 @@ theorem seven_paths_converge (sigma : Real) :
     | per_class_exclusion  | Monograph Ch. 8-14      | PoissonExhaustion.lean |
 -/
 structure StructuralExhaustivenessData where
-  /-- Ostrowski completeness: every place of ℚ is archimedean or p-adic.
+  /-- Every term of the inductive Place is archimedean or padic p hp (constructor case split, PoissonExhaustion.lean); Ostrowski's theorem itself is the manuscript's (Paper 2).
       Proved in PoissonExhaustion.lean. Manuscript: Paper 2. -/
   ostrowski_complete : ∀ s : SIDEKernel.Place,
     s = SIDEKernel.Place.archimedean ∨
@@ -197,7 +187,7 @@ structure StructuralExhaustivenessData where
       Canonical in Kernel.Core. Paper 4. -/
   formation_exhaustive : SIDEKernel.n1 + SIDEKernel.n2 +
     SIDEKernel.n3 + SIDEKernel.n4 = 7
-  /-- Per-class exclusion: no mechanism class produces off-line zeros.
+  /-- For every real sigma, no prime p satisfies p^(-sigma) = p^(-(1-sigma)) with sigma != 1/2 (gate_e_exhaustive_derived, via Voice 1).
       Proved in PoissonExhaustion.lean via Voice 1. Monograph. -/
   per_class_exclusion : ∀ sigma : Real, ¬(PoissonExhaustion.BalanceContradiction sigma)
 
@@ -212,11 +202,7 @@ def structural_exhaustiveness_instance : StructuralExhaustivenessData where
 def StructuralExhaustiveness : Prop :=
   ∀ (sigma : Real), is_xi_zero sigma → sigma = 1 / 2
 
-/-- MAIN THEOREM (conditional, zero axioms):
-    Structural exhaustiveness implies the Riemann Hypothesis.
-
-    This is a machine-verified proof that the CONVERGENCE argument's
-    logical chain is valid. The hypothesis is where the novel
+/-- MAIN THEOREM (conditional; axioms propext, Classical.choice, Quot.sound): StructuralExhaustiveness, every nontrivial zeta zero has real part 1/2, implies Mathlib's RiemannHypothesis. The hypothesis is where the open mathematics lives. The hypothesis is where the novel
     mathematics lives. Everything else is verified. -/
 theorem rh_from_structural_exhaustiveness
     (h : StructuralExhaustiveness) :
@@ -246,9 +232,7 @@ theorem structural_exhaustiveness_from_rh
   exact h ⟨sigma, t⟩ h_zeta_zero h_not_trivial h_ne_one
 
 /-- Equivalence: our structural claim is logically equivalent to
-    Mathlib's RiemannHypothesis. The CONVERGENCE argument provides
-    the structural EXPLANATION for why this equivalence resolves
-    in favor of truth. -/
+    Mathlib's RiemannHypothesis. Equivalence: our structural claim is logically equivalent to Mathlib's RiemannHypothesis; neither side is proved here. -/
 theorem structural_exhaustiveness_iff_rh :
     StructuralExhaustiveness ↔ RiemannHypothesis :=
   ⟨rh_from_structural_exhaustiveness, structural_exhaustiveness_from_rh⟩
@@ -260,7 +244,7 @@ theorem structural_exhaustiveness_iff_rh :
 -- Not load-bearing for the conditional theorem, but verified.
 -- ===============================================================
 
-/-- The SIDE pattern instantiated for ξ zeros.
+/-- The SIDE pattern in general form: for any X, P, an exhaustive catalogue none of whose classes produces x gives not P x (Layer1's SIDE_exclusion); it is not instantiated for xi zeros.
     This shows the logical structure: if every mechanism class
     fails to produce off-line zeros, and the classes exhaust all
     possible mechanisms, then no off-line zeros exist.
