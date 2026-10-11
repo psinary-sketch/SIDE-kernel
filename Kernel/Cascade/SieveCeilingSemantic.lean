@@ -17,8 +17,7 @@
   zeros -- so no dark-factored certificate captures it. That is the
   sieve ceiling.
 
-  The non-invariance witness is abstract here. Slot 3 discharges it
-  concretely with the Davenport-Heilbronn function (discriminant -23).
+  The non-invariance witness is abstract here. Slot 3 discharges it in a two-point model whose Davenport-Heilbronn point is off the line by a cited datum (allOnLine .dh := False), not by a formalized zero.
 
   Core Lean only. Pairs with Kernel/Cascade/SieveCeiling.lean, whose
   abstract `factored_through_dark` this models and whose
@@ -69,8 +68,7 @@ theorem not_respectsI_of_witness {onLine : U → Prop}
 
 /-- Sieve ceiling from a concrete witness: given an
     I-indistinguishable pair disagreeing on the universal property,
-    no dark-factored certificate captures it. Slot 3 instantiates
-    this with the discriminant -23 Epstein zero. -/
+    no dark-factored certificate captures it. Sieve ceiling from a witness: given an I-indistinguishable pair disagreeing on the universal property, no dark-factored certificate captures it. Slot 3 instantiates this in a two-point model whose Davenport-Heilbronn point is off the line by a cited datum. -/
 theorem sieve_ceiling_of_witness {onLine : U → Prop}
     (h : NonInvarianceWitness r onLine) :
     ¬ ∃ D : U → Prop, RespectsI r D ∧ ∀ z, D z ↔ onLine z :=
