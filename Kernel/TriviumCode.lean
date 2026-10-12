@@ -9,7 +9,7 @@ namespace TriviumCode
 /-- **DEPRECATED — labeling stub (tautology-sweep hygiene, 2026-07-29).** `code_n/code_k/code_d` state
     `7 = 7 / 1 = 1 / 3 = 3` (bare `N = N`, `rfl`) — the name labels a value the tautology does not
     establish. The genuine [[7,1,3]] parameters are compiled at `SteaneExemplar.steane_parameters`
-    (SIDE-cosmo, `{propext, Quot.sound}`); cite that, not these. Kept in place (uncited; nothing imports them). -/
+    (SIDE-cosmo, `{propext, Quot.sound}`); cite that, not these. Kernel/Root.lean imports Kernel.TriviumCode. -/
 theorem code_n : 7 = 7 := rfl
 theorem code_k : 1 = 1 := rfl
 theorem code_d : 3 = 3 := rfl
