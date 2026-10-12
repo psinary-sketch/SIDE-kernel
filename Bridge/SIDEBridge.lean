@@ -60,8 +60,7 @@ def SimplicityHypothesis : Prop :=
   ∀ (s : ℂ), completedRiemannZeta₀ s = 0 →
   s.re = 1 / 2 → deriv completedRiemannZeta₀ s ≠ 0
 
-/-- NoneProduces for ξ, conditional on RH + Simplicity.
-    Zero sorry. The three case splits close from the hypotheses. -/
+/-- NoneProduces for completedRiemannZeta₀ (the entire Λ₀, not ξ), conditional on RHHypothesis + SimplicityHypothesis stated for Λ₀. Zero sorry. The three case splits close from the hypotheses. -/
 theorem xi_none_produces
     (h_rh : RHHypothesis) (h_simp : SimplicityHypothesis)
     (s : ℂ)
@@ -85,7 +84,7 @@ theorem xi_none_produces
         exact absurd (h_simp s hs h_on) (not_not.mpr h_deriv)
       | tail _ hC => nomatch hC
 
-/-- SIDE exclusion bridge, conditional on RH + Simplicity. Zero sorry. -/
+/-- SIDE exclusion bridge for completedRiemannZeta₀, conditional on RHHypothesis + SimplicityHypothesis (both stated for Λ₀, not ζ). Zero sorry. -/
 theorem side_exclusion_bridge
     (h_rh : RHHypothesis) (h_simp : SimplicityHypothesis)
     (s : ℂ)

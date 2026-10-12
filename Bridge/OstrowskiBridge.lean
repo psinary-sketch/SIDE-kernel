@@ -5,8 +5,7 @@ import Kernel.Core
 
 CP-B-2 of THE BRIDGE programme.
 
-Proves that the kernel's `Place` type is exactly the classification
-given by Ostrowski's theorem (`Mathlib.NumberTheory.Ostrowski`).
+Re-exports Mathlib's Ostrowski theorem for ℚ (place_classification_exhaustive) beside a declared Place type with archimedean and p-adic constructors; no theorem identifies the two.
 
 ## Main results
 
@@ -27,7 +26,7 @@ Mathematical content is original.
 
 
 /-!
-### Part 1: The Place type grounded in Ostrowski
+Part 1: the Place type, and Ostrowski's theorem re-exported.
 -/
 
 /-- A place of ℚ: archimedean or p-adic for a prime p. -/
@@ -50,17 +49,11 @@ theorem real_not_equiv_padic (p : ℕ) [Fact (Nat.Prime p)] :
   Rat.AbsoluteValue.not_real_isEquiv_padic p
 
 /-!
-### Part 2: Formation count
-
-The ξ-function pipeline n² → θ → ξ has three transformation stages,
-each arising from Ostrowski's classification:
-
-1. Archimedean (√ mechanism) — from Place.archimedean
+Part 2: the three transformation stages are declared as an inductive and counted (n₂ = 3 by decide); their derivation from Ostrowski and the absence of a 4th stage are the document's argument, not compiled. Archimedean (√ mechanism) — from Place.archimedean
 2. Multiplicative (Euler product) — from Place.padic (all primes)
 3. Functional equation — from interaction of both families
 
-n₂ = 3. Completeness (no 4th stage) follows from Ostrowski:
-no 3rd family of places exists.
+n₂ = 3.
 -/
 
 /-- The three transformation stages in the ξ pipeline. -/
@@ -94,11 +87,10 @@ theorem product_formula_prime (p : ℕ) (hp : Nat.Prime p) :
 
 The SIDE exclusion principle requires that the mechanism catalogue
 be exhaustive. Ostrowski guarantees no absolute value on ℚ escapes
-the real/p-adic dichotomy. Therefore the 7 mechanism classes
-derived from formation (2,3,2,0) are complete.
+the real/p-adic dichotomy. Part 4: Ostrowski guarantees that no nontrivial absolute value on ℚ escapes the real/p-adic dichotomy; that the 7 mechanism classes are therefore complete is the document's argument, not compiled.
 -/
 
-/-- No absolute value escapes the classification. -/
+/-- No nontrivial absolute value on ℚ escapes the classification. -/
 theorem ostrowski_exhaustive :
     ∀ (f : AbsoluteValue ℚ ℝ), f.IsNontrivial →
     f.IsEquiv Rat.AbsoluteValue.real ∨

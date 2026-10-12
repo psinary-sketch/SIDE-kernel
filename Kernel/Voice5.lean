@@ -55,9 +55,7 @@ theorem S_involution (sigma : Real) :
   unfold S_action; ring
 
 /-- The R-generator (order 3) action on sigma.
-    R = ST: tau -> -1/(tau+1). This acts on the UPPER
-    HALF-PLANE, rotating by 2pi/3 around the point
-    tau = e^(i*pi/3).
+    R = ST: tau -> -1/(tau+1). The R-generator (order 3), R = ST: τ ↦ -1/(τ+1), an elliptic element of order 3 fixing τ = e^(2πi/3). On σ we model R's net effect as the identity; that R produces no new σ-constraint is this modelling choice, not a derived fact.
 
     On the real parameter sigma, R's effect is trivial:
     it permutes Fourier coefficients of theta but does

@@ -11,9 +11,7 @@ universe u
 structure TypeLevelConstraint (X : Type u) (P : X → Prop) where
   holds_for_spec : ∀ x, P x
 
-/-- Determination collapse: if a type-level constraint holds for
-    all instances of a class, and there is only one instance,
-    it holds for the specific instance. -/
+/-- Determination collapse: if a type-level constraint holds for all instances of a class, it holds for any specific instance. -/
 theorem determination_collapse
     {X : Type u} {P : X → Prop}
     (tlc : TypeLevelConstraint X P) (x : X) : P x :=

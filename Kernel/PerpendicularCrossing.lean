@@ -6,8 +6,7 @@ import Kernel.Focus
 import Kernel.ThomBridge
 import Kernel.SchwarzDischarge
 
-/-! Proves the perpendicular crossing theorem: at a simple critical-line zero,
-    the Re and Im level curves of ξ cross at right angles, preventing off-line zeros. -/
+/-! Records the algebraic dot-product identity behind the perpendicular-crossing argument and bundles four proved ingredients (FOCUS, FE derivative, no zeros for Re >= 1, antisymmetry); the crossing at xi's zeros and the exclusion of off-line zeros are the manuscript's argument, not compiled. -/
 
 open Complex
 
@@ -61,46 +60,16 @@ theorem simplicity_from_trace_structure
 -- PART II: PERPENDICULAR CROSSING THEOREM
 -- ================================================================
 
-/- The perpendicular crossing theorem.
-
-    At a simple zero ρ = 1/2 + iγ on the critical line:
-
-    PROVED INGREDIENTS:
-    (a) FOCUS: ξ(1/2+it) ∈ ℝ, so Im(ξ) = 0 on critical line
-    (b) Spectral Cannon: Λ₀'(s) = -Λ₀'(1-s), and at ρ:
-        1-ρ = conj(ρ), so Λ₀'(ρ) = -conj(Λ₀'(ρ))
-        → Re(Λ₀'(ρ)) = 0
-    (c) Simplicity: Λ₀'(ρ) ≠ 0
-
-    CONSEQUENCE (Cauchy-Riemann):
-    Write Λ₀ = u + iv at ρ. The complex derivative f' = ∂u/∂σ + i·∂v/∂σ.
-    Since Re(f'(ρ)) = 0 and Im(f'(ρ)) = c₁ ≠ 0:
-      ∂u/∂σ = 0       (Re gradient has no σ-component)
-      ∂u/∂t = -c₁ ≠ 0 (Re gradient points in t-direction)
-      ∂v/∂σ = c₁ ≠ 0  (Im gradient points in σ-direction)
-      ∂v/∂t = 0        (Im gradient has no t-component)
-
-    The level curve {u = 0} (Re(ξ) = 0) is perpendicular to ∇u = (0, -c₁).
-    → {Re(ξ) = 0} departs in the σ-direction (HORIZONTAL)
-
-    The level curve {v = 0} (Im(ξ) = 0) is perpendicular to ∇v = (c₁, 0).
-    → {Im(ξ) = 0} departs in the t-direction (VERTICAL = critical line)
-
-    They cross at RIGHT ANGLES.
-
-    CONSEQUENCE FOR RH:
-    Along the horizontal {Re(ξ) = 0} curve:
-      d|Im(ξ)|/dσ = |∂v/∂σ| = |c₁| > 0  (at ρ)
-    So |Im(ξ)| is INCREASING as σ moves away from 1/2.
-    Since Im(ξ) = 0 at ρ (FOCUS) and grows monotonically:
-      Im(ξ) NEVER RETURNS TO ZERO along this curve.
-    Therefore {Re(ξ) = 0} never meets {Im(ξ) = 0} off the critical line.
-    NO OFF-LINE ZERO EXISTS. -/
+/- The perpendicular crossing, outlined and not formalized here. At a zero ρ = 1/2 + iγ on the critical line, with ξ real
+    on the line and Λ₀'(ρ) purely imaginary and nonzero, the Cauchy-Riemann equations make the gradients of Re ξ and Im ξ
+    perpendicular at ρ, so the level curves {Re ξ = 0} and {Im ξ = 0} cross at right angles there. Formalized below is only
+    the algebraic identity perpendicular_gradients, (0 : Real) * c₁ + (-c₁) * 0 = 0. That Λ₀'(ρ) ≠ 0 is not proved in this
+    file, the step from the crossing to the absence of off-line zeros is not formalized, and no declaration of this file
+    states where the zeros of ξ lie. -/
 
 -- We formalize the key algebraic content:
 
-/-- At a critical-line zero, if the derivative is purely imaginary
-    and nonzero, the gradients of Re and Im are perpendicular. -/
+/-- The vectors (0, -c1) and (c1, 0) have dot product zero; the identification of these with the gradients of Re and Im xi at a critical-line zero is not stated. -/
 theorem perpendicular_gradients
     (c₁ : Real) :
     -- ∇(Re ξ) = (0, -c₁) and ∇(Im ξ) = (c₁, 0)
@@ -111,37 +80,12 @@ theorem perpendicular_gradients
 -- PART III: THE FULL CHAIN
 -- ================================================================
 
-/- The complete logical chain from Focus + SpectralCannon + Simplicity → RH.
-
-    We assemble the proved pieces into one theorem statement.
-
-    Hypotheses (all proved except simplicity):
-    H1: FOCUS — Im(Λ₀(1/2+it)) = 0
-    H2: FE derivative — Λ₀'(s) = -Λ₀'(1-s)
-    H3: Euler closing — ζ(s) ≠ 0 for Re(s) ≥ 1
-    H4: Antisymmetry — Im(Λ₀(σ+it)) = -Im(Λ₀((1-σ)+it))
-    H5 (axiom): Simplicity — Λ₀'(ρ) ≠ 0 at strip zeros
-
-    The chain:
-    H2 at ρ = 1/2+iγ: Λ₀'(ρ) = -Λ₀'(1/2-iγ)
-    Schwarz at conj(ρ) = 1/2-iγ: Λ₀'(conj ρ) = conj(Λ₀'(ρ))
-    Combined: Λ₀'(ρ) = -conj(Λ₀'(ρ)) → Re(Λ₀'(ρ)) = 0
-    H5: Λ₀'(ρ) ≠ 0, so Im(Λ₀'(ρ)) = c₁ ≠ 0
-
-    Cauchy-Riemann at ρ:
-      ∂(Re Λ₀)/∂σ = Re(Λ₀') = 0
-      ∂(Im Λ₀)/∂σ = Im(Λ₀') = c₁ ≠ 0
-
-    Along {Re(Λ₀) = 0} departing from ρ:
-      |Im(Λ₀)| starts at 0 (H1) with derivative |c₁| > 0
-      → |Im(Λ₀)| is strictly increasing
-      → Im(Λ₀) never returns to 0
-      → no off-line zero on this curve
-
-    H3: no zeros for Re(s) ≥ 1
-    H4: symmetry about σ = 1/2
-
-    Therefore: all nontrivial zeros on σ = 1/2. -/
+/- An outline, not formalized here, of an argument from four compiled facts and the simplicity of the zeros toward RH. The
+    theorem below, proved_infrastructure, compiles the four facts as one conjunction: completedRiemannZeta₀ is real on the
+    critical line; its derivative satisfies deriv Λ₀ s = -(deriv Λ₀ (1 - s)); riemannZeta s ≠ 0 for 1 ≤ Re s; and
+    Λ₀(1 - σ + it) is the conjugate of Λ₀(σ + it). The simplicity of the zeros is not among them and is not proved here, the
+    step from the crossing at a simple zero to the absence of off-line zeros is not formalized, and no declaration of this
+    file concludes RH. -/
 
 -- The assembly of all proved components:
 theorem proved_infrastructure :

@@ -67,8 +67,7 @@ theorem s_darkness_from_product (p : Nat) [hp : Fact p.Prime]
 
 /-- The product formula ∏_v |x|_v = 1 is s-independent.
     Raising both sides to any power s: (∏_v |x|_v)^s = 1^s = 1.
-    Therefore interfaces transmit no spectral information.
-    Formation count: n₄ = 0. -/
+    1^s = 1 for every integer s in Q; read on the product formula's value 1, it is s-independent (s_darkness_from_product). That interfaces transmit no spectral information (n4 = 0) is the conservation clause, not stated here. -/
 theorem conservation_of_spectra :
     ∀ (s : Int), (1 : Rat) ^ s = 1 :=
   fun s => one_zpow s

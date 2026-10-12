@@ -17,19 +17,13 @@ namespace ConservationBridge
     form (`∀ p`, balance at EVERY prime) to this existential form (`∃ p`, at
     SOME prime), aligning the compiled def with the prose the monograph has
     always named (§25.5: "at some prime") and with
-    `PoissonExhaustion.BalanceContradiction`.  Truth-plausibility screen: the
-    existential is strictly WEAKER than the universal, so `riemann_hypothesis`
-    below becomes a strictly STRONGER theorem (weaker hypothesis, same
-    conclusion); every consumer that could supply the universal can supply the
-    existential.  The conclusion is unchanged; only the hypothesis moved, in
-    the direction that strengthens the result. -/
+    `PoissonExhaustion.BalanceContradiction`.  The existential form is implied by the universal and, since balance_theorem is prime-generic, equivalent to it; the weakening changes the hypothesis's form, not the strength of riemann_hypothesis. -/
 def ConservationHypothesis : Prop :=
   ∀ (σ : ℝ), is_xi_zero σ →
   ∃ (p : Nat) (hp : Nat.Prime p),
   (prime_as_real p hp) ^ (-σ) = (prime_as_real p hp) ^ (-(1 - σ))
 
-/-- Conservation of Spectra: at any nontrivial zero of ζ,
-    the Euler product structure is active at some prime. Conditional on
+/-- ConservationHypothesis restated: under it, at any real part σ of a nontrivial zero of ζ, the balance p^(-σ) = p^(-(1-σ)) holds at some prime (the theorem returns its hypothesis). Conditional on
     ConservationHypothesis (ξ pattern, existential form). Zero sorry. -/
 theorem conservation_activates_balance
     (h_cons : ConservationHypothesis) (σ : ℝ) (h : is_xi_zero σ) :

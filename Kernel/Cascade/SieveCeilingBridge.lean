@@ -12,9 +12,7 @@
   kappa = 0 case: it separates nothing, so the relation is total and
   only constant properties respect it -- hence a non-constant
   universal property (an Epstein-type target) cannot be captured.
-  Both the slot-1 kappa = 0 character and the slot-2 ceiling fall out
-  of blindness as the shared substrate. This makes the slot-1 <->
-  slot-2 correspondence a theorem rather than a comment.
+  A blind (constant) reading induces the total relation, so only constant properties respect it and a non-constant target cannot be captured (blind_sieve_ceiling, derived from blindness); the slot-1 link toRInterface assigns kappa = 0 to a blind reading by definition, so its darkness is stipulated, not derived.
 
   Depth note: once the reading model is fixed the bridge theorems are
   short consequences -- the content is the modeling choice, not a deep

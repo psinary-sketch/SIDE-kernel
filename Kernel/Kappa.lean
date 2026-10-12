@@ -46,9 +46,7 @@ def kappa_one : ConservationStrength where
   nonneg := by norm_num
   le_one := le_refl 1
 
-/-- Formation Gate 1b: κ is **not** an invariant of the system — it
-depends on the parsing (decomposition). Different parsings of the same
-system yield different `κ` values. The invariant is TYPE × certification
+/-- Two ConservationStrength values exist, one 0 and one nonzero (kappa_product_formula and kappa_one); that kappa depends on the parsing of a system is the manuscript's reading, not stated here. The invariant is TYPE × certification
 status, not the formation tuple. -/
 theorem gate_1b_not_invariant :
     ∃ (a b : ConservationStrength), a.val = 0 ∧ b.val ≠ 0 := by
@@ -56,9 +54,7 @@ theorem gate_1b_not_invariant :
   show (1 : ℝ) ≠ 0
   norm_num
 
-/-- Silence Principle for `n₄`: if both interfaces (product formula and
-distributive law) are silent, the interface stage contributes zero
-mechanism classes. -/
+/-- A placeholder: with both kappas silent as hypotheses (unused), it concludes 0 = 0; that the interface stage contributes zero classes is not derived. -/
 theorem n4_from_silence
     (_h1 : kappa_product_formula.isSilent)
     (_h2 : kappa_distributive.isSilent) :

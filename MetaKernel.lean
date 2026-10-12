@@ -7,23 +7,7 @@ import Mathlib.Data.Fintype.Basic
   Imports Mathlib.Data.Fintype.Basic. Compiles under the kernel's
   existing Mathlib toolchain.
 
-  To build:
-    lake build MetaKernel
-    (requires lean_lib MetaKernel declaration in lakefile.lean)
-
-  TARGETS IMPLEMENTED:
-    LT-3.1: DomainOstrowski structure
-    LT-3.2: RH and Yang-Mills as DomainOstrowski instances
-    LT-7.1: ECondition predicate + TypeClassification
-    LT-7.2: RH satisfies ECondition
-    LT-5.1: SpectralSilence predicate
-    LT-5.2: Conservation of Spectra as SpectralSilence instance
-    LT-2.1: EliminativeProof structure + RH is eliminative
-
-  RESULTS:
-    0 axioms
-    0 sorry
-    All theorems compile
+  TARGETS: the Ostrowski structure (LT-3.1); RH_MechanismClass and YM_Sector as enumerations only (the RH and YM Ostrowski instances are retired, M1); a Fintype instance on the 7-class type (no ESatisfied instance); Bool-record silence instances; polarity labels. RESULTS: 0 sorry; type_I_has_ostrowski records [propext, Quot.sound].
 -/
 
 -- ============================================================
@@ -38,25 +22,20 @@ namespace DomainOstrowski
     - A domain of structural elements (the mechanism classes)
     - A target property (what we want to exclude)
     - A per-element check (does this element produce the property?)
-    - A proof of exhaustiveness (every element is in the domain)
-    - A proof that no element produces the property
-
-    This is the abstract structure that Ostrowski (1916),
-    Thurston (geometrization), Wiles (modularity), and
-    SIDE all instantiate. -/
+    A record of a target, a per-element predicate, a tautological exhaustiveness field (d = d), a no-element-produces field and a supplied exclusion field; the paper reads Ostrowski, Thurston, Wiles and SIDE as instances, and no instance is compiled here. -/
 structure Ostrowski (Domain : Type) where
   /-- The target property to exclude -/
   target : Prop
   /-- For each domain element: does it produce the target? -/
   produces : Domain → Prop
-  /-- Every element is accounted for (the domain is finite/enumerable) -/
+  /-- A tautological placeholder (d = d); finiteness of the domain is not carried by this field. -/
   exhaustive : ∀ d : Domain, d = d  -- tautological here; in practice, the finite type guarantees this
   /-- No element produces the target -/
   none_produces : ∀ d : Domain, ¬(produces d)
-  /-- Therefore: target does not hold -/
+  /-- The target does not hold (supplied as a field; not derived from the other fields). -/
   exclusion : ¬target
 
-/-- The SIDE proof of RH instantiates this structure. -/
+/-- The seven mechanism-class labels of the SIDE catalogue (an enumeration; no Ostrowski instance is compiled). -/
 inductive RH_MechanismClass where
   | schwarz           -- C₁: Schwarz reflection
   | euler_balance     -- C₂: Euler product balance
@@ -73,7 +52,7 @@ theorem formation_count : 2 + 3 + 2 + 0 = 7 := by decide
 -- [M1 retired] produces_offline (:= False for all 7) and rh_none_produces (proved
 -- not-False). The real per-class exclusion is conditional; see Bridge/SIDEBridge.lean.
 
-/-- Seven classes exhaust all possibilities (completeness). -/
+/-- Every element of the defined type RH_MechanismClass is one of its seven constructors (the type's own completeness, not the catalogue's exhaustiveness at xi). -/
 theorem rh_classes_complete : ∀ c : RH_MechanismClass,
     c = .schwarz ∨ c = .euler_balance ∨ c = .functional_eq ∨
     c = .psl2_modular ∨ c = .spectral ∨ c = .cauchy_riemann ∨
@@ -116,12 +95,11 @@ end DomainOstrowski
 namespace ECondition
 
 /-- The E condition asks: is the mechanism catalogue exhaustive?
-    Formally: the domain type is finite (all elements enumerable)
-    AND every element has been checked. -/
+    The E condition records that the domain type is finite (Fintype); the checked clause is a tautological placeholder (d = d). -/
 structure ESatisfied (Domain : Type) where
   /-- The catalogue is finite -/
   finite_catalogue : Fintype Domain
-  /-- Every element has been checked against the target -/
+  /-- Placeholder for "checked": a tautology (d = d) carrying no check against any target. -/
   all_checked : ∀ d : Domain, d = d  -- placeholder for "checked"
 
 /-- TYPE Classification based on E status.
@@ -170,7 +148,7 @@ theorem type_I_has_ostrowski (Domain : Type) [Fintype Domain]
   obtain ⟨d, hd⟩ := h_target ht
   exact h_none d hd
 
-/-- RH satisfies E (the formation count terminates the search). -/
+/-- The defined type RH_MechanismClass is a Fintype with seven elements. -/
 instance : Fintype DomainOstrowski.RH_MechanismClass := {
   elems := {.schwarz, .euler_balance, .functional_eq, .psl2_modular,
             .spectral, .cauchy_riemann, .hadamard},
@@ -180,7 +158,7 @@ instance : Fintype DomainOstrowski.RH_MechanismClass := {
 -- [M1 retired] rh_is_type_I was (TypeClass.type_I = TypeClass.type_I := rfl) -- a vacuous
 -- tautology (X = X) that certified nothing about RH.
 
-/-- The formation count 7 terminates the search; proved by `decide`. -/
+/-- 2 + 3 + 2 + 0 = 7, by decide. -/
 theorem formation_terminates : (2 + 3 + 2 + 0 : Nat) = 7 := by decide
 
 /-- P vs NP is predicted TYPE III. -/
@@ -200,11 +178,11 @@ inductive DifficultyLevel where
   | level_1_exhaustion    : DifficultyLevel  -- Does the search terminate?
   | level_2_checking      : DifficultyLevel  -- How hard is each check?
 
-/-- For mathematics: Level 0 is trivially passed. -/
+/-- A reflexivity placeholder (level_0 = level_0); nothing about mathematics passing Level 0 is stated. -/
 theorem math_passes_level_0 : DifficultyLevel.level_0_determination =
     DifficultyLevel.level_0_determination := rfl
 
-/-- All mathematical difficulty lives at Level 1. -/
+/-- The E-difficulty conjecture (all mathematical difficulty lives at Level 1), recorded as a placeholder type that does not state it. -/
 -- (This is the E-difficulty conjecture, formalized as a type.)
 def e_difficulty_conjecture : Type 1 :=
   ∀ (Domain : Type) [Fintype Domain] (produces : Domain → Prop),
@@ -237,8 +215,7 @@ structure SilentInterface where
   kappa_x100 : Nat
 
 /-- The Silence Principle: essential interfaces are silent.
-    If essential = true AND the system has independent structures,
-    then silent = true AND κ = 0. -/
+    The Silence Principle: if an interface is essential, it is silent and its kappa is 0 (no further premise). -/
 def silence_principle (i : SilentInterface) : Prop :=
   i.essential = true → i.silent = true ∧ i.kappa_x100 = 0
 
@@ -283,8 +260,7 @@ theorem distributive_law_silent : silence_principle distributive_law := by
   intro _; exact ⟨rfl, rfl⟩
 
 /-- Conservation of Spectra as SpectralSilence instance.
-    The product formula is essential (without it, no ξ)
-    and s-dark (carries zero information about zero locations). -/
+    The product_formula record is tagged essential, silent and kappa 0 (stipulated fields, read back by rfl). -/
 theorem conservation_of_spectra :
     product_formula.essential = true ∧
     product_formula.silent = true ∧
@@ -294,7 +270,7 @@ theorem conservation_of_spectra :
 /-- The INTERFACETS discriminatory result:
     genetic code is conservative for identity (κ = 94/100)
     but not for frequency (κ = 8/100).
-    The split validates the Conservation Analysis tool. -/
+    The recorded identity kappa (94/100) exceeds the recorded frequency kappa (8/100). -/
 theorem interfacets_split :
     genetic_code_identity.kappa_x100 > genetic_code_frequency.kappa_x100 := by
   decide
@@ -306,8 +282,7 @@ inductive TestedSystem where
   | grammar_rules | turing_completeness | second_law
   deriving DecidableEq
 
-/-- Every tested system's most essential component has low κ
-    for behavioral parameters. -/
+/-- Tabulated behavioral kappa (x100) of each tested system's most essential component (five values estimated). -/
 def behavioral_kappa : TestedSystem → Nat
   | .product_formula    => 0
   | .distributive_law   => 0
@@ -339,14 +314,10 @@ inductive Polarity where
   | eliminative  : Polarity   -- excludes all alternatives
   deriving DecidableEq
 
-/-- The RH proof is eliminative: it concludes ¬OffLineZero. -/
+/-- The SIDE RH argument is labelled eliminative (its target form is Not OffLineZero); the kernel's RH terminal is conditional on ConservationHypothesis. -/
 def rh_polarity : Polarity := Polarity.eliminative
 
-/-- An eliminative proof has the structure:
-    (1) Finite domain (the catalogue)
-    (2) Per-element exclusion (none produces the target)
-    (3) Negation (therefore target doesn't hold)
-    This is exactly the DomainOstrowski structure. -/
+/-- The label rh_polarity is eliminative (by rfl); the Ostrowski structure of an eliminative proof is the document's reading. -/
 theorem eliminative_is_ostrowski :
     rh_polarity = Polarity.eliminative := rfl
 
@@ -360,7 +331,7 @@ def euclid_primes_polarity : Polarity := Polarity.constructive
 
     The E-difficulty conjecture (Thread 7) predicts:
     eliminative proofs succeed ⇔ E condition is satisfiable.
-    Tested retroactively on 7 problems: 7/7 match. -/
+    rh_polarity is eliminative and euclid_primes_polarity is constructive (labels, by rfl); the E-difficulty prediction is the document's conjecture. -/
 theorem polarity_connection :
     rh_polarity = Polarity.eliminative ∧
     euclid_primes_polarity = Polarity.constructive := by
@@ -374,7 +345,7 @@ end EliminativeProof
 
 namespace SourceAnnotations
 
-/-- Every component of the RH proof traces to a pre-1950 source. -/
+/-- Components the SIDE RH argument cites, each with a recorded date of 1950 or earlier. -/
 inductive ProofComponent where
   | euler_product        -- 1737, Euler
   | poisson_summation    -- 1829, Jacobi
@@ -408,12 +379,11 @@ def component_date : ProofComponent → Nat
 theorem all_pre_1951 : ∀ c : ProofComponent, component_date c ≤ 1950 := by
   intro c; cases c <;> decide
 
-/-- The latest component is Tate (1950). -/
+/-- No component's recorded date exceeds 1950 (Tate's date). -/
 theorem latest_is_tate : ∀ c : ProofComponent, component_date c ≤ 1950 :=
   all_pre_1951
 
-/-- SEVENTY-FIVE YEARS: the proof was available since 1950.
-    The barrier was methodology (SIDE), not mathematics. -/
+/-- 1950 + 75 = 2025; the seventy-five-year reading is the document's argument. -/
 theorem proof_available_since : (1950 : Nat) + 75 = 2025 := by decide
 
 end SourceAnnotations
@@ -424,7 +394,7 @@ end SourceAnnotations
 
 namespace EDifficulty
 
-/-- Solved problems tested retroactively. -/
+/-- Problems tested retroactively (six solved; rh is included as the programme's target, conditional in this kernel). -/
 inductive SolvedProblem where
   | poincare | flt | cfsg | four_color | sphere_packing | catalan | rh
   deriving DecidableEq
@@ -461,18 +431,14 @@ inductive OstrowskiStatus where
   | unformalized  -- Theorem exists but not recognized as Ostrowski
 
 
-/-- The meta-theorem (CP-O-5):
-    TYPE I ↔ Ostrowski exists.
-    TYPE III ↔ no Ostrowski exists.
-    Stated as a definition (conjecture). -/
+/-- The meta-Ostrowski conjecture (CP-O-5), recorded as a placeholder True; its content is not stated here. -/
 def meta_ostrowski_conjecture : Prop :=
   -- For all mathematical problems P:
   -- P is TYPE I → P's domain admits a proved Ostrowski
   -- P is TYPE III → P's domain admits no Ostrowski
   True  -- Placeholder: the conjecture is stated, not proved
 
-/-- The catalogue of completeness theorems is itself
-    a completeness problem. -/
+/-- The meta-Ostrowski question (whether the catalogue of completeness theorems is itself a completeness problem), recorded as a placeholder True. -/
 def meta_meta : Prop :=
   -- Is the set of all possible Ostrowskis classifiable?
   -- This is the meta-Ostrowski question.
@@ -484,24 +450,10 @@ end OstrowskiCatalogue
 -- SUMMARY
 -- ============================================================
 
-/-- All targets compile. Summary of what's formalized:
-
-    DomainOstrowski: abstract structure for exhaustive proofs
-    RH_MechanismClass: 7 classes, none produces off-line zeros
-    YM_Sector: 4 sectors (enumeration only; no mass-gap claim — see M1-retired note above)
-    ECondition: E as search termination, TYPE classification
-    SpectralSilence: essential → silent (10/10 tested)
-    EliminativeProof: RH is eliminative, not constructive
-    SourceAnnotations: all components ≤ 1950
-    EDifficulty: 7/7 retroactive match
-    OstrowskiCatalogue: 18 proved, 37 total
-
-    SORRY COUNT: 0
-    All theorems discharge without sorry.
+/-- All targets compile. All targets compile, 0 sorry. Formalized: the Ostrowski record; RH_MechanismClass (7 labels, no exclusion); YM_Sector (enumeration only); E as a Fintype record and TYPE labels; four silence records; polarity labels; component dates <= 1950; a retroactive label table (6 exact, 1 approximate); Ostrowski status labels. This summary theorem states True.
 
     This is the meta-kernel: it formalizes the observations
     about the proof method, not the proof itself.
-    The proof kernel is in Kernel.Root (63 files, 0 sorry, 0 axioms).
     This meta-kernel formalizes what the proof TEACHES us
     about mathematics. -/
 theorem meta_kernel_summary : True := trivial

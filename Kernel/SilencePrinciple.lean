@@ -1,4 +1,4 @@
-/-! The Silence Principle — essential interfaces are silent. -/
+/-! The Silence Principle as a premise: if every essential interface is universal, an essential interface is silent (Silent is defined as Universal). -/
 
 universe u
 

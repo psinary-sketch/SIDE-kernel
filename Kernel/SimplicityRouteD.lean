@@ -69,8 +69,7 @@ namespace SimplicityRouteD
 /-- **PLACEHOLDER — not the real statement (tautology-sweep hygiene, 2026-07-29).** Body is `True`; the
     name now carries the placeholder status. The real Route-D statement would have to say: for every t₀
     with F(t₀)=0 there is ε>0 with F(t₀−ε)·F(t₀+ε) < 0 — the IVT sign-change (non-crossing) characterization
-    of simple zeros — which is unformalized here (it needs `HasDerivAt` for ξ∘(t ↦ ½+it)). Uncited; nothing
-    imports it. Faithful formalization is work-order **W-ORD-ROUTE-DE-EQUIV**. -/
+    of simple zeros — which is unformalized here (it needs `HasDerivAt` for ξ∘(t ↦ ½+it)). Kernel/Root.lean imports Kernel.SimplicityRouteD; no declaration cites the theorem. Faithful formalization is work-order **W-ORD-ROUTE-DE-EQUIV**. -/
 theorem topological_equivalence_placeholder :
     True := trivial
 -- The full statement needs: for all t0, F(t0) = 0 ->

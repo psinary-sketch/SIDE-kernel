@@ -6,18 +6,14 @@ import Bridge.TheBridgeComplete
 
 The seven mechanism classes (C1–C7 in `Bridge/TheBridgeComplete.lean`)
 are individually proved not to produce off-line zeros (`none_produce`).
-This file rules out the remaining possibility: that a *pair* of classes,
-through cross-class coupling, jointly produces an off-line zero that
-neither does alone.
+This file defines cross_class_produces_offline as produces_offline c1 ∨ produces_offline c2 ∨ coupling_strength > 0, with coupling_strength the constant sum of the two declared channels' κ (= 0), and proves it false for every pair from none_produce.
 
 Argument:
-1. The only inter-class coupling channels are the product formula and
-   the distributive law (`CouplingChannel`).
+1.
 2. Both have `κ = 0` (`Kernel/Kappa.lean`: `kappa_product_formula`,
    `kappa_distributive`), so the coupling strength of any pair of
    classes equals `0 + 0 = 0` (`coupling_strength_zero`).
-3. An s-independent (`κ = 0`) channel cannot produce s-dependent
-   coincidences. Hence `cross_class_produces_offline` reduces to the
+3. Hence `cross_class_produces_offline` reduces to the
    disjunction "C1 produces ∨ C2 produces", both refuted by
    `none_produce`.
 
@@ -28,7 +24,7 @@ namespace techne_kernel_cross_exclusion
 
 open techne_kernel_kappa
 
-/-- The two — and only — inter-class coupling channels. -/
+/-- The two declared inter-class coupling channels. -/
 inductive CouplingChannel where
   | product_formula
   | distributive_law

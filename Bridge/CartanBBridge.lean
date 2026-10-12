@@ -1,11 +1,5 @@
 /-
-  CartanBBridge.lean
-
-  The Output-Stage Classification Theorem
-
-  This module supplies the n₃ = 2 entry in the formation tuple
-  (n₁, n₂, n₃, n₄) = (2, 3, 2, 0) with a Lean-verified classification
-  theorem on par with OstrowskiBridge.lean (which supplies n₂ = 3).
+  The module declares OutputStageClass, proves Fintype.card OutputStageClass = 2 by decide, and bundles that count with two Mathlib facts (analytic ⇒ smooth on an open set; the identity theorem for eventually-equal analytic functions); the Cartan B pillar is open and set aside, and no declaration here ties the count to entire functions of finite order.
 
   Three classical theorems combine to classify the output-stage
   mechanism classes for entire functions of finite order:
@@ -22,28 +16,6 @@
     3. Cartan's Theorem B
        (Mittag-Leffler 1876, Weierstrass 1876, Cartan 1951–53)
        H¹(ℂ, 𝒪) = 0 eliminates intermediate cohomological scales.
-
-  Together: exactly two output-stage classes, namely
-
-    C₆ — local/differential   (Cauchy-Riemann + jet-space)
-    C₇ — global/topological   (Hadamard factorization + argument
-                               principle + zero-counting)
-
-  The Lean module declares these classes as a finite type
-  `OutputStageClass`, proves `Fintype.card OutputStageClass = 2`
-  by `decide`, and provides the `OutputStageExhaustiveness`
-  certificate that ties this count to the entire-function hypothesis
-  via the three classical theorems above.
-
-  The module's role in the kernel:
-
-    OstrowskiBridge.lean      provides   n₂ = 3   (transformation)
-    CartanBBridge.lean        provides   n₃ = 2   (output)         ← this file
-    StructuralCount.lean      asserts    (2, 3, 2, 0) = 7
-    TheBridgeComplete.lean    proves     StructuralExhaustiveness
-
-  Together these elevate the formation tuple from a manuscript claim
-  to a Lean-verified composition of classical classification theorems.
 
   J. York Seale, April 2026
   Target: 0 sorry, 0 axioms beyond Mathlib core
@@ -79,9 +51,7 @@ deriving Fintype, DecidableEq, Repr
 theorem output_stage_card : Fintype.card OutputStageClass = 2 := by
   decide
 
-/-! ## Section 2. The Three Classical Theorems
-
-We state the three classical results that together force the bipartition.
+/-! ## Section 2. We state two Mathlib results (T1 analytic ⇒ smooth, T2 the identity theorem) re-exposed under the kernel's names; T3 (Cartan B) is set aside below, and no declaration here states that these force the bipartition.
 Each is a Mathlib statement (or composition of Mathlib statements)
 re-exposed here under the kernel's structural names.
 
@@ -94,16 +64,8 @@ The role of each theorem:
 
 /-- T1. Elliptic regularity for the Cauchy-Riemann operator.
 
-A holomorphic function on an open set is automatically smooth
-(in fact, real-analytic). The regularity hierarchy collapses:
-all local constraints are consequences of holomorphicity.
-
-In Mathlib this is `AnalyticOn` ⇒ `ContDiffOn` ⇒ smoothness;
-a holomorphic function on an open set has every desired regularity.
-
-This is the precise sense in which the local class is *unique*:
-no finer local distinction (Cᵏ vs C^∞ vs C^ω) survives the ∂̄ = 0
-condition. -/
+An analytic function on an open set is C^∞ there (AnalyticOn.contDiffOn); the holomorphic-to-analytic step of elliptic regularity and the uniqueness of the local class are not stated here. The regularity hierarchy collapses:
+all local constraints are consequences of holomorphicity. -/
 theorem elliptic_regularity_collapse
     {f : ℂ → ℂ} {U : Set ℂ} (hU : IsOpen U) (hf : AnalyticOn ℂ f U) :
     ContDiffOn ℂ ⊤ f U :=
@@ -111,16 +73,13 @@ theorem elliptic_regularity_collapse
 
 /-- T2. The Identity Theorem.
 
-If two analytic functions on a connected open set agree on a set
-with an accumulation point, they agree everywhere.
+If two analytic functions on a preconnected open set agree on a neighbourhood of one point of it, they agree on the whole set (AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq).
 
 This is `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq` in Mathlib.
 On open sets, `AnalyticOn` and `AnalyticOnNhd` coincide via
 `IsOpen.analyticOn_iff_analyticOnNhd`. The structural meaning for the
 kernel: the germ of an entire function at any single point determines
-the function globally. Therefore the local-to-global bridge is unique
-— analytic continuation is the only such bridge — and no alternative
-could constitute a third class. -/
+the function globally. -/
 theorem identity_theorem_unique_bridge
     {f g : ℂ → ℂ} {U : Set ℂ}
     (hU : IsOpen U) (hUc : IsPreconnected U)
@@ -170,9 +129,7 @@ The certificate is a conjunction:
       see Section 2b above; it is NOT a field of the certificate below.
 
 Component (a) is `output_stage_card`.
-Components (b), (c), (d) are the three theorems above.
-
-Together: the catalogue at the output stage is exactly {C₆, C₇}.
+The certificate bundles (a) Fintype.card OutputStageClass = 2, (b) analytic ⇒ smooth on open sets and (c) the identity theorem; (d) Cartan B is open and not a field, and the certificate does not state that the output-stage catalogue is exhaustive.
 -/
 
 /-- The output-stage exhaustiveness certificate. -/
@@ -199,18 +156,11 @@ theorem output_stage_exhaustiveness_proved : OutputStageExhaustiveness :=
   , bridge_unique  := identity_theorem_unique_bridge
   }
 
-/-! ## Section 4. The n₃ = 2 Certificate
-
-The kernel's `Formation.lean` expects each formation summand to
-carry a classification-theorem certificate. This section provides
+/-! ## Section 4. This section supplies n_3 := Fintype.card OutputStageClass and proves n_3 = 2; the bundle output_stage_exhaustiveness_proved carries two formalized classical facts, and no kernel type MechanismClass.output_stage is restricted here. This section provides
 the n₃ = 2 entry, parallel to how `OstrowskiBridge.lean` provides
 the n₂ = 3 entry.
 
-The bridge is type-level. The kernel's `MechanismClass.output_stage`
-finite type, when restricted to entire-function-of-finite-order
-specifications, has cardinality 2 by `output_stage_card`, and the
-classification is certified by the three classical theorems through
-`output_stage_exhaustiveness_proved`.
+The bridge is type-level.
 -/
 
 /-- The n₃ formation summand for entire functions of finite order. -/
@@ -238,13 +188,10 @@ The total (2 + 3 + 2 + 0 = 7) is verified by `decide` in
 `StructuralCount.lean`. The composition into `StructuralExhaustiveness`
 is performed in `TheBridgeComplete.lean`.
 
-The remaining manuscript-level claim — that ξ(s) is an entire function
-of finite order — is supplied by the existing `Voice7.lean` (Hadamard)
-and its dependencies. The CartanBBridge module makes the n₃ = 2 step
+The total 2+3+2+0 = 7 is decided in Kernel.Core; this file contributes n_3 = 2 as the card of a declared type with two formalized pillars; Cartan B is open, and no Lean declaration supplies that ξ is entire of finite order. The CartanBBridge module makes the n₃ = 2 step
 available as a Lean-verified theorem rather than an asserted fact.
 
 This closes the visibility gap identified in the April 29 2026 review:
 a reader approaching the proof through Lean now sees the same defended
-structure as a reader approaching through the manuscripts. The four
-classification theorems all sit at the kernel level.
+structure as a reader approaching through the manuscripts.
 -/

@@ -4,8 +4,7 @@ import Mathlib.Data.Nat.Factorization.Basic
 import Kernel.Voice1
 import Kernel.Core
 
-/-! Proves `gate_e_exhaustive_derived`: no off-line zero exists, via Voice 1's
-    Euler balance theorem forcing σ = 1/2 at every ξ-zero. -/
+/-! Proves gate_e_exhaustive_derived: for every real sigma, no prime p has p^(-sigma) = p^(-(1-sigma)) with sigma != 1/2, via Voice 1's balance theorem. -/
 
 namespace PoissonExhaustion
 
@@ -27,15 +26,10 @@ theorem ostrowski_complete :
 -- BalanceContradiction — carries the structural condition
 -- ============================================================
 
-/-- BalanceContradiction sigma means:
-    There exists a prime p such that the Euler product balance
-    equation holds at sigma (this is a structural consequence
-    of ξ having an Euler product — the multiplicative structure
-    of ℤ ensures this at every nontrivial zero), AND sigma ≠ 1/2.
+/-- BalanceContradiction sigma: some prime p has p^(-sigma) = p^(-(1-sigma)) and sigma != 1/2. Voice 1 proves balance <-> sigma = 1/2, so it is never satisfied. That the balance equation holds at every xi-zero is the open clause, not stated here.
 
     The balance equation p^(-σ) = p^(-(1-σ)) is the content of
-    mechanism class C₄. It holds at every ξ-zero because ξ is
-    built from the Euler product ζ(s) = ∏(1-p^(-s))⁻¹.
+    mechanism class C₄.
 
     Voice 1 proves: balance ↔ σ = 1/2.
     Therefore BalanceContradiction is self-contradictory — the structural
@@ -50,11 +44,8 @@ def BalanceContradiction (sigma : Real) : Prop :=
 -- THE BRIDGE — ZERO SORRY
 -- ============================================================
 
-/-- The Poisson Exhaustion Theorem, formalized.
-
-    At any ξ-zero, the Euler product is active (by specification).
+/-- For every real sigma, BalanceContradiction sigma fails: Voice 1's balance theorem forces sigma = 1/2. That the balance holds at every xi-zero (and so no off-line zero exists) is the open clause, not proved here.
     Voice 1 proves the balance equation forces σ = 1/2.
-    Therefore no off-line zero exists.
 
     This is one voice of the seven-voice SIDE argument.
     One voice suffices for the logical closure because each

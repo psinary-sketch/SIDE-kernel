@@ -77,8 +77,7 @@ theorem symmetries_disagree_off_line (sigma : Real)
 -- CODIMENSION ANALYSIS
 -- ===============================================================
 
-/-- Codimension at a point: how many independent conditions
-    must be satisfied for xi to vanish there.
+/-- An assigned codimension: 1 at σ = 1/2 and 2 elsewhere, stipulated (not counted from ξ); the ξ-reading (one real condition on the line, two off it) is manuscript-resident.
 
     At sigma = 1/2: xi is real-valued (conjugation = reflection),
     so xi(s) = 0 requires only one real condition (codim 1).
@@ -100,8 +99,7 @@ theorem codim_off_line (sigma : Real) (h : Not (sigma = 1 / 2)) :
     codimension sigma = 2 := by
   unfold codimension; rw [if_neg h]
 
-/-- Codimension 1 < codimension 2: on-line zeros are generic,
-    off-line zeros are exceptional. -/
+/-- 1 < 2 (the numerals of the two assigned codimensions); the genericity reading is manuscript-resident. -/
 theorem on_line_less_exceptional : (1 : Nat) < 2 := by omega
 
 -- ===============================================================

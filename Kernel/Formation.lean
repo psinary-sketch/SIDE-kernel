@@ -38,7 +38,7 @@ theorem forward_exclusion
   obtain ⟨C, hC, hcond⟩ := fc.exhaustive x
   exact C.forces x hcond
 
-/-- ForwardCatalogue produces a SIDEClass.
+/-- A ForwardCatalogue produces a TypeLevelConstraint (P holds for every x).
     CATALOGOS Chapters 18-19: the composition of forward classes
     into SIDE exclusion. -/
 theorem forward_to_side

@@ -68,9 +68,7 @@ namespace techne_kernel_voice7
         factorization (three-lines Hadamard only) — premise named Mathlib-absent;
       • the product is PRESENT in RH-violators (Epstein, §917/§933/§1845), so its
         presence cannot enforce on-line — a model-theoretic argument, unmodeled here.
-    Faithful de-encode refiled as research work-order **W-ORD-C7-WITNESS** (two-point
-    Epstein-vs-ideal countermodel, kin to `SieveCeilingWitness`; cross-linked
-    W-6-EXT-A). -/
+    The faithful de-encode (W-ORD-C7-WITNESS) is compiled as Voice7Witness.hadamard_does_not_enforce_online, the Epstein countermodel: the Hadamard/FE observable cannot enforce on-line placement. -/
 def topological_contribution (_sigma : Real) : Real := 0
 
 /-- The topological contribution is sigma-independent. True OF THE STAND-IN
@@ -141,10 +139,7 @@ theorem c7_forces_half (sigma : Real) :
     topological_rests sigma -> sigma = sigma := by
   intro _; rfl
 
-/-- For SIDE integration: the topological class cannot produce
-    off-line zeros because it cannot produce zeros at ANY
-    specific sigma. If sigma != 1/2 and ONLY C7 is active,
-    there is no mechanism to place a zero there. -/
+/-- The definition-encoded stand-in topological_contribution := 0 takes the same value at every sigma as at 1/2; this asserts nothing sigma-selective about xi (the faithful C7 content is Voice7Witness.hadamard_does_not_enforce_online). -/
 theorem c7_no_placement_force (sigma : Real) :
     topological_contribution sigma = topological_contribution (1 / 2 : Real) :=
   topological_no_sigma_preference sigma

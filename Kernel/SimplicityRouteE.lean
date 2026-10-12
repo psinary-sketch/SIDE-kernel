@@ -77,7 +77,7 @@ namespace SimplicityRouteE
 /-- **PLACEHOLDER — not the real statement (tautology-sweep hygiene, 2026-07-29).** Body is `True`; the
     name now carries the placeholder status. The real Route-E statement would have to say: the energy
     E(t) = F(t)² + F′(t)² > 0 for all t iff every ξ-zero on the line is simple — where the positivity
-    itself is the open premise (F′(t₀)=0 ⇔ ξ′(½+it₀)=0). Unformalized. Uncited; nothing imports it.
+    itself is the open premise (F′(t₀)=0 ⇔ ξ′(½+it₀)=0). Unformalized. Kernel/Root.lean imports Kernel.SimplicityRouteE; no declaration cites the theorem.
     Faithful formalization is work-order **W-ORD-ROUTE-DE-EQUIV**. -/
 theorem energy_positivity_equivalence_placeholder :
     True := trivial

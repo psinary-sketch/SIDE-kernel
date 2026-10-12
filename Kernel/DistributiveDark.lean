@@ -8,12 +8,7 @@ The distributive law a(b+c) = ab+ac is an identity of ℤ.
 The spectral parameter s ∈ ℂ does not appear in it.
 Therefore the distributive law carries no s-dependent information.
 
-In the SIDE proof's Step (9), this ensures that per-class exclusion
-is equivalent to all-combinations exclusion: the internal coupling
-between additive and multiplicative structures (the distributive law)
-carries no spectral parameter, so it cannot conspire to produce
-off-line zeros from combinations of classes that individually
-produce none.
+The distributive law a(b+c) = ab+ac is an identity of Z in which no s appears; this file compiles it and its s-quantified restatements. Its use in Step (9) (per-class to all-combinations exclusion) is the manuscript's argument, not compiled here.
 
 Mathematical content is original.
 -/
@@ -47,7 +42,7 @@ theorem distributive_conservation (a b c : ℤ) :
 The product formula: 1^s = 1        (s-dark, Lean-verified in ProductFormula chain)
 The distributive law: a(b+c) = ab+ac (s-dark, this file)
 
-Both couplings are s-dark. Per-class exclusion + s-dark couplings = global exclusion.
+Both couplings are s-dark. The product formula's compiled form 1^s = 1 and the distributive law contain no s. That per-class exclusion with these couplings gives global exclusion is the Conservation argument of Step (9), not compiled.
 This is the Conservation argument of Step (9).
 -/
 
