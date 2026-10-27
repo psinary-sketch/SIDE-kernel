@@ -5,7 +5,7 @@ package sidekernel where
   leanOptions := #[]
 
 require mathlib from git
-  "https://github.com/leanprover-community/mathlib4" @ "e960b84129b3caf423ecf0ea7409a8758a47012c"
+  "https://github.com/leanprover-community/mathlib4" @ "de5ce8a9a66a4aa68a9bdbb35b63a06d34d9ca11"
 
 @[default_target]
 lean_lib Kernel where
