@@ -1,0 +1,154 @@
+# build-module -- a hand-dispatched build of one ref, under (R263)(4).
+# Inputs: the ref to build and the lake target. Steps: checkout at the ref; elan from its official install script, the toolchain pinned by
+# lean-toolchain; lake exe cache get; a free-memory logger beside the build that stops lake if free memory falls beneath the 2,560 MB hold;
+# lake build of the target; a scratch file through lake env lean carrying #print axioms for every named terminal; the build log, the memory log
+# and the axioms output uploaded as the run's artifact. No secret is used; the platform's own token alone (read-only contents).
+name: build-module
+
+on:
+  push: { branches: [rebuild-b721] }
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "the commit SHA or branch to build"
+        required: true
+      target:
+        description: "the lake target to build"
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    env:
+      HOLD_MB: "2560"
+      TARGET: Kernel Bridge MetaKernel
+    steps:
+      - name: Checkout at the ref
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+
+      - name: Refuse a target outside the lake grammar
+        run: |
+          case "$TARGET" in
+            *[!A-Za-z0-9_.\ ]*|"") echo "target refused: $TARGET"; exit 2 ;;
+          esac
+          mkdir -p out
+          git rev-parse HEAD > out/ref.txt
+          cat lean-toolchain >> out/ref.txt
+
+      - name: Install elan (official script; the toolchain from lean-toolchain)
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -o elan-init.sh
+          sh elan-init.sh -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Mathlib cache
+        run: lake exe cache get 2>&1 | tail -20 > out/cache.log
+
+      - name: Build under the hold
+        run: |
+          (
+            while true; do
+              avail=$(awk '/MemAvailable/ {print int($2/1024)}' /proc/meminfo)
+              echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) avail_mb=$avail" >> out/mem.log
+              if [ "$avail" -lt "$HOLD_MB" ]; then
+                echo "STOP $(date -u +%Y-%m-%dT%H:%M:%SZ) avail_mb=$avail beneath the hold $HOLD_MB" >> out/mem.log
+                pkill -f lake || true
+                pkill -f lean || true
+              fi
+              sleep 5
+            done
+          ) &
+          LOGGER=$!
+          set +e
+          lake build $TARGET > out/build.log 2>&1
+          echo "$?" > out/build_exit.txt
+          kill "$LOGGER" || true
+          awk -F'avail_mb=' '/avail_mb=/ {split($2,a," "); if (min=="" || a[1]+0<min) min=a[1]+0} END {print "LOW " min}' out/mem.log >> out/mem.log
+          exit 0
+
+      - name: Axioms of the named terminals
+        if: always()
+        run: |
+          cat > out/Axioms.lean <<'EOF'
+          import Bridge.CartanBBridge
+          import Bridge.ConservationBridge
+          import Bridge.CrossClassExclusion
+          import Bridge.TheBridgeComplete
+          import Bridge.Voice3_FE
+          import Kernel.Cascade.SieveCeiling
+          import Kernel.Cascade.SieveCeilingBridge
+          import Kernel.Cascade.SieveCeilingSemantic
+          import Kernel.Cascade.SieveCeilingWitness
+          import Kernel.Core
+          import Kernel.Integration
+          import Kernel.Layer1
+          import Kernel.ProductFormula_Rat
+          import Kernel.SilenceTheorem
+          import Kernel.SpectralCannonFull
+          import Kernel.Voice1
+          import Kernel.Voice3b
+          import Kernel.Voice7
+          import MetaKernel
+          #print axioms ConservationBridge.conservation_activates_balance
+          #print axioms ConservationBridge.riemann_hypothesis
+          #print axioms ConservationBridge.structural_exhaustiveness_proved
+          #print axioms ConservationBridge.ConservationHypothesis
+          #print axioms SIDEKernel.formation
+          #print axioms techne_kernel.SIDE_exclusion
+          #print axioms SpectralCannonFull.spectral_cannon
+          #print axioms techne_kernel_voice1.balance_theorem
+          #print axioms SieveCeilingBridge.blind_sieve_ceiling
+          #print axioms bright_access_required
+          #print axioms c6_exclusion
+          #print axioms c7_exclusion
+          #print axioms ProductFormula.conservation_of_spectra
+          #print axioms SieveCeilingWitness.dh_witness
+          #print axioms e_difficulty
+          #print axioms CartanBridge.elliptic_regularity_collapse
+          #print axioms fe_symmetry
+          #print axioms CartanBridge.formation_n_3_eq_two
+          #print axioms CartanBridge.identity_theorem_unique_bridge
+          #print axioms none_produce
+          #print axioms CartanBridge.output_stage_card
+          #print axioms proof_dichotomy
+          #print axioms ProductFormula.s_darkness_from_product
+          #print axioms sieve_ceiling
+          #print axioms SieveCeilingSemantic.sieve_ceiling_semantic
+          #print axioms SilenceTheorem.silence_universal
+          #print axioms techne_kernel_cross_exclusion.all_pairs_excluded
+          #print axioms techne_kernel_integration.rh_from_structural_exhaustiveness
+          #print axioms techne_kernel_integration.structural_exhaustiveness_iff_rh
+          #print axioms techne_kernel_integration.voice3b_certificate
+          #print axioms techne_kernel_integration.voice7_certificate
+          #print axioms techne_kernel_voice3b.codim_off_line
+          #print axioms techne_kernel_voice3b.codim_on_line
+          #print axioms techne_kernel_voice3b.cr_forces_half
+          #print axioms techne_kernel_voice3b.cr_minimal_iff
+          #print axioms techne_kernel_voice3b.offLine_of_codim_two
+          #print axioms techne_kernel_voice3b.realConstraint_card
+          #print axioms techne_kernel_voice3b.reflect_fixed_iff
+          #print axioms techne_kernel_voice3b.zero_codimension
+          #print axioms techne_kernel_voice7.topological_constant
+          #print axioms techne_kernel_voice7.topological_no_sigma_preference
+          #print axioms ECondition.type_I_has_ostrowski
+          #print axioms voice7_sigma_neutral
+          EOF
+          if [ "$(cat out/build_exit.txt)" = "0" ] && ! grep -q '^STOP ' out/mem.log; then
+            lake env lean out/Axioms.lean > out/axioms.txt 2>&1 || true
+          else
+            echo "NOT RUN: the build did not complete under the hold" > out/axioms.txt
+          fi
+
+      - name: Upload the run's artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-module-${{ github.run_id }}
+          path: out/
+          if-no-files-found: error
