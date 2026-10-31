@@ -122,7 +122,7 @@ The mathematical content — Conservation of Spectra, exhaustive enumeration, pe
 
 ## AI disclosure
 
-*Computational workflow assisted by Claude (Anthropic). Mathematical content, proof strategies, and editorial decisions are the author's.*
+*Computational workflow assisted by various LLM instances. Mathematical content, strategies of argument, and editorial decisions are the author's.*
 
 ## License
 
